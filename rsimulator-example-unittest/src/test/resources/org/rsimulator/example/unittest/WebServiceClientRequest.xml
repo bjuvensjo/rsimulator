@@ -1,0 +1,5 @@
+<xml>
+	<from>WebServiceClientTest</from>
+	<to>rsimulator-http</to>
+	<message>Hello</message>
+</xml>
