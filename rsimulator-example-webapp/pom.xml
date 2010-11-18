@@ -3,13 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.rsimulator</groupId>
 	<artifactId>rsimulator-example-webapp</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.6</version>
 	<packaging>war</packaging>
 	<name>rsimulator-example-webapp</name>
 	<parent>
 		<groupId>org.rsimulator</groupId>
 		<artifactId>rsimulator-pom-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.6</version>
 	</parent>
 	<build>
 		<plugins>
