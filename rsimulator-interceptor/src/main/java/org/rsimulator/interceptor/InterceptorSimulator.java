@@ -1,4 +1,4 @@
-package org.rsimulator.interceptor.view;
+package org.rsimulator.interceptor;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -6,9 +6,9 @@ import java.lang.reflect.Method;
 import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.rsimulator.core.Simulator;
+import org.rsimulator.core.SimulatorResponse;
 import org.rsimulator.core.config.DIModule;
-import org.rsimulator.core.controller.Controller;
-import org.rsimulator.core.controller.ControllerResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,13 +17,13 @@ import com.google.inject.Injector;
 import com.thoughtworks.xstream.XStream;
 
 /**
- * The InterceptorMock is used to simulate java interface method invocations by means of interception. No interface
- * implementation is needed, since the interface implementation is provided by the InterceptorMock together with mock
- * test data.
+ * The InterceptorSimulator is used to simulate java interface method invocations by means of interception. No interface
+ * implementation is needed, since the interface implementation is provided by the InterceptorSimulator together with
+ * simulation test data.
  * 
  * @author Magnus Bjuvensjö
  */
-public class InterceptorMock implements Advice, MethodInterceptor {
+public class InterceptorSimulator implements Advice, MethodInterceptor {
     private static final String CONTENT_TYPE = "xml";
     private static final String REQUEST_BEGIN = "<request>";
     private static final String REQUEST_END = "</request>";
@@ -31,17 +31,17 @@ public class InterceptorMock implements Advice, MethodInterceptor {
     private static final int RESPONSE_BEGIN_LENGTH = RESPONSE_BEGIN.length();
     private static final String RESPONSE_END = "</response>";
     private static final String XML_VERSION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    private Logger log = LoggerFactory.getLogger(InterceptorMock.class);
-    private Controller controller;
+    private Logger log = LoggerFactory.getLogger(InterceptorSimulator.class);
+    private Simulator simulator;
     private String rootPath;
     private boolean useRootRelativePath = false;
 
     /**
-     * Creates an InterceptorMock.
+     * Creates an InterceptorSimulator.
      */
-    public InterceptorMock() {
+    public InterceptorSimulator() {
         Injector injector = Guice.createInjector(new DIModule());
-        controller = injector.getInstance(Controller.class);
+        simulator = injector.getInstance(Simulator.class);
     }
 
     /**
@@ -89,9 +89,9 @@ public class InterceptorMock implements Advice, MethodInterceptor {
         request.append(REQUEST_END);
         log.debug("request: {}", request);
 
-        ControllerResponse controllerResponse = controller.service(rootPath,
+        SimulatorResponse simulatorResponse = simulator.service(rootPath,
                 useRootRelativePath ? getRootRelativePath(mi.getMethod()) : "", request.toString(), CONTENT_TYPE);
-        String response = controllerResponse.getResponse();
+        String response = simulatorResponse.getResponse();
         int startResponseIndex = response.indexOf(RESPONSE_BEGIN);
         int stopResponseIndex = response.lastIndexOf(RESPONSE_END);
         response = response.substring(startResponseIndex + RESPONSE_BEGIN_LENGTH, stopResponseIndex);

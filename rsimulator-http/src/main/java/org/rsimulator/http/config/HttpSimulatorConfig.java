@@ -6,21 +6,21 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * HttpMockConfig is a convenience class to use for configuring a HttpMock.
+ * HttpSimulatorConfig is a convenience class to use for configuring a HttpSimulator.
  * 
  * @author Magnus Bjuvensjö
  */
-public final class HttpMockConfig {
+public final class HttpSimulatorConfig {
     private static final int READ_TIMEOUT = 2000;
     private static final String DEFAULT_SERVER_URL = "http://localhost:8080";
     private static final String METHOD = "GET";
 
-    private HttpMockConfig() {
+    private HttpSimulatorConfig() {
     }
 
     /**
-     * Configures the HttpMock (running on the default http://localhost:8080) with the root path of the folder of the
-     * specified testClass class folder.
+     * Configures the HttpSimulator (running on the default http://localhost:8080) with the root path of the folder of
+     * the specified testClass class folder.
      * 
      * @param testClass the testClass
      * @throws IOException if something goes wrong
@@ -30,8 +30,8 @@ public final class HttpMockConfig {
     }
 
     /**
-     * Configures the HttpMock running on the specified serverURL (e.g. http://localhost:8080) with the root path of the
-     * folder of the specified testClass class folder.
+     * Configures the HttpSimulator running on the specified serverURL (e.g. http://localhost:8080) with the root path
+     * of the folder of the specified testClass class folder.
      * 
      * @param testClass the testClass
      * @param serverURL the serverURL
@@ -44,7 +44,7 @@ public final class HttpMockConfig {
     }
 
     /**
-     * Configures the HttpMock (running on the default http://localhost:8080) with the specified root path and
+     * Configures the HttpSimulator (running on the default http://localhost:8080) with the specified root path and
      * useRootRelativePath.
      * 
      * @param rootPath the rootPath
@@ -56,8 +56,8 @@ public final class HttpMockConfig {
     }
 
     /**
-     * Configures the HttpMock running on the specified serverURL (e.g. http://localhost:8080) with the specified root
-     * path and useRootRelativePath.
+     * Configures the HttpSimulator running on the specified serverURL (e.g. http://localhost:8080) with the specified
+     * root path and useRootRelativePath.
      * 
      * @param rootPath the rootPath
      * @param useRootRelativePath the useRootRelativePath

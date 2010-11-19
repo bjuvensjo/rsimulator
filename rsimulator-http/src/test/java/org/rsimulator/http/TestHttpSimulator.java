@@ -11,7 +11,7 @@ import java.net.URL;
 
 import org.junit.Test;
 
-public class TestHttpMock {
+public class TestHttpSimulator {
     private static final int BUFFER_SIZE = 200;
     private static final int READ_TIMEOUT = 5000;
     private static final String ENCODING = "UTF-8";
@@ -20,9 +20,9 @@ public class TestHttpMock {
     public void testTxtWithUseRootRelativeURL() {
         HttpURLConnection con = getConnection("POST", "http://localhost:8080/txt-examples", "text/plain");
         try {
-            con.getOutputStream().write("Hello Controller, says testTxtWithUseRootRelativeURL!".getBytes(ENCODING));
+            con.getOutputStream().write("Hello Simulator, says testTxtWithUseRootRelativeURL!".getBytes(ENCODING));
             String response = read(con.getInputStream());
-            assertEquals("Hello testTxtWithUseRootRelativeURL, says Controller!", response);
+            assertEquals("Hello testTxtWithUseRootRelativeURL, says Simulator!", response);
         } catch (Exception e) {
             fail(e.getMessage());
         } finally {
@@ -34,9 +34,9 @@ public class TestHttpMock {
     public void testTxtWithoutUseRootRelativeURL() {
         HttpURLConnection con = getConnection("POST", "http://localhost:8080", "text/plain");
         try {
-            con.getOutputStream().write("Hello Controller, says testTxtWithoutUseRootRelativeURL!".getBytes(ENCODING));
+            con.getOutputStream().write("Hello Simulator, says testTxtWithoutUseRootRelativeURL!".getBytes(ENCODING));
             String response = read(con.getInputStream());
-            assertEquals("Hello testTxtWithoutUseRootRelativeURL, says Controller!", response);
+            assertEquals("Hello testTxtWithoutUseRootRelativeURL, says Simulator!", response);
         } catch (Exception e) {
             fail(e.getMessage());
         } finally {

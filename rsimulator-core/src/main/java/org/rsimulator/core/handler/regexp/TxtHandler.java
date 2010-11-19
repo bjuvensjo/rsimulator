@@ -1,4 +1,4 @@
-package org.rsimulator.core.controller.handler.regexp;
+package org.rsimulator.core.handler.regexp;
 
 import com.google.inject.Singleton;
 
@@ -15,7 +15,7 @@ public class TxtHandler extends AbstractHandler {
     /*
      * (non-Javadoc)
      * 
-     * @see org.rsimulator.core.controller.handler.regexp.AbstractHandler#format(java.lang.String)
+     * @see org.rsimulator.core.handler.regexp.AbstractHandler#format(java.lang.String)
      */
     @Override
     protected String format(String request) {
@@ -25,7 +25,7 @@ public class TxtHandler extends AbstractHandler {
     /*
      * (non-Javadoc)
      * 
-     * @see org.rsimulator.core.controller.handler.regexp.AbstractHandler#getExtension()
+     * @see org.rsimulator.core.handler.regexp.AbstractHandler#getExtension()
      */
     @Override
     protected String getExtension() {

@@ -1,4 +1,4 @@
 //def response = "Hello Universe!"
-def controllerResponse = vars.get("controllerResponse")
-vars.put("controllerResponse", controllerResponse)
+def simulatorResponse = vars.get("simulatorResponse")
+vars.put("simulatorResponse", simulatorResponse)
 

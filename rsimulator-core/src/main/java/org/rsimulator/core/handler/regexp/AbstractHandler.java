@@ -1,4 +1,4 @@
-package org.rsimulator.core.controller.handler.regexp;
+package org.rsimulator.core.handler.regexp;
 
 import static org.rsimulator.core.config.Constants.REQUEST;
 import static org.rsimulator.core.config.Constants.RESPONSE;
@@ -9,9 +9,9 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.rsimulator.core.controller.ControllerResponse;
-import org.rsimulator.core.controller.ControllerResponseImpl;
-import org.rsimulator.core.controller.Handler;
+import org.rsimulator.core.Handler;
+import org.rsimulator.core.SimulatorResponse;
+import org.rsimulator.core.SimulatorResponseImpl;
 import org.rsimulator.core.util.FileUtils;
 import org.rsimulator.core.util.Props;
 import org.slf4j.Logger;
@@ -33,21 +33,18 @@ public abstract class AbstractHandler implements Handler {
     @Inject
     private Props props;
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.rsimulator.controller.handler.regexp.Handler#findMatch(java.lang.String, java.lang.String)
+    /**
+     * {@inheritDoc}
      */
-    @Override
-    public ControllerResponse findMatch(String rootPath, String rootRelativePath, String request) throws IOException {
-        ControllerResponse result = null;
+    public SimulatorResponse findMatch(String rootPath, String rootRelativePath, String request) throws IOException {
+        SimulatorResponse result = null;
         String formatedRequest = format(request);
         String path = new StringBuilder().append(rootPath).append(rootRelativePath).toString();
         for (File candidateFile : fileUtils.findRequests(new File(path), getExtension())) {
             String candidate = fileUtils.read(candidateFile);
             Matcher matcher = getMatcher(formatedRequest, candidate);
             if (matcher.matches()) {
-                return new ControllerResponseImpl(getResponse(candidateFile, matcher), getProperties(candidateFile),
+                return new SimulatorResponseImpl(getResponse(candidateFile, matcher), getProperties(candidateFile),
                         candidateFile);
             }
         }

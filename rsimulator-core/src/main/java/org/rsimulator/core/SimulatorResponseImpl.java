@@ -1,14 +1,14 @@
-package org.rsimulator.core.controller;
+package org.rsimulator.core;
 
 import java.io.File;
 import java.util.Properties;
 
 /**
- * ControllerResponseImpl implements {@link ControllerResponse}.
+ * SimulatorResponseImpl implements {@link SimulatorResponse}.
  * 
  * @author Magnus Bjuvensjö
  */
-public class ControllerResponseImpl implements ControllerResponse {
+public class SimulatorResponseImpl implements SimulatorResponse {
     private String response;
     private Properties properties;
     private File matchingRequest;
@@ -20,7 +20,7 @@ public class ControllerResponseImpl implements ControllerResponse {
      * @param aProperties the properties
      * @param aMatchingRequest the matching request
      */
-    public ControllerResponseImpl(String aResponse, Properties aProperties, File aMatchingRequest) {
+    public SimulatorResponseImpl(String aResponse, Properties aProperties, File aMatchingRequest) {
         this.response = aResponse;
         this.properties = aProperties;
         this.matchingRequest = aMatchingRequest;

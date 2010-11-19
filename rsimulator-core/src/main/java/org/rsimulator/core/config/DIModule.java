@@ -7,12 +7,12 @@ import java.util.Map;
 
 import net.sf.ehcache.CacheManager;
 
-import org.rsimulator.core.controller.Controller;
-import org.rsimulator.core.controller.ControllerCacheInterceptor;
-import org.rsimulator.core.controller.ControllerScriptInterceptor;
-import org.rsimulator.core.controller.Handler;
-import org.rsimulator.core.controller.handler.regexp.TxtHandler;
-import org.rsimulator.core.controller.handler.regexp.XmlHandler;
+import org.rsimulator.core.Handler;
+import org.rsimulator.core.Simulator;
+import org.rsimulator.core.SimulatorCacheInterceptor;
+import org.rsimulator.core.SimulatorScriptInterceptor;
+import org.rsimulator.core.handler.regexp.TxtHandler;
+import org.rsimulator.core.handler.regexp.XmlHandler;
 import org.rsimulator.core.util.FileUtils;
 import org.rsimulator.core.util.FileUtilsCacheInterceptor;
 import org.rsimulator.core.util.Props;
@@ -64,28 +64,28 @@ public class DIModule extends AbstractModule {
         // ***** Interceptors for cache and script *****
         CacheManager.create();
 
-        bind(net.sf.ehcache.Cache.class).annotatedWith(Names.named("ControllerCache")).toInstance(
-                CacheManager.create().getCache("ControllerCache"));
+        bind(net.sf.ehcache.Cache.class).annotatedWith(Names.named("SimulatorCache")).toInstance(
+                CacheManager.create().getCache("SimulatorCache"));
         bind(net.sf.ehcache.Cache.class).annotatedWith(Names.named("FileUtilsCache")).toInstance(
                 CacheManager.create().getCache("FileUtilsCache"));
         bind(net.sf.ehcache.Cache.class).annotatedWith(Names.named("PropsCache")).toInstance(
                 CacheManager.create().getCache("PropsCache"));
 
-        ControllerCacheInterceptor controllerCacheInterceptor = new ControllerCacheInterceptor();
+        SimulatorCacheInterceptor simulatorCacheInterceptor = new SimulatorCacheInterceptor();
         FileUtilsCacheInterceptor fileUtilsCacheInterceptor = new FileUtilsCacheInterceptor();
         PropsCacheInterceptor propsCacheInterceptor = new PropsCacheInterceptor();
-        ControllerScriptInterceptor controllerScriptInterceptor = new ControllerScriptInterceptor();
+        SimulatorScriptInterceptor simulatorScriptInterceptor = new SimulatorScriptInterceptor();
 
-        requestInjection(controllerCacheInterceptor);
+        requestInjection(simulatorCacheInterceptor);
         requestInjection(fileUtilsCacheInterceptor);
         requestInjection(propsCacheInterceptor);
-        requestInjection(controllerScriptInterceptor);
+        requestInjection(simulatorScriptInterceptor);
 
         // Order is significant
-        bindInterceptor(Matchers.subclassesOf(Controller.class), Matchers.annotatedWith(Cache.class),
-                controllerCacheInterceptor);
-        bindInterceptor(Matchers.subclassesOf(Controller.class), Matchers.annotatedWith(Script.class),
-                controllerScriptInterceptor);
+        bindInterceptor(Matchers.subclassesOf(Simulator.class), Matchers.annotatedWith(Cache.class),
+                simulatorCacheInterceptor);
+        bindInterceptor(Matchers.subclassesOf(Simulator.class), Matchers.annotatedWith(Script.class),
+                simulatorScriptInterceptor);
         bindInterceptor(Matchers.subclassesOf(FileUtils.class), Matchers.annotatedWith(Cache.class),
                 fileUtilsCacheInterceptor);
         bindInterceptor(Matchers.subclassesOf(Props.class), Matchers.annotatedWith(Cache.class), propsCacheInterceptor);

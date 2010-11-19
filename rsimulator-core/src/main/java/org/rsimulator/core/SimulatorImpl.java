@@ -1,4 +1,4 @@
-package org.rsimulator.core.controller;
+package org.rsimulator.core;
 
 import java.io.IOException;
 import java.util.Map;
@@ -13,13 +13,13 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
 /**
- * ControllerImpl implements {@link Controller}.
+ * SimulatorImpl implements {@link Simulator}.
  *
  * @author Magnus Bjuvensjö
  */
 @Singleton
-public class ControllerImpl implements Controller {
-    private Logger log = LoggerFactory.getLogger(ControllerImpl.class);
+public class SimulatorImpl implements Simulator {
+    private Logger log = LoggerFactory.getLogger(SimulatorImpl.class);
 
     @Inject
     @Named("handlers")
@@ -30,23 +30,23 @@ public class ControllerImpl implements Controller {
      */
     @Cache
     @Script
-    public ControllerResponse service(String rootPath, String rootRelativePath, String request, String contentType)
+    public SimulatorResponse service(String rootPath, String rootRelativePath, String request, String contentType)
             throws IOException {
         log.debug("rootPath: {}, rootRelativePath: {}, request: {}, contentType: {}", new Object[] {rootPath,
                 rootRelativePath, request, contentType});
-        ControllerResponse controllerResponse = handlers.get(contentType)
+        SimulatorResponse simulatorResponse = handlers.get(contentType)
                 .findMatch(rootPath, rootRelativePath, request);
-        processResponse(controllerResponse);
-        log.debug("controllerResponse: {}", controllerResponse);
-        return controllerResponse;
+        processResponse(simulatorResponse);
+        log.debug("simulatorResponse: {}", simulatorResponse);
+        return simulatorResponse;
     }
 
-    private void processResponse(ControllerResponse controllerResponse) {
-        if (controllerResponse != null && controllerResponse.getProperties() != null) {
-            // Below to enable mock of slow response
-            String delay = controllerResponse.getProperties().getProperty("delay");
+    private void processResponse(SimulatorResponse simulatorResponse) {
+        if (simulatorResponse != null && simulatorResponse.getProperties() != null) {
+            // Below to enable simulation of slow response
+            String delay = simulatorResponse.getProperties().getProperty("delay");
             if (delay != null) {
-                log.debug("Delaying response {} for {} ms.", controllerResponse, delay);
+                log.debug("Delaying response {} for {} ms.", simulatorResponse, delay);
                 try {
                     Thread.sleep(Long.parseLong(delay));
                 } catch (Exception e) {

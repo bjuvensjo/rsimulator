@@ -1,1 +1,1 @@
-Hello Controller, says ([A-Za-z]+)!
+Hello Simulator, says ([A-Za-z]+)!

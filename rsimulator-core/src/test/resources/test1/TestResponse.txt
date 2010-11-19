@@ -1,1 +1,1 @@
-Hello Test1, says Controller!
+Hello Test1, says Simulator!

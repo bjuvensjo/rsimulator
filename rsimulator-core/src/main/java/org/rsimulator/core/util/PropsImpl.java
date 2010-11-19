@@ -22,7 +22,7 @@ import com.google.inject.name.Named;
 @Singleton
 public class PropsImpl implements Props {
     private static final Properties EMPTY_PROPERTIES = new Properties();
-    private static final String CONTROLLER_CACHE = "controllerCache";
+    private static final String SIMULATOR_CACHE = "simulatorCache";
     private Logger log = LoggerFactory.getLogger(PropsImpl.class);
     @Inject
     @Named("rsimulator-core-properties")
@@ -58,7 +58,7 @@ public class PropsImpl implements Props {
      * {@inheritDoc}
      */
     @Override
-    public boolean isControllerCache() {
-        return "true".equals(getProperties(propertyFile).getProperty(CONTROLLER_CACHE));
+    public boolean isSimulatorCache() {
+        return "true".equals(getProperties(propertyFile).getProperty(SIMULATOR_CACHE));
     }
 }

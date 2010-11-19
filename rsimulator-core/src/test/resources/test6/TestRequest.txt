@@ -1,1 +1,1 @@
-Hello Controller, says Test6!
+Hello Simulator, says Test6!

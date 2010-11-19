@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.rsimulator.interceptor.view.InterceptorMock;
+import org.rsimulator.interceptor.InterceptorSimulator;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -25,10 +25,10 @@ public class TestWithInterceptor {
             @Override
             protected void configure() {
                 bind(WebServiceClient.class).to(WebServiceClientImpl.class);
-                InterceptorMock interceptorMock = new InterceptorMock();
-                interceptorMock.setRootPath(TestWithInterceptor.class);
-                interceptorMock.setUseRootRelativePath(false);
-                bindInterceptor(Matchers.subclassesOf(WebServiceClient.class), Matchers.any(), interceptorMock);
+                InterceptorSimulator interceptorSimulator = new InterceptorSimulator();
+                interceptorSimulator.setRootPath(TestWithInterceptor.class);
+                interceptorSimulator.setUseRootRelativePath(false);
+                bindInterceptor(Matchers.subclassesOf(WebServiceClient.class), Matchers.any(), interceptorSimulator);
             }
         });
         webServiceClient = injector.getInstance(WebServiceClient.class);

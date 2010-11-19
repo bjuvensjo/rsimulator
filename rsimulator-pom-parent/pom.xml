@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.rsimulator</groupId>
 	<artifactId>rsimulator-pom-parent</artifactId>
-	<version>0.6</version>
+	<version>0.61-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>rsimulator-pom-parent</name>
 	<properties>
@@ -91,17 +91,17 @@
 			<dependency>
 				<groupId>org.rsimulator</groupId>
 				<artifactId>rsimulator-core</artifactId>
-				<version>0.6</version>
+				<version>0.61-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.rsimulator</groupId>
 				<artifactId>rsimulator-http</artifactId>
-				<version>0.6</version>
+				<version>0.61-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.rsimulator</groupId>
 				<artifactId>rsimulator-interceptor</artifactId>
-				<version>0.6</version>
+				<version>0.61-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -117,6 +117,6 @@
 		</developer>
 	</developers>
 	<scm>
-		<url>https://github.com/bjuvensjo/MbMock/tree/master/</url>
+		<url>https://github.com/bjuvensjo/rsimulator/tree/master/</url>
 	</scm>
 </project>

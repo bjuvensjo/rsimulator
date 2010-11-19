@@ -1,3 +1,3 @@
 //println "1111111111111111111111111111111111111111111111111111111111111111111"
-def controllerResponse = vars.get("controllerResponse")
-//controllerResponse.response += " And good bye!"
+def simulatorResponse = vars.get("simulatorResponse")
+//simulatorResponse.response += " And good bye!"

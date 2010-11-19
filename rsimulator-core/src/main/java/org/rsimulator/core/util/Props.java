@@ -14,11 +14,11 @@ import com.google.inject.ImplementedBy;
 public interface Props {
 
     /**
-     * Returns true if Controller cache is on, otherwise false.
+     * Returns true if Simulator cache is on, otherwise false.
      *
-     * @return true if Controller cache is on, otherwise false.
+     * @return true if Simulator cache is on, otherwise false.
      */
-    boolean isControllerCache();
+    boolean isSimulatorCache();
 
     /**
      * Returns the properties read from the specified file.

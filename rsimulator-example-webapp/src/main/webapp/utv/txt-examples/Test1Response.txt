@@ -1,1 +1,1 @@
-Hello ${1}, says Controller!
+Hello ${1}, says Simulator!

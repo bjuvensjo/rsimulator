@@ -1,4 +1,4 @@
-package org.rsimulator.http.view;
+package org.rsimulator.http;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -11,9 +11,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.rsimulator.core.Simulator;
+import org.rsimulator.core.SimulatorResponse;
 import org.rsimulator.core.config.DIModule;
-import org.rsimulator.core.controller.Controller;
-import org.rsimulator.core.controller.ControllerResponse;
 import org.rsimulator.http.config.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,17 +22,17 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 /**
- * HttpMock makes the {@link Controller} functionality available over http.
+ * HttpSimulator makes the {@link Simulator} functionality available over http.
  * 
  * @author Magnus Bjuvensjö
  */
-public class HttpMock extends javax.servlet.http.HttpServlet {
+public class HttpSimulator extends javax.servlet.http.HttpServlet {
     private static final long serialVersionUID = -3272134329745138875L;
     private static final String DEFAULT_ROOT_PATH = "src/main/resources";
     private static final int BUFFER_SIZE = 1000;
     private static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([0-9A-Z-]+)");
-    private static Logger log = LoggerFactory.getLogger(HttpMock.class);
-    private static Controller controller;
+    private static Logger log = LoggerFactory.getLogger(HttpSimulator.class);
+    private static Simulator simulator;
     private static String rootPath;
     private static boolean useRootRelativePath;
 
@@ -43,7 +43,7 @@ public class HttpMock extends javax.servlet.http.HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         Injector injector = Guice.createInjector(new DIModule());
-        controller = injector.getInstance(Controller.class);
+        simulator = injector.getInstance(Simulator.class);
         rootPath = System.getProperty(Constants.ROOT_PATH) != null ? System.getProperty(Constants.ROOT_PATH)
                 : DEFAULT_ROOT_PATH;
         useRootRelativePath = System.getProperty(Constants.USE_ROOT_RELATIVE_PATH) != null ? "true".equals(System
@@ -64,10 +64,10 @@ public class HttpMock extends javax.servlet.http.HttpServlet {
             String theUseRootRelativePath = request.getParameter(Constants.USE_ROOT_RELATIVE_PATH);
             if (theRootPath != null || theUseRootRelativePath != null) {
                 if (theRootPath != null) {
-                    HttpMock.rootPath = theRootPath;
+                    HttpSimulator.rootPath = theRootPath;
                 }
                 if (theUseRootRelativePath != null) {
-                    HttpMock.useRootRelativePath = "true".equals(theUseRootRelativePath);
+                    HttpSimulator.useRootRelativePath = "true".equals(theUseRootRelativePath);
                 }
                 String message = new StringBuilder().append("[").append("rootPath: ").append(theRootPath).append(", ")
                         .append("useRootRelativePath: ").append(theUseRootRelativePath).append("]").toString();
@@ -105,13 +105,13 @@ public class HttpMock extends javax.servlet.http.HttpServlet {
             String rootRelativePath = useRootRelativePath ? requestURI : "";
             log.debug("rootRelativePath: {}", rootRelativePath);
 
-            ControllerResponse controllerResponse = controller.service(rootPath, rootRelativePath, requestBody,
-                    getControllerContentType(contentType));
+            SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, requestBody,
+                    getSimulatorContentType(contentType));
 
-            String responseBody = controllerResponse.getResponse();
+            String responseBody = simulatorResponse.getResponse();
             log.debug("responseBody: {}", responseBody);
             response.setContentType(contentType);
-            handleResponseProperties(response, controllerResponse);
+            handleResponseProperties(response, simulatorResponse);
             if (responseBody != null) {
                 response.getOutputStream().write(responseBody.getBytes(charsetName));
             }
@@ -121,8 +121,8 @@ public class HttpMock extends javax.servlet.http.HttpServlet {
         }
     }
 
-    private void handleResponseProperties(HttpServletResponse response, ControllerResponse controllerResponse) {
-        Properties properties = controllerResponse.getProperties();
+    private void handleResponseProperties(HttpServletResponse response, SimulatorResponse simulatorResponse) {
+        Properties properties = simulatorResponse.getProperties();
         log.debug("properties: {}", properties);
         if (properties != null) {
             String responseCode = properties.getProperty("responseCode");
@@ -133,7 +133,7 @@ public class HttpMock extends javax.servlet.http.HttpServlet {
         }
     }
 
-    private String getControllerContentType(String contentType) {
+    private String getSimulatorContentType(String contentType) {
         if (contentType != null
                 && (contentType.indexOf("text/xml") > -1 || contentType.indexOf("application/xml") > -1 || contentType
                         .indexOf("application/soap+xml") > -1)) {

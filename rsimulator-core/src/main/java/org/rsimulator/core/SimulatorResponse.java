@@ -1,4 +1,4 @@
-package org.rsimulator.core.controller;
+package org.rsimulator.core;
 
 import java.io.File;
 import java.util.Properties;
@@ -6,12 +6,12 @@ import java.util.Properties;
 import com.google.inject.ImplementedBy;
 
 /**
- * ControllerResponse is returned by {@link Controller}.
+ * SimulatorResponse is returned by {@link Simulator}.
  *
  * @author Magnus Bjuvensjö
  */
-@ImplementedBy(ControllerResponseImpl.class)
-public interface ControllerResponse {
+@ImplementedBy(SimulatorResponseImpl.class)
+public interface SimulatorResponse {
 
     /**
      * Returns the properties of a specific test data request and response pair. If the name of the test data request

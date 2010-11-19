@@ -1,4 +1,4 @@
-package org.rsimulator.core.controller;
+package org.rsimulator.core;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
@@ -14,16 +14,16 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
 /**
- * ControllerCacheInterceptor is an interceptor that caches invokations of
- * {@link Controller#service(String, String, String, String)}.
+ * SimulatorCacheInterceptor is an interceptor that caches invokations of
+ * {@link Simulator#service(String, String, String, String)}.
  *
  * @author Magnus Bjuvensjö
  */
 @Singleton
-public class ControllerCacheInterceptor implements MethodInterceptor {
-    private Logger log = LoggerFactory.getLogger(ControllerCacheInterceptor.class);
+public class SimulatorCacheInterceptor implements MethodInterceptor {
+    private Logger log = LoggerFactory.getLogger(SimulatorCacheInterceptor.class);
     @Inject
-    @Named("ControllerCache")
+    @Named("SimulatorCache")
     private Cache cache;
     @Inject
     private Props props;
@@ -32,9 +32,9 @@ public class ControllerCacheInterceptor implements MethodInterceptor {
      * {@inheritDoc}
      */
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        log.debug("ControllerCache is {}", props.isControllerCache());
+        log.debug("SimulatorCache is {}", props.isSimulatorCache());
         Object response = null;
-        if (props.isControllerCache()) {
+        if (props.isSimulatorCache()) {
             if (invocation.getMethod().getName().equals("service")) {
                 Object[] arguments = invocation.getArguments();
                 String key = new StringBuilder().append(arguments[0]).append(arguments[1]).append(arguments[2])

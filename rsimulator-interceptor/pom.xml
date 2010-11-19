@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.rsimulator</groupId>
 	<artifactId>rsimulator-interceptor</artifactId>
-	<version>0.6</version>
+	<version>0.61-SNAPSHOT</version>
 	<name>rsimulator-interceptor</name>
 	<parent>
 		<groupId>org.rsimulator</groupId>
 		<artifactId>rsimulator-pom-parent</artifactId>
-		<version>0.6</version>
+		<version>0.61-SNAPSHOT</version>
 	</parent>
 	<dependencies>
 		<dependency>

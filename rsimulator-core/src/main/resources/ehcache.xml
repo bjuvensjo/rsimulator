@@ -11,7 +11,7 @@
             diskExpiryThreadIntervalSeconds="120"
             memoryStoreEvictionPolicy="LRU"
             />
-	<cache name="ControllerCache"
+	<cache name="SimulatorCache"
            maxElementsInMemory="2000"
            eternal="false"
            overflowToDisk="false"

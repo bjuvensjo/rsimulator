@@ -1,4 +1,4 @@
-package org.rsimulator.core.controller;
+package org.rsimulator.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -13,30 +13,30 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 /**
- * Test4.
+ * Test2.
  *
  * @author Magnus Bjuvensjö
  */
-public class Test4 {
-    private Controller controller;
+public class Test2 {
+    private Simulator simulator;
 
     @Before
     public void init() {
         Injector injector = Guice.createInjector(new DIModule());
-        controller = injector.getInstance(Controller.class);
+        simulator = injector.getInstance(Simulator.class);
     }
 
     @Test
     public void test() {
-        String rootPath = "src/test/resources/test4";
-        String rootRelativePath = ".";
-        String request = "Hello Controller, says Test4!";
+        String rootPath = "src/test/resources";
+        String rootRelativePath = "";
+        String request = "Hello Simulator, says Test2!";
         String contentType = "txt";
         try {
-            ControllerResponse controllerResponse = controller
+            SimulatorResponse simulatorResponse = simulator
                     .service(rootPath, rootRelativePath, request, contentType);
-            controller.service(rootPath, rootRelativePath, request, contentType);
-            assertEquals("Hello Test4, says GlobalRequest.groovy!", controllerResponse.getResponse());
+            simulator.service(rootPath, rootRelativePath, request, contentType);
+            assertEquals("Hello Test2, says Simulator!", simulatorResponse.getResponse());
         } catch (IOException e) {
             fail(e.getMessage());
         }

@@ -1,4 +1,4 @@
-package org.rsimulator.core.controller;
+package org.rsimulator.core;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
@@ -18,12 +18,12 @@ import com.google.inject.Injector;
  * @author Magnus Bjuvensjö
  */
 public class Test3 {
-    private Controller controller;
+    private Simulator simulator;
 
     @Before
     public void init() {
         Injector injector = Guice.createInjector(new DIModule());
-        controller = injector.getInstance(Controller.class);
+        simulator = injector.getInstance(Simulator.class);
     }
 
     @Test
@@ -32,15 +32,15 @@ public class Test3 {
         String rootRelativePath = "";
         String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                 + "xmlns:hel=\"http://www.rsimulator.org/SayHello/\"><soapenv:Header/><soapenv:Body>"
-                + "<hel:SayHelloRequest><from>Test3</from><to>Controller</to><greeting>Hello</greeting>"
+                + "<hel:SayHelloRequest><from>Test3</from><to>Simulator</to><greeting>Hello</greeting>"
                 + "</hel:SayHelloRequest></soapenv:Body></soapenv:Envelope>";
         String contentType = "xml";
         try {
-            ControllerResponse controllerResponse = controller
+            SimulatorResponse simulatorResponse = simulator
                     .service(rootPath, rootRelativePath, request, contentType);
-            controller.service(rootPath, rootRelativePath, request, contentType);
-            assertNotNull(controllerResponse);
-            assertNotNull(controllerResponse.getResponse());
+            simulator.service(rootPath, rootRelativePath, request, contentType);
+            assertNotNull(simulatorResponse);
+            assertNotNull(simulatorResponse.getResponse());
         } catch (IOException e) {
             fail(e.getMessage());
         }
