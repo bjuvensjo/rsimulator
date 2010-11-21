@@ -54,8 +54,7 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
      * {@inheritDoc}
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String queryString = request.getQueryString();
         if (queryString == null || "".equals(queryString)) {
             response.getWriter().write("Welcome to the Simulator!");
@@ -108,7 +107,8 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
             SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, requestBody,
                     getSimulatorContentType(contentType));
 
-            String responseBody = simulatorResponse.getResponse();
+            String responseBody = simulatorResponse != null ? simulatorResponse.getResponse()
+                    : "No simulatorResponse found!";
             log.debug("responseBody: {}", responseBody);
             response.setContentType(contentType);
             handleResponseProperties(response, simulatorResponse);
@@ -122,13 +122,15 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
     }
 
     private void handleResponseProperties(HttpServletResponse response, SimulatorResponse simulatorResponse) {
-        Properties properties = simulatorResponse.getProperties();
-        log.debug("properties: {}", properties);
-        if (properties != null) {
-            String responseCode = properties.getProperty("responseCode");
-            log.debug("responseCode: {}", responseCode);
-            if (responseCode != null) {
-                response.setStatus(Integer.parseInt(responseCode));
+        if (simulatorResponse != null) {
+            Properties properties = simulatorResponse.getProperties();
+            log.debug("properties: {}", properties);
+            if (properties != null) {
+                String responseCode = properties.getProperty("responseCode");
+                log.debug("responseCode: {}", responseCode);
+                if (responseCode != null) {
+                    response.setStatus(Integer.parseInt(responseCode));
+                }
             }
         }
     }

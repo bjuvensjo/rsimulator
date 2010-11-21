@@ -97,8 +97,10 @@ public class SimulatorScriptInterceptor implements MethodInterceptor {
                 break;
             case LOCAL_RESPONSE:
                 SimulatorResponse simulatorResponse = (SimulatorResponse) vars.get(SIMULATOR_RESPONSE);
-                root = simulatorResponse.getMatchingRequest().getParentFile().getPath();
-                script = simulatorResponse.getMatchingRequest().getName().replaceAll(GROOVY_PATTERN, ".groovy");
+                if (simulatorResponse != null && simulatorResponse.getMatchingRequest() != null) {
+                    root = simulatorResponse.getMatchingRequest().getParentFile().getPath();
+                    script = simulatorResponse.getMatchingRequest().getName().replaceAll(GROOVY_PATTERN, ".groovy");                    
+                }
                 break;
             default:
                 break;
