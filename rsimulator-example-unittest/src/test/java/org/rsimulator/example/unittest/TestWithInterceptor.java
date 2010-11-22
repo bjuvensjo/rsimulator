@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.rsimulator.interceptor.InterceptorSimulator;
+import org.rsimulator.interceptor.AopAllianceSimulator;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -25,10 +25,10 @@ public class TestWithInterceptor {
             @Override
             protected void configure() {
                 bind(WebServiceClient.class).to(WebServiceClientImpl.class);
-                InterceptorSimulator interceptorSimulator = new InterceptorSimulator();
-                interceptorSimulator.setRootPath(TestWithInterceptor.class);
-                interceptorSimulator.setUseRootRelativePath(false);
-                bindInterceptor(Matchers.subclassesOf(WebServiceClient.class), Matchers.any(), interceptorSimulator);
+                AopAllianceSimulator aopAllianceSimulator = new AopAllianceSimulator();
+                aopAllianceSimulator.setRootPath(TestWithInterceptor.class);
+                aopAllianceSimulator.setUseRootRelativePath(false);
+                bindInterceptor(Matchers.subclassesOf(WebServiceClient.class), Matchers.any(), aopAllianceSimulator);
             }
         });
         webServiceClient = injector.getInstance(WebServiceClient.class);

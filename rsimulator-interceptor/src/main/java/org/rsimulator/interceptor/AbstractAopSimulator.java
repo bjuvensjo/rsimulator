@@ -1,11 +1,8 @@
 package org.rsimulator.interceptor;
 
 import java.io.File;
-import java.lang.reflect.Method;
+import java.io.IOException;
 
-import org.aopalliance.aop.Advice;
-import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
 import org.rsimulator.core.Simulator;
 import org.rsimulator.core.SimulatorResponse;
 import org.rsimulator.core.config.DIModule;
@@ -17,13 +14,11 @@ import com.google.inject.Injector;
 import com.thoughtworks.xstream.XStream;
 
 /**
- * The InterceptorSimulator is used to simulate java interface method invocations by means of interception. No interface
- * implementation is needed, since the interface implementation is provided by the InterceptorSimulator together with
- * simulation test data.
+ * The AbstractAopSimulator is used to simulate java interface method invocations by means of AOP.
  * 
  * @author Magnus Bjuvensjö
  */
-public class InterceptorSimulator implements Advice, MethodInterceptor {
+public class AbstractAopSimulator {
     private static final String CONTENT_TYPE = "xml";
     private static final String REQUEST_BEGIN = "<request>";
     private static final String REQUEST_END = "</request>";
@@ -31,15 +26,15 @@ public class InterceptorSimulator implements Advice, MethodInterceptor {
     private static final int RESPONSE_BEGIN_LENGTH = RESPONSE_BEGIN.length();
     private static final String RESPONSE_END = "</response>";
     private static final String XML_VERSION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    private Logger log = LoggerFactory.getLogger(InterceptorSimulator.class);
+    private Logger log = LoggerFactory.getLogger(AbstractAopSimulator.class);
     private Simulator simulator;
     private String rootPath;
     private boolean useRootRelativePath = false;
 
     /**
-     * Creates an InterceptorSimulator.
+     * Creates an AbstractAopSimulator.
      */
-    public InterceptorSimulator() {
+    public AbstractAopSimulator() {
         Injector injector = Guice.createInjector(new DIModule());
         simulator = injector.getInstance(Simulator.class);
     }
@@ -73,16 +68,16 @@ public class InterceptorSimulator implements Advice, MethodInterceptor {
         this.useRootRelativePath = aUseRootRelativePath;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public Object invoke(MethodInvocation mi) throws Throwable {
+    protected Object call(String declaringClassCanonicalName, String methodName, Object[] arguments)
+            throws IOException {
+        log.debug("declaringClassCanonicalName: {}, methodName: {}, arguments: {}", new Object[] {
+                declaringClassCanonicalName, methodName, arguments});
+        log.debug("rootPath: {}, useRootRelativePath: {}", rootPath, useRootRelativePath);
         XStream xstream = new XStream();
 
         StringBuilder request = new StringBuilder();
         request.append(XML_VERSION);
         request.append(REQUEST_BEGIN);
-        Object[] arguments = mi.getArguments();
         for (Object argument : arguments) {
             request.append(xstream.toXML(argument));
         }
@@ -90,7 +85,8 @@ public class InterceptorSimulator implements Advice, MethodInterceptor {
         log.debug("request: {}", request);
 
         SimulatorResponse simulatorResponse = simulator.service(rootPath,
-                useRootRelativePath ? getRootRelativePath(mi.getMethod()) : "", request.toString(), CONTENT_TYPE);
+                useRootRelativePath ? getRootRelativePath(declaringClassCanonicalName, methodName) : "",
+                request.toString(), CONTENT_TYPE);
         String response = simulatorResponse.getResponse();
         int startResponseIndex = response.indexOf(RESPONSE_BEGIN);
         int stopResponseIndex = response.lastIndexOf(RESPONSE_END);
@@ -99,8 +95,8 @@ public class InterceptorSimulator implements Advice, MethodInterceptor {
         return xstream.fromXML(response);
     }
 
-    private String getRootRelativePath(Method method) {
-        return new StringBuilder().append(method.getDeclaringClass().getCanonicalName().replace('.', '/')).append("/")
-                .append(method.getName()).toString();
+    private String getRootRelativePath(String declaringClassCanonicalName, String methodName) {
+        return new StringBuilder().append(declaringClassCanonicalName.replace('.', '/')).append("/").append(methodName)
+                .toString();
     }
 }
