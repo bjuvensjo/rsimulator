@@ -27,7 +27,6 @@ public class TestWithInterceptor {
                 bind(WebServiceClient.class).to(WebServiceClientImpl.class);
                 AopAllianceSimulator aopAllianceSimulator = new AopAllianceSimulator();
                 aopAllianceSimulator.setRootPath(TestWithInterceptor.class);
-                aopAllianceSimulator.setUseRootRelativePath(false);
                 bindInterceptor(Matchers.subclassesOf(WebServiceClient.class), Matchers.any(), aopAllianceSimulator);
             }
         });
