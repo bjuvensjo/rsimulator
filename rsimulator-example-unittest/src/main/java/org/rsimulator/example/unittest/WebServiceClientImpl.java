@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
  */
 public class WebServiceClientImpl implements WebServiceClient {
     private static final int BUFFER_SIZE = 200;
-    private static final int READ_TIMEOUT = 5000;
+    private static final int READ_TIMEOUT = 10000;
     private static final String ENCODING = "UTF-8";
     private ResourceBundle bundle = ResourceBundle.getBundle(WebServiceClientImpl.class.getName());
     private String path = "/the/path/of/the/webservice";
