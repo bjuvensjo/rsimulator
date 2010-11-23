@@ -14,7 +14,7 @@ public class AspectJSimulatorTest {
     @Aspect
     private static class TestAspect extends AspectJSimulator {        
         public TestAspect() {
-            this.setRootPath(AspectJSimulatorTest.class);
+            setRootPath(AspectJSimulatorTest.class);
         }
 
         @Pointcut("call(* Foo.*(..)) && within(AspectJSimulatorTest)")
