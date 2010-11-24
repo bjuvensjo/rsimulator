@@ -11,7 +11,7 @@ import java.net.URL;
  * @author Magnus Bjuvensjö
  */
 public final class HttpSimulatorConfig {
-    private static final int READ_TIMEOUT = 2000;
+    private static final int READ_TIMEOUT = 10000;
     private static final String DEFAULT_SERVER_URL = "http://localhost:8080";
     private static final String METHOD = "GET";
 

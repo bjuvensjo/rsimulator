@@ -7,14 +7,13 @@ import java.util.List;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.junit.Before;
 import org.junit.Test;
 import org.rsimulator.example.unittest.transfer.account.Account;
 import org.rsimulator.interceptor.AspectJSimulator;
 
 public class TransferBeanInterceptorTest {
     private TransferBean transferBean;
- 
+    
     @Aspect
     private static class TransferBeanInterceptorTestAspect extends AspectJSimulator {        
         public TransferBeanInterceptorTestAspect() {
@@ -26,7 +25,7 @@ public class TransferBeanInterceptorTest {
         protected void aspectJSimulatorPointcut() {            
         }
         
-    }
+    }    
     
     @Test
     //TODO
