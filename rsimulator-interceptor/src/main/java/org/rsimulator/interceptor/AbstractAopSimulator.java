@@ -68,13 +68,19 @@ public class AbstractAopSimulator {
         this.useRootRelativePath = aUseRootRelativePath;
     }
 
-    protected Object call(String declaringClassCanonicalName, String methodName, Object[] arguments)
+    protected Object call(String declaringClassCanonicalName, String methodName, Object[] arguments) 
             throws IOException {
-        log.debug("declaringClassCanonicalName: {}, methodName: {}, arguments: {}", new Object[] {
-                declaringClassCanonicalName, methodName, arguments});
-        log.debug("rootPath: {}, useRootRelativePath: {}", rootPath, useRootRelativePath);
-        XStream xstream = new XStream();
+        log.debug(
+                "declaringClassCanonicalName: {}, methodName: {}, arguments: {}, rootPath: {}, useRootRelativePath: {}",
+                new Object[] {declaringClassCanonicalName, methodName, arguments, rootPath, useRootRelativePath});
+        SimulatorResponse simulatorResponse = simulator.service(rootPath,
+                useRootRelativePath ? getRootRelativePath(declaringClassCanonicalName, methodName) : "",
+                createRequest(arguments), CONTENT_TYPE);
+        return createResponse(simulatorResponse.getResponse());
+    }
 
+    private String createRequest(Object[] arguments) {
+        XStream xstream = new XStream();
         StringBuilder request = new StringBuilder();
         request.append(XML_VERSION);
         request.append(REQUEST_BEGIN);
@@ -83,16 +89,15 @@ public class AbstractAopSimulator {
         }
         request.append(REQUEST_END);
         log.debug("request: {}", request);
+        return request.toString();
+    }
 
-        SimulatorResponse simulatorResponse = simulator.service(rootPath,
-                useRootRelativePath ? getRootRelativePath(declaringClassCanonicalName, methodName) : "",
-                request.toString(), CONTENT_TYPE);
-        String response = simulatorResponse.getResponse();
+    private Object createResponse(String response) {
         int startResponseIndex = response.indexOf(RESPONSE_BEGIN);
         int stopResponseIndex = response.lastIndexOf(RESPONSE_END);
         response = response.substring(startResponseIndex + RESPONSE_BEGIN_LENGTH, stopResponseIndex);
         log.debug("response: {}", response);
-        return xstream.fromXML(response);
+        return new XStream().fromXML(response);
     }
 
     private String getRootRelativePath(String declaringClassCanonicalName, String methodName) {

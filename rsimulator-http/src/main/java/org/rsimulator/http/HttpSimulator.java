@@ -54,7 +54,8 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
      * {@inheritDoc}
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         String queryString = request.getQueryString();
         if (queryString == null || "".equals(queryString)) {
             response.getWriter().write("Welcome to the Simulator!");
@@ -89,22 +90,21 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
 
     private void handle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            // TODO Improve!
             String contentType = request.getContentType();
-            log.debug("contentType: {}", contentType);
             String charsetName = getCharsetName(contentType);
-            log.debug("charsetName: {}", charsetName);
             String method = request.getMethod();
-            log.debug("method: {}", method);
-            String requestBody = "GET".equals(method) ? request.getParameter("request") : readBody(
-                    new BufferedInputStream(request.getInputStream()), charsetName);
-            log.debug("requestBody: {}", requestBody);
+            String simulatorRequest = getSimulatorRequest(request, method, charsetName);
             String requestURI = request.getRequestURI();
-            log.debug("requestURI: {}", requestURI);
             String rootRelativePath = useRootRelativePath ? requestURI : "";
-            log.debug("rootRelativePath: {}", rootRelativePath);
 
-            SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, requestBody,
+            log.debug("contentType: {}", contentType);
+            log.debug("charsetName: {}", charsetName);
+            log.debug("method: {}", method);
+            log.debug("requestBody: {}", simulatorRequest);
+            log.debug("requestURI: {}", requestURI);
+            log.debug("rootRelativePath: {}", rootRelativePath);
+            
+            SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, simulatorRequest,
                     getSimulatorContentType(contentType));
 
             String responseBody = simulatorResponse != null ? simulatorResponse.getResponse()
@@ -112,13 +112,17 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
             log.debug("responseBody: {}", responseBody);
             response.setContentType(contentType);
             handleResponseProperties(response, simulatorResponse);
-            if (responseBody != null) {
-                response.getOutputStream().write(responseBody.getBytes(charsetName));
-            }
+            response.getOutputStream().write(responseBody.getBytes(charsetName));
         } catch (Exception e) {
             log.error(null, e);
             response.getWriter().write(e.getMessage());
         }
+    }
+    
+    private String getSimulatorRequest(HttpServletRequest request, String method, String charsetName) 
+            throws IOException {
+        return "GET".equals(method) ? request.getParameter("request") : readBody(
+                new BufferedInputStream(request.getInputStream()), charsetName);
     }
 
     private void handleResponseProperties(HttpServletResponse response, SimulatorResponse simulatorResponse) {

@@ -3,7 +3,6 @@ package org.rsimulator.core.util;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Properties;
 
 import org.rsimulator.core.config.Cache;
@@ -43,13 +42,7 @@ public class PropsImpl implements Props {
             result.load(bis);
             bis.close();
         } catch (Exception e) {
-            log.error("No property file: {}", file.getAbsolutePath(), e);
-        } finally {
-            try {
-                bis.close();
-            } catch (IOException e) {
-                log.error(null, e);
-            }
+            log.error("Error reading properties from: {}", file.getAbsolutePath(), e);
         }
         return result;
     }
