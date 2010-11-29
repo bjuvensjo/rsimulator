@@ -13,7 +13,7 @@ import org.junit.Test;
 
 public class TestHttpSimulator {
     private static final int BUFFER_SIZE = 200;
-    private static final int READ_TIMEOUT = 5000;
+    private static final int READ_TIMEOUT = 12000;
     private static final String ENCODING = "UTF-8";
 
     @Test

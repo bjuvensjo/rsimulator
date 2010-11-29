@@ -14,6 +14,7 @@ import org.rsimulator.interceptor.AspectJSimulator;
 public class TransferBeanInterceptorTest {
     private TransferBean transferBean;
     
+    @SuppressWarnings("unused")
     @Aspect
     private static class TransferBeanInterceptorTestAspect extends AspectJSimulator {        
         public TransferBeanInterceptorTestAspect() {
@@ -28,7 +29,6 @@ public class TransferBeanInterceptorTest {
     }    
     
     @Test
-    //TODO
     public void testGetAccounts() {
         List<Account> accounts = transferBean.getAccounts("1111");
         assertNotNull(accounts);
