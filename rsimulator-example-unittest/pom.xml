@@ -18,7 +18,7 @@
 				<configuration>
 					<scanIntervalSeconds>0</scanIntervalSeconds>
 					<webAppConfig>
-						<defaultsDescriptor>${basedir}/src/test/resources/web.xml</defaultsDescriptor>
+						<descriptor>${basedir}/src/test/resources/web.xml</descriptor>
 						<contextPath>/</contextPath>
 					</webAppConfig>
 					<stopKey>foo</stopKey>

@@ -19,9 +19,10 @@
 				<configuration>
 					<scanIntervalSeconds>0</scanIntervalSeconds>
 					<webAppConfig>
-						<defaultsDescriptor>${basedir}/src/test/resources/web.xml</defaultsDescriptor>
+						<descriptor>${basedir}/src/test/resources/web.xml</descriptor>						
 						<contextPath>/</contextPath>
 					</webAppConfig>
+					<webAppSourceDirectory>${basedir}/src/test/resources</webAppSourceDirectory>
 					<systemProperties>
 						<systemProperty>
 							<name>rootPath</name>
@@ -48,7 +49,7 @@
 					</execution>
 					<execution>
 						<id>stop-jetty</id>
-						<phase>test</phase>
+						<phase>prepare-package</phase>
 						<goals>
 							<goal>stop</goal>
 						</goals>
