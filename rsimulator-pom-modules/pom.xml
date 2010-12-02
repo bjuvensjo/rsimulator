@@ -11,7 +11,7 @@
 		<module>../rsimulator-pom-parent</module>
 		<module>../rsimulator-core</module>
 		<module>../rsimulator-http</module>
-		<module>../rsimulator-interceptor</module>
+		<module>../rsimulator-aop</module>
 		<module>../rsimulator-example-unittest</module>
 		<module>../rsimulator-example-webapp</module>
 	</modules>

@@ -109,7 +109,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.rsimulator</groupId>
-			<artifactId>rsimulator-interceptor</artifactId>
+			<artifactId>rsimulator-aop</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

@@ -110,7 +110,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.rsimulator</groupId>
-				<artifactId>rsimulator-interceptor</artifactId>
+				<artifactId>rsimulator-aop</artifactId>
 				<version>0.61-SNAPSHOT</version>
 			</dependency>
 			<dependency>

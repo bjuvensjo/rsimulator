@@ -11,7 +11,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.junit.Test;
 import org.rsimulator.example.unittest.transfer.account.Account;
-import org.rsimulator.interceptor.AspectJSimulatorAdapter;
+import org.rsimulator.aop.AspectJSimulatorAdapter;
 
 public class TransferBeanInterceptorTest {
     private TransferBean transferBean;
