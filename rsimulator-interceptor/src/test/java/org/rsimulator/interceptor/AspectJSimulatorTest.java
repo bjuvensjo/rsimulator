@@ -2,8 +2,11 @@ package org.rsimulator.interceptor;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.junit.Test;
 
 
@@ -12,20 +15,19 @@ public class AspectJSimulatorTest {
     
     @SuppressWarnings("unused")
     @Aspect
-    private static class TestAspect extends AspectJSimulator {        
-        public TestAspect() {
-            setRootPath(AspectJSimulatorTest.class);
-        }
-
-        @Pointcut("call(* Foo.*(..)) && within(AspectJSimulatorTest)")
-        protected void aspectJSimulatorPointcut() {            
-        }
+    private static class SimulatorAspect {   
+        //TODO Inject
+        private AspectJSimulatorAdapter aspectJSimulatorAdapter = new AspectJSimulatorAdapter();
         
+        @Around("call(* Foo.*(..)) && within(AspectJSimulatorTest)")
+        public Object invoke(ProceedingJoinPoint pjp) throws IOException {            
+            return aspectJSimulatorAdapter.invoke(pjp, AspectJSimulatorTest.class, false);
+        }               
     }
     
     @Test
     public void test() {
         String msg = foo.sayHello("Hello from " + getClass().getName());
-        assertEquals("Hello " + getClass().getName() + " from AspectJSimulator", msg);
+        assertEquals("Hello " + getClass().getName() + " from AspectJSimulatorAdapter", msg);
     }
 }

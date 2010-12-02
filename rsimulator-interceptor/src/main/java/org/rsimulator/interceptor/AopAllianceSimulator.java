@@ -1,5 +1,6 @@
 package org.rsimulator.interceptor;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
@@ -14,7 +15,40 @@ import org.aopalliance.intercept.MethodInvocation;
  * 
  * @author Magnus Bjuvensjö
  */
-public class AopAllianceSimulator extends AbstractAopSimulator implements Advice, MethodInterceptor {
+public class AopAllianceSimulator implements Advice, MethodInterceptor {
+    //TODO Inject
+    private SimulatorAdapter simulatorAdapter = new SimulatorAdapter();
+    private String rootPath;
+    private boolean useRootRelativePath = false;
+
+    /**
+     * Sets the rootPath to the folder of the specified testClass class file folder.
+     * 
+     * @param testClass the testClass
+     */
+    public void setRootPath(Class<? extends Object> testClass) {
+        String resource = new StringBuilder().append(testClass.getSimpleName()).append(".class").toString();
+        setRootPath(new File(testClass.getResource(resource).getPath()).getParentFile().getPath());
+    }
+
+    /**
+     * Sets the rootPath to the specified aRootPath.
+     * 
+     * @param aRootPath the rootPath
+     */
+    public void setRootPath(String aRootPath) {
+        this.rootPath = aRootPath;
+    }
+
+    /**
+     * Sets if a root relative path should be used. If true, the relative path is constructed by the package name of the
+     * intercepted class.
+     * 
+     * @param aUseRootRelativePath the useRelativeRootPath
+     */
+    public void setUseRootRelativePath(boolean aUseRootRelativePath) {
+        this.useRootRelativePath = aUseRootRelativePath;
+    } 
 
     /**
      * Returns some simulation response if found.
@@ -25,6 +59,6 @@ public class AopAllianceSimulator extends AbstractAopSimulator implements Advice
      */
     public Object invoke(MethodInvocation mi) throws IOException {
         Method method = mi.getMethod();
-        return call(method.getDeclaringClass().getCanonicalName(), method.getName(), mi.getArguments());
+        return simulatorAdapter.service(method.getDeclaringClass().getCanonicalName(), method.getName(), mi.getArguments(), rootPath, useRootRelativePath);
     }
 }
