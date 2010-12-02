@@ -36,6 +36,17 @@ public class SimulatorAdapter {
         simulator = injector.getInstance(Simulator.class);
     }
 
+    /**
+     * Returns some simulation response if found.
+     * 
+     * @param declaringClassCanonicalName the class that declares the intercepted method
+     * @param methodName the name of the intercepted method
+     * @param arguments the arguments to the intercepted method
+     * @param rootPath the root path in which to (recursively) find simulator test data
+     * @param useRootRelativePath true if the declaringClassCanonicalName and methodName should be used as an relative path extension of rootPath, otherwise false
+     * @return some simulation response
+     * @throws IOException if something goes wrong
+     */
     public Object service(String declaringClassCanonicalName, String methodName, Object[] arguments, String rootPath, boolean useRootRelativePath) 
             throws IOException {
         log.debug(
@@ -60,10 +71,10 @@ public class SimulatorAdapter {
         return request.toString();
     }
 
-    private Object createResponse(String response) {
-        int startResponseIndex = response.indexOf(RESPONSE_BEGIN);
-        int stopResponseIndex = response.lastIndexOf(RESPONSE_END);
-        response = response.substring(startResponseIndex + RESPONSE_BEGIN_LENGTH, stopResponseIndex);
+    private Object createResponse(String theResponse) {
+        int startResponseIndex = theResponse.indexOf(RESPONSE_BEGIN);
+        int stopResponseIndex = theResponse.lastIndexOf(RESPONSE_END);
+        String response = theResponse.substring(startResponseIndex + RESPONSE_BEGIN_LENGTH, stopResponseIndex);
         log.debug("response: {}", response);
         return new XStream().fromXML(response);
     }

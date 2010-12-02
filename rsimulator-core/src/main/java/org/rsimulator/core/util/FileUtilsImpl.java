@@ -49,18 +49,6 @@ public class FileUtilsImpl implements FileUtils {
         return requests;
     }
 
-    private void find(File file, Filter filter, List<File> files) {
-        if (file.isDirectory()) {
-            File[] dirFiles = file.listFiles();
-            for (int i = 0; i < dirFiles.length; i++) {
-                find(dirFiles[i], filter, files);
-            }
-        } else if (filter.accept(file.getName())) {
-            log.debug("adds {}", file.getName());
-            files.add(file);
-        }
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -92,4 +80,16 @@ public class FileUtilsImpl implements FileUtils {
             }
         }
     }
+
+    private void find(File file, Filter filter, List<File> files) {
+        if (file.isDirectory()) {
+            File[] dirFiles = file.listFiles();
+            for (int i = 0; i < dirFiles.length; i++) {
+                find(dirFiles[i], filter, files);
+            }
+        } else if (filter.accept(file.getName())) {
+            log.debug("adds {}", file.getName());
+            files.add(file);
+        }
+    }    
 }

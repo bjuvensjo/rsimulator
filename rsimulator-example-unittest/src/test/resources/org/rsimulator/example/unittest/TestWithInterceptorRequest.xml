@@ -1,7 +1,0 @@
-<request>
-	<org.rsimulator.example.unittest.Greeting>
-		<from>WebServiceClientTest</from>
-		<to>rsimulator-http</to>
-		<message>Hello</message>
-	</org.rsimulator.example.unittest.Greeting>
-</request>
