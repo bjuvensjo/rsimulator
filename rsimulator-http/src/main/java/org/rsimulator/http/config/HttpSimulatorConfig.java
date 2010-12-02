@@ -10,13 +10,10 @@ import java.net.URL;
  * 
  * @author Magnus Bjuvensjö
  */
-public final class HttpSimulatorConfig {
-    private static final int READ_TIMEOUT = 10000;
+public class HttpSimulatorConfig {
+    private static final int READ_TIMEOUT = 12000;
     private static final String DEFAULT_SERVER_URL = "http://localhost:8080";
     private static final String METHOD = "GET";
-
-    private HttpSimulatorConfig() {
-    }
 
     /**
      * Configures the HttpSimulator (running on the default http://localhost:8080) with the root path of the folder of
@@ -78,5 +75,4 @@ public final class HttpSimulatorConfig {
             con.disconnect();
         }
     }
-
 }
