@@ -40,6 +40,7 @@ public abstract class AbstractHandler implements Handler {
         SimulatorResponse result = null;
         String formatedRequest = format(request);
         String path = new StringBuilder().append(rootPath).append(rootRelativePath).toString();
+        log.debug("path: {}", path);
         for (File candidateFile : fileUtils.findRequests(new File(path), getExtension())) {
             String candidate = fileUtils.read(candidateFile);
             Matcher matcher = getMatcher(formatedRequest, candidate);

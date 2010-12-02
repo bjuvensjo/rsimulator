@@ -43,12 +43,7 @@ public class AspectJSimulatorAdapter {
      * @throws IOException if something goes wrong
      */
     public Object invoke(ProceedingJoinPoint pjp, Class<? extends Object> testClass, boolean useRootRelativePath) throws IOException {
-        String resource = new StringBuilder().append(testClass.getSimpleName()).append(".class").toString();
-        String rootPath = new File(testClass.getResource(resource).getPath()).getParentFile().getPath();     
-        String declaringClassCanonicalName = pjp.getSignature().getDeclaringTypeName();
-        String methodName = pjp.getSignature().getName();
-        Object[] arguments = pjp.getArgs(); 
-        return simulatorAdapter.service(declaringClassCanonicalName, methodName, arguments, rootPath, useRootRelativePath);
+        String resource = new StringBuilder().append(testClass.getSimpleName()).append(".class").toString(); 
+        return invoke(pjp, new File(testClass.getResource(resource).getPath()).getParentFile().getPath(), useRootRelativePath);
     }    
-    
 }
