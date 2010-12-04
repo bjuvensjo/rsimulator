@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.google.inject.ImplementedBy;
 
 /**
- * The Simulator encapsulates the control logic.
+ * The Simulator encapsulates the simulation logic.
  *
  * @author Magnus Bjuvensjö
  */
