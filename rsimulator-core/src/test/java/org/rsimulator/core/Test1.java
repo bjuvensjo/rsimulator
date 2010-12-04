@@ -14,7 +14,7 @@ import com.google.inject.Injector;
 
 /**
  * Test1.
- *
+ * 
  * @author Magnus Bjuvensjö
  */
 public class Test1 {
@@ -28,14 +28,16 @@ public class Test1 {
 
     @Test
     public void test() {
-        String rootPath = "src/test/resources";
+        String rootPath = getClass().getResource("/").getPath();
         String rootRelativePath = ".";
         String request = "Hello Simulator, says Test1!";
         String contentType = "txt";
         try {
-            SimulatorResponse simulatorResponse = simulator
-                    .service(rootPath, rootRelativePath, request, contentType);
-            simulator.service(rootPath, rootRelativePath, request, contentType);
+            SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType);
+            assertEquals("Hello Test1, says Simulator!", simulatorResponse.getResponse());
+
+            // to test cache
+            simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType);
             assertEquals("Hello Test1, says Simulator!", simulatorResponse.getResponse());
         } catch (IOException e) {
             fail(e.getMessage());

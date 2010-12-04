@@ -1,10 +1,9 @@
 package org.rsimulator.aop;
 
-import static org.junit.Assert.*;
-import org.junit.Before;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.rsimulator.aop.AopAllianceSimulator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,15 +16,20 @@ public class SpringAopAllianceSimulatorTest {
 
     @Autowired
     private Foo foo;
-    
-    @Before
-    public void init() {
-        aopAllianceSimulator.setRootPath(this.getClass());
-    }
-    
+        
     @Test
-    public void test() {        
+    public void testWithoutRootRelativePath() {        
+        aopAllianceSimulator.setRootPath(this.getClass());
+        aopAllianceSimulator.setUseRootRelativePath(false);
         String msg = foo.sayHello("Hello from " + getClass().getName());
         assertEquals("Hello " + getClass().getName() + " from AopAllianceSimulator", msg);
     }
+    
+    @Test
+    public void testWithRootRelativePath() {        
+        aopAllianceSimulator.setRootPath(this.getClass().getResource("/").getPath());
+        aopAllianceSimulator.setUseRootRelativePath(true);
+        String msg = foo.sayHello("Hi from " + getClass().getName());
+        assertEquals("Hello " + getClass().getName(), msg);
+    }    
 }

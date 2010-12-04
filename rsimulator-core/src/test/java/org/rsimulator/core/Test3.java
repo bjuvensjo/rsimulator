@@ -28,7 +28,7 @@ public class Test3 {
 
     @Test
     public void test() {
-        String rootPath = "src/test/resources";
+        String rootPath = getClass().getResource("/test3").getPath();
         String rootRelativePath = "";
         String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                 + "xmlns:hel=\"http://www.rsimulator.org/SayHello/\"><soapenv:Header/><soapenv:Body>"

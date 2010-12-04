@@ -15,6 +15,9 @@ public class HttpSimulatorConfig {
     private static final String DEFAULT_SERVER_URL = "http://localhost:8080";
     private static final String METHOD = "GET";
 
+    private HttpSimulatorConfig() {
+    }
+
     /**
      * Configures the HttpSimulator (running on the default http://localhost:8080) with the root path of the folder of
      * the specified testClass class folder.

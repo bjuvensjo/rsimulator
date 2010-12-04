@@ -28,7 +28,7 @@ public class Test2 {
 
     @Test
     public void test() {
-        String rootPath = "src/test/resources";
+        String rootPath = getClass().getResource("/").getPath();
         String rootRelativePath = "";
         String request = "Hello Simulator, says Test2!";
         String contentType = "txt";
