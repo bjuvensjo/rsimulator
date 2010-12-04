@@ -10,8 +10,8 @@
 	<modules>
 		<module>../rsimulator-pom-parent</module>
 		<module>../rsimulator-core</module>
-		<module>../rsimulator-http</module>
 		<module>../rsimulator-aop</module>
+		<module>../rsimulator-http</module>
 		<module>../rsimulator-example-unittest</module>
 		<module>../rsimulator-example-webapp</module>
 	</modules>

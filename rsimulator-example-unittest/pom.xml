@@ -88,28 +88,8 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-		</dependency>	
-		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.rsimulator</groupId>
-			<artifactId>rsimulator-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.rsimulator</groupId>
-			<artifactId>rsimulator-http</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.rsimulator</groupId>
-			<artifactId>rsimulator-aop</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -122,6 +102,26 @@
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-transports-http</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+		</dependency>	
+		<dependency>
+			<groupId>org.rsimulator</groupId>
+			<artifactId>rsimulator-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.rsimulator</groupId>
+			<artifactId>rsimulator-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.rsimulator</groupId>
+			<artifactId>rsimulator-http</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
