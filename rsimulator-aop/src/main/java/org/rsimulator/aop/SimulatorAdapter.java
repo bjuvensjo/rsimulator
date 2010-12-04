@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.rsimulator.core.Simulator;
 import org.rsimulator.core.SimulatorResponse;
-import org.rsimulator.core.config.DIModule;
+import org.rsimulator.core.config.CoreModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +32,7 @@ public class SimulatorAdapter {
      * Creates an SimulatorAdapter.
      */
     public SimulatorAdapter() {
-        Injector injector = Guice.createInjector(new DIModule());
+        Injector injector = Guice.createInjector(new CoreModule());
         simulator = injector.getInstance(Simulator.class);
     }
 
