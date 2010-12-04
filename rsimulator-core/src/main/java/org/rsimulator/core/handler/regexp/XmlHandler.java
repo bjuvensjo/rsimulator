@@ -23,10 +23,8 @@ public class XmlHandler extends AbstractHandler {
     private static final String EXTENSION = "xml";
     private Logger log = LoggerFactory.getLogger(XmlHandler.class);
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.rsimulator.core.handler.regexp.AbstractHandler#format(java.lang.String)
+    /**
+     * {@inheritDoc}
      */
     @Override
     protected String format(String request) {
@@ -49,10 +47,8 @@ public class XmlHandler extends AbstractHandler {
         return result;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.rsimulator.core.handler.regexp.AbstractHandler#getExtension()
+    /**
+     * {@inheritDoc}
      */
     @Override
     protected String getExtension() {

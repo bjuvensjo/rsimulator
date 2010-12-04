@@ -12,20 +12,16 @@ import com.google.inject.Singleton;
 public class TxtHandler extends AbstractHandler {
     private static final String EXTENSION = "txt";
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.rsimulator.core.handler.regexp.AbstractHandler#format(java.lang.String)
+    /**
+     * {@inheritDoc}
      */
     @Override
     protected String format(String request) {
         return request;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.rsimulator.core.handler.regexp.AbstractHandler#getExtension()
+    /**
+     * {@inheritDoc}
      */
     @Override
     protected String getExtension() {

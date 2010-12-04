@@ -31,6 +31,7 @@ public class PropsImpl implements Props {
      * {@inheritDoc}
      */
     @Cache
+    @Override
     public Properties getProperties(File file) {
         if (!file.exists()) {
             return EMPTY_PROPERTIES;

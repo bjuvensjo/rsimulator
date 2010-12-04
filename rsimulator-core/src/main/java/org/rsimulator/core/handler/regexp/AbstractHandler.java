@@ -36,6 +36,7 @@ public abstract class AbstractHandler implements Handler {
     /**
      * {@inheritDoc}
      */
+    @Override
     public SimulatorResponse findMatch(String rootPath, String rootRelativePath, String request) throws IOException {
         SimulatorResponse result = null;
         String formatedRequest = format(request);

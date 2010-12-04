@@ -38,7 +38,8 @@ public class FileUtilsImpl implements FileUtils {
     /**
      * {@inheritDoc}
      */
-    public final List<File> findRequests(File file, final String extension) {
+    @Override
+    public List<File> findRequests(File file, final String extension) {
         List<File> requests = new ArrayList<File>();
         find(file, new Filter() {
             public boolean accept(String t) {
@@ -53,6 +54,7 @@ public class FileUtilsImpl implements FileUtils {
      * {@inheritDoc}
      */
     @Cache
+    @Override
     public String read(File file) throws IOException {
         BufferedInputStream bis = null;
         try {

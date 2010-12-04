@@ -30,6 +30,7 @@ public class SimulatorImpl implements Simulator {
      */
     @Cache
     @Script
+    @Override
     public SimulatorResponse service(String rootPath, String rootRelativePath, String request, String contentType)
             throws IOException {
         log.debug("rootPath: {}, rootRelativePath: {}, request: {}, contentType: {}", new Object[] {rootPath,

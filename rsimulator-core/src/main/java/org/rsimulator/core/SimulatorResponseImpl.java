@@ -29,6 +29,7 @@ public class SimulatorResponseImpl implements SimulatorResponse {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getResponse() {
         return response;
     }
@@ -36,6 +37,7 @@ public class SimulatorResponseImpl implements SimulatorResponse {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setResponse(String aResponse) {
         this.response = aResponse;
     }
@@ -43,6 +45,7 @@ public class SimulatorResponseImpl implements SimulatorResponse {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Properties getProperties() {
         return properties;
     }
@@ -50,6 +53,7 @@ public class SimulatorResponseImpl implements SimulatorResponse {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setProperties(Properties aProperties) {
         this.properties = aProperties;
     }
@@ -57,6 +61,7 @@ public class SimulatorResponseImpl implements SimulatorResponse {
     /**
      * {@inheritDoc}
      */
+    @Override
     public File getMatchingRequest() {
         return matchingRequest;
     }
@@ -64,6 +69,7 @@ public class SimulatorResponseImpl implements SimulatorResponse {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setMatchingRequest(File aMatchingRequest) {
         this.matchingRequest = aMatchingRequest;
     }
@@ -71,6 +77,7 @@ public class SimulatorResponseImpl implements SimulatorResponse {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String toString() {
         return new StringBuilder().append("[").append("response: ").append(response).append(", properties: ")
                 .append(properties).append(", matchingRequest: ").append(matchingRequest).append("]").toString();

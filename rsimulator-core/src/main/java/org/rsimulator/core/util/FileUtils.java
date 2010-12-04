@@ -23,7 +23,7 @@ public interface FileUtils {
      * @return the requests that have the specified file extension and are in the specified file directory or a
      *         subdirectory
      */
-    List<File> findRequests(File file, final String extension);
+    List<File> findRequests(File file, String extension);
 
     /**
      * Returns the content of the specified file.
