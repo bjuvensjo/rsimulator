@@ -5,6 +5,11 @@ import java.util.List;
 import org.rsimulator.example.unittest.transfer.account.Account;
 import org.rsimulator.example.unittest.transfer.transfer.TransferResponse;
 
+/**
+ * TransferBean.
+ *
+ * @author Magnus Bjuvensjö
+ */
 public interface TransferBean {
 
     /**
@@ -13,7 +18,7 @@ public interface TransferBean {
      * @param userId user id
      * @return the account for the user with the specified userId
      */
-    public abstract List<Account> getAccounts(String userId);
+    List<Account> getAccounts(String userId);
 
     /**
      * Returns a receipt of the transfer.
@@ -23,6 +28,6 @@ public interface TransferBean {
      * @param amount the amount
      * @return a receipt of the transfer
      */
-    public abstract TransferResponse.Receipt transfer(Account from, Account to, double amount);
+    TransferResponse.Receipt transfer(Account from, Account to, double amount);
 
 }

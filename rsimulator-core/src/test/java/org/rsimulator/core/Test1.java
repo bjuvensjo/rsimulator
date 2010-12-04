@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.rsimulator.core.config.DIModule;
+import org.rsimulator.core.config.CoreModule;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -22,7 +22,7 @@ public class Test1 {
 
     @Before
     public void init() {
-        Injector injector = Guice.createInjector(new DIModule());
+        Injector injector = Guice.createInjector(new CoreModule());
         simulator = injector.getInstance(Simulator.class);
     }
 

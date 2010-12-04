@@ -2,6 +2,7 @@ package org.rsimulator.http;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,13 +14,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.rsimulator.core.Simulator;
 import org.rsimulator.core.SimulatorResponse;
-import org.rsimulator.core.config.DIModule;
+import org.rsimulator.core.config.CoreModule;
 import org.rsimulator.http.config.Constants;
+import org.rsimulator.http.config.HttpModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.name.Named;
 
 /**
  * HttpSimulator makes the {@link Simulator} functionality available over http.
@@ -32,9 +36,13 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
     private static final int BUFFER_SIZE = 1000;
     private static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([0-9A-Z-]+)");
     private static Logger log = LoggerFactory.getLogger(HttpSimulator.class);
-    private static Simulator simulator;
     private static String rootPath;
     private static boolean useRootRelativePath;
+    @Inject
+    private Simulator simulator;
+    @Inject
+    @Named("contentTypes")
+    private Map<String, String> contentTypes;
 
     /**
      * {@inheritDoc}
@@ -42,8 +50,8 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        Injector injector = Guice.createInjector(new DIModule());
-        simulator = injector.getInstance(Simulator.class);
+        Injector injector = Guice.createInjector(new CoreModule(), new HttpModule());
+        injector.injectMembers(this);
         rootPath = System.getProperty(Constants.ROOT_PATH) != null ? System.getProperty(Constants.ROOT_PATH)
                 : DEFAULT_ROOT_PATH;
         useRootRelativePath = System.getProperty(Constants.USE_ROOT_RELATIVE_PATH) != null ? "true".equals(System
@@ -140,13 +148,11 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
     }
 
     private String getSimulatorContentType(String contentType) {
-        if (contentType != null
-                && (contentType.indexOf("text/xml") > -1 || contentType.indexOf("application/xml") > -1 || contentType
-                        .indexOf("application/soap+xml") > -1)) {
-            return "xml";
-        } else {
-            return "txt";
+        String result = contentTypes.get(contentType);
+        if (result == null) {
+            result = contentTypes.get("default");
         }
+        return result;
     }
 
     private String readBody(BufferedInputStream bis, String charsetName) throws IOException {

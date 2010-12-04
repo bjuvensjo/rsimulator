@@ -26,12 +26,12 @@ import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 
 /**
- * DIModule holds Guice configurations.
+ * CoreModule holds Guice configurations.
  * 
  * @author Magnus Bjuvensjö
  */
-public class DIModule extends AbstractModule {
-    private Logger log = LoggerFactory.getLogger(DIModule.class);
+public class CoreModule extends AbstractModule {
+    private Logger log = LoggerFactory.getLogger(CoreModule.class);
 
     /*
      * (non-Javadoc)
