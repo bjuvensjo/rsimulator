@@ -17,7 +17,7 @@ import com.thoughtworks.xstream.XStream;
  * 
  * @author Magnus Bjuvensjö
  */
-public class SimulatorAdapter {
+class SimulatorAdapter {
     private static final String CONTENT_TYPE = "xml";
     private static final String REQUEST_BEGIN = "<request>";
     private static final String REQUEST_END = "</request>";
