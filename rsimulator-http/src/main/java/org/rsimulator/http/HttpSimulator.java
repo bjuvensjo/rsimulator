@@ -35,6 +35,7 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
     private static final String DEFAULT_ROOT_PATH = "src/main/resources";
     private static final int BUFFER_SIZE = 1000;
     private static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([0-9A-Z-]+)");
+    private static final Pattern CONTENT_TYPE_PATTERN = Pattern.compile("([^;]+)");
     private static Logger log = LoggerFactory.getLogger(HttpSimulator.class);
     private static String rootPath;
     private static boolean useRootRelativePath;
@@ -147,14 +148,6 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
         }
     }
 
-    private String getSimulatorContentType(String contentType) {
-        String result = contentTypes.get(contentType);
-        if (result == null) {
-            result = contentTypes.get("default");
-        }
-        return result;
-    }
-
     private String readBody(BufferedInputStream bis, String charsetName) throws IOException {
         StringBuilder sb = new StringBuilder();
         byte[] buffer = new byte[BUFFER_SIZE];
@@ -163,6 +156,20 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
             sb.append(new String(buffer, 0, n, charsetName));
         }
         return sb.toString();
+    }
+
+    private String getSimulatorContentType(String contentType) {
+        String result = null;
+        if (contentType != null) {
+            Matcher m = CONTENT_TYPE_PATTERN.matcher(contentType);
+            if (m.find()) {
+                result = contentTypes.get(m.group(1));
+            }
+        }
+        if (result == null) {
+            result = contentTypes.get("default");
+        }
+        return result;
     }
 
     private String getCharsetName(String contentType) {

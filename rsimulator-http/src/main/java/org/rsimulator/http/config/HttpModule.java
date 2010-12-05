@@ -22,13 +22,13 @@ public class HttpModule extends AbstractModule {
     @Override
     protected void configure() {
         // ***** Content types *****
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("application/xml", "xml");
-        map.put("application/soap+xml", "xml");
-        map.put("text/xml", "xml");
-        map.put("default", "txt");
+        Map<String, String> contentTypes = new HashMap<String, String>();
+        contentTypes.put("application/xml", "xml");
+        contentTypes.put("application/soap+xml", "xml");
+        contentTypes.put("text/xml", "xml");
+        contentTypes.put("default", "txt");
 
         bind(new TypeLiteral<Map<String, String>>() {
-        }).annotatedWith(Names.named("contentTypes")).toInstance(map);
+        }).annotatedWith(Names.named("contentTypes")).toInstance(contentTypes);
     }
 }
