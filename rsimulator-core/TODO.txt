@@ -3,19 +3,19 @@
 * Interfaces of everything?
 * Replace jdom?
 * Caching of findFiles?
+* Add "recorder" util
 * Improve logging all over
-* encoding of test files in rsimulator.properties?
+* Encoding of test files in rsimulator.properties?
 * javadoc
 * Possible to run testdata packaged (jar/war)
-* Make utils package to io and util (as Java)
 * Multiple basePaths?
 * Return String from Handler and SimulatorResponse from Simulator?
 * More examples of tests
-* Create as maven-plugin?
+* Create as maven-plugin with for instance embedded jetty?
 * Handle delay in groovy-script instead of properties
 * Handling of properties in interceptor(s)
-* EL-uttryck eller motsvarande i response?
-* remove versions from child poms, review all poms
-* add Guice test to interceptor
-* versions in poms
+* EL-uttryck or similar in response?
+* Remove versions from child poms, review all poms
+* Add Guice test to interceptor
+* Versions in poms
 * AbstractAopSimulator abstract? Look through complete implementation

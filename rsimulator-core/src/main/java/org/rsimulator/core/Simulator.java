@@ -7,7 +7,7 @@ import com.google.inject.ImplementedBy;
 /**
  * The Simulator encapsulates the simulation logic.
  *
- * @author the brave Magnus Bjuvensjö
+ * @author Magnus Bjuvensjö
  */
 @ImplementedBy(SimulatorImpl.class)
 public interface Simulator {
