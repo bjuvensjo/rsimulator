@@ -18,4 +18,4 @@
 * Remove versions from child poms, review all poms
 * Add Guice test to interceptor
 * Versions in poms
-* AbstractAopSimulator abstract? Look through complete implementation
+* Make interfaces to AopAllianceSimulator and AspectJSimulatorAdapter

@@ -23,14 +23,14 @@ import com.google.inject.Singleton;
  * <li>GlobalRequest.groovy; Must be put in the rootPath folder and is applied before the invocation.</li>
  * <li>&lt;TestName&gt;.groovy; Must be put in the same folder as test request and response and is applied first after
  * the invocation. The name of the groovy file must be the same as for the test request, e.g. Test1Request.txt -
- * Test1.groovy. If this script sets a {@link SimulatorResponse} in the vars map (see below), the
- * {@link SimulatorResponse} is directly returned.</li>
+ * Test1.groovy.</li>
  * <li>GlobalResponse.groovy; Must be put in the rootPath folder and is applied last after the invocation.</li>
  * </ol>
  * <p/>
  * All script have a Map<String, Object> available through the variable vars. The keys contentType, simulatorResponse,
  * request, rootPath, rootRelativePath can be used to access invocation arguments and return value. In addition, the map
- * can be used to communicate arbitrary objects between the Groovy scripts.
+ * can be used to communicate arbitrary objects between the Groovy scripts. If a script sets a SimulatorResponse in the
+ * vars map, this SimulatorResponse is directly returned.
  */
 @Singleton
 public class SimulatorScriptInterceptor implements MethodInterceptor {
@@ -99,7 +99,7 @@ public class SimulatorScriptInterceptor implements MethodInterceptor {
                 SimulatorResponse simulatorResponse = (SimulatorResponse) vars.get(SIMULATOR_RESPONSE);
                 if (simulatorResponse != null && simulatorResponse.getMatchingRequest() != null) {
                     root = simulatorResponse.getMatchingRequest().getParentFile().getPath();
-                    script = simulatorResponse.getMatchingRequest().getName().replaceAll(GROOVY_PATTERN, ".groovy");                    
+                    script = simulatorResponse.getMatchingRequest().getName().replaceAll(GROOVY_PATTERN, ".groovy");
                 }
                 break;
             default:
