@@ -32,12 +32,12 @@ public class FileUtilsTest {
         List<File> xmlRequests = fileUtils.findRequests(new File(getClass().getResource("/").getPath()), "xml");
         assertTrue("xmlRequests", xmlRequests.size() > 0);
         for (File file : xmlRequests) {
-            assertTrue("xmlFile", file.getName().endsWith(".xml"));
+            assertTrue("xmlFile", file.getName().endsWith("Request.xml"));
         }
         List<File> txtRequests = fileUtils.findRequests(new File(getClass().getResource("/").getPath()), "txt");
         assertTrue("txtRequests", txtRequests.size() > 0);
         for (File file : txtRequests) {
-            assertTrue("txtFile", file.getName().endsWith(".txt"));
+            assertTrue("txtFile", file.getName().endsWith("Request.txt"));
         }
     }
 
