@@ -5,14 +5,26 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.rsimulator.core.config.CoreModule;
+
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 
 public class SimulatorAdapterTest {
+    @Inject
+    private SimulatorAdapter simulatorAdapter;
+    
+    @Before
+    public void init() {
+        Injector injector = Guice.createInjector(new CoreModule());
+        injector.injectMembers(this);                        
+    }
 
     @Test
     public void testService() {
-        //TODO DI
-        SimulatorAdapter simulatorAdapter = new SimulatorAdapter();
         String declaringClassCanonicalName = Foo.class.getCanonicalName();
         String methodName = "sayHello";
         Object[] arguments = new String[] {"Hello from " + getClass().getName()};

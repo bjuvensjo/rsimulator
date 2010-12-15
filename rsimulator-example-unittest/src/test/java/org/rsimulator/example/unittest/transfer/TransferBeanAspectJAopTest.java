@@ -10,6 +10,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.junit.Test;
 import org.rsimulator.aop.AspectJSimulatorAdapter;
+import org.rsimulator.aop.AspectJSimulatorAdapterImpl;
 import org.rsimulator.example.unittest.transfer.account.Account;
 
 public class TransferBeanAspectJAopTest {
@@ -18,8 +19,7 @@ public class TransferBeanAspectJAopTest {
     @SuppressWarnings("unused")
     @Aspect
     private static class SimulatorAspect {   
-        //TODO Inject
-        private AspectJSimulatorAdapter aspectJSimulatorAdapter = new AspectJSimulatorAdapter();
+        private AspectJSimulatorAdapter aspectJSimulatorAdapter = new AspectJSimulatorAdapterImpl();
         
         @Around("call(* TransferBean.*(..)) && within(TransferBeanAspectJAopTest)")
         public Object invoke(ProceedingJoinPoint pjp) throws IOException {

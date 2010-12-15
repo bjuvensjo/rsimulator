@@ -10,6 +10,7 @@ import net.sf.ehcache.CacheManager;
 import org.rsimulator.core.Handler;
 import org.rsimulator.core.Simulator;
 import org.rsimulator.core.SimulatorCacheInterceptor;
+import org.rsimulator.core.SimulatorPropertiesInterceptor;
 import org.rsimulator.core.SimulatorScriptInterceptor;
 import org.rsimulator.core.handler.regexp.TxtHandler;
 import org.rsimulator.core.handler.regexp.XmlHandler;
@@ -71,17 +72,21 @@ public class CoreModule extends AbstractModule {
         bind(net.sf.ehcache.Cache.class).annotatedWith(Names.named("PropsCache")).toInstance(
                 CacheManager.create().getCache("PropsCache"));
 
+        SimulatorPropertiesInterceptor simulatorPropertiesInterceptor = new SimulatorPropertiesInterceptor();
         SimulatorCacheInterceptor simulatorCacheInterceptor = new SimulatorCacheInterceptor();
+        SimulatorScriptInterceptor simulatorScriptInterceptor = new SimulatorScriptInterceptor();
         FileUtilsCacheInterceptor fileUtilsCacheInterceptor = new FileUtilsCacheInterceptor();
         PropsCacheInterceptor propsCacheInterceptor = new PropsCacheInterceptor();
-        SimulatorScriptInterceptor simulatorScriptInterceptor = new SimulatorScriptInterceptor();
 
+        requestInjection(simulatorPropertiesInterceptor);
         requestInjection(simulatorCacheInterceptor);
+        requestInjection(simulatorScriptInterceptor);
         requestInjection(fileUtilsCacheInterceptor);
         requestInjection(propsCacheInterceptor);
-        requestInjection(simulatorScriptInterceptor);
 
         // Order is significant
+        bindInterceptor(Matchers.subclassesOf(Simulator.class), Matchers.annotatedWith(Properties.class),
+                simulatorPropertiesInterceptor);
         bindInterceptor(Matchers.subclassesOf(Simulator.class), Matchers.annotatedWith(Cache.class),
                 simulatorCacheInterceptor);
         bindInterceptor(Matchers.subclassesOf(Simulator.class), Matchers.annotatedWith(Script.class),

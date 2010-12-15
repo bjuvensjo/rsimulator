@@ -4,12 +4,11 @@ import java.io.IOException;
 
 import org.rsimulator.core.Simulator;
 import org.rsimulator.core.SimulatorResponse;
-import org.rsimulator.core.config.CoreModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.thoughtworks.xstream.XStream;
 
 /**
@@ -17,6 +16,7 @@ import com.thoughtworks.xstream.XStream;
  * 
  * @author Magnus Bjuvensjö
  */
+@Singleton
 class SimulatorAdapter {
     private static final String CONTENT_TYPE = "xml";
     private static final String REQUEST_BEGIN = "<request>";
@@ -26,15 +26,8 @@ class SimulatorAdapter {
     private static final String RESPONSE_END = "</response>";
     private static final String XML_VERSION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     private Logger log = LoggerFactory.getLogger(SimulatorAdapter.class);
+    @Inject
     private Simulator simulator;
-
-    /**
-     * Creates an SimulatorAdapter.
-     */
-    public SimulatorAdapter() {
-        Injector injector = Guice.createInjector(new CoreModule());
-        simulator = injector.getInstance(Simulator.class);
-    }
 
     /**
      * Returns some simulation response if found.

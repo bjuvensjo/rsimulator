@@ -1,9 +1,10 @@
 package org.rsimulator.aop;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+
+import com.google.inject.ImplementedBy;
 
 /**
  * The AspectJSimulatorAdapter is used to simulate java interface method invocations by means of method AspectJ AOP. No
@@ -12,10 +13,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
  * 
  * @author Magnus Bjuvensjö
  */
-//TODO Change javadoc
-public class AspectJSimulatorAdapter {
-    //TODO Inject
-    private SimulatorAdapter simulatorAdapter = new SimulatorAdapter();
+@ImplementedBy(AspectJSimulatorAdapterImpl.class)
+public interface AspectJSimulatorAdapter {
     
     /**
      * Returns some simulation response if found.
@@ -26,12 +25,7 @@ public class AspectJSimulatorAdapter {
      * @return some simulation response
      * @throws IOException if something goes wrong
      */
-    public Object invoke(ProceedingJoinPoint pjp, String rootPath, boolean useRootRelativePath) throws IOException {
-        String declaringClassCanonicalName = pjp.getSignature().getDeclaringTypeName();
-        String methodName = pjp.getSignature().getName();
-        Object[] arguments = pjp.getArgs(); 
-        return simulatorAdapter.service(declaringClassCanonicalName, methodName, arguments, rootPath, useRootRelativePath);
-    }
+    Object invoke(ProceedingJoinPoint pjp, String rootPath, boolean useRootRelativePath) throws IOException;
     
     /**
      * Returns some simulation response if found.
@@ -42,8 +36,5 @@ public class AspectJSimulatorAdapter {
      * @return some simulation response
      * @throws IOException if something goes wrong
      */
-    public Object invoke(ProceedingJoinPoint pjp, Class<? extends Object> testClass, boolean useRootRelativePath) throws IOException {
-        String resource = new StringBuilder().append(testClass.getSimpleName()).append(".class").toString(); 
-        return invoke(pjp, new File(testClass.getResource(resource).getPath()).getParentFile().getPath(), useRootRelativePath);
-    }    
+    Object invoke(ProceedingJoinPoint pjp, Class<? extends Object> testClass, boolean useRootRelativePath) throws IOException;    
 }

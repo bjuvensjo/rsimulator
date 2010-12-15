@@ -65,7 +65,6 @@ public class SimulatorScriptInterceptor implements MethodInterceptor {
         applyScript(Scope.GLOBAL_REQUEST, vars);
         SimulatorResponse simulatorResponse = (SimulatorResponse) vars.get(SIMULATOR_RESPONSE);
         if (simulatorResponse != null) {
-            // TODO Who should handle properties!?
             log.debug("Returning {}", simulatorResponse);
             return simulatorResponse;
         }

@@ -4,14 +4,15 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.rsimulator.aop.AopAllianceSimulator;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.matcher.Matchers;
 
 public class GuiceAopAllianceSimulatorTest {
+    @Inject
     private Foo foo;
     
     public static class DummyFoo implements Foo {
@@ -27,12 +28,12 @@ public class GuiceAopAllianceSimulatorTest {
             @Override
             protected void configure() {
                 bind(Foo.class).to(DummyFoo.class);
-                AopAllianceSimulator aopAllianceSimulator = new AopAllianceSimulator();
+                AopAllianceSimulator aopAllianceSimulator = new AopAllianceSimulatorImpl();
                 aopAllianceSimulator.setRootPath(GuiceAopAllianceSimulatorTest.class);
                 bindInterceptor(Matchers.subclassesOf(Foo.class), Matchers.any(), aopAllianceSimulator);
             }
         });
-        foo = injector.getInstance(Foo.class);
+        injector.injectMembers(this);
     }
     
     @Test

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.rsimulator.core.config.Cache;
+import org.rsimulator.core.config.Properties;
 import org.rsimulator.core.config.Script;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,7 @@ public class SimulatorImpl implements Simulator {
     /**
      * {@inheritDoc}
      */
+    @Properties
     @Cache
     @Script
     @Override
@@ -37,23 +39,7 @@ public class SimulatorImpl implements Simulator {
                 rootRelativePath, request, contentType});
         SimulatorResponse simulatorResponse = handlers.get(contentType)
                 .findMatch(rootPath, rootRelativePath, request);
-        processResponse(simulatorResponse);
         log.debug("simulatorResponse: {}", simulatorResponse);
         return simulatorResponse;
-    }
-
-    private void processResponse(SimulatorResponse simulatorResponse) {
-        if (simulatorResponse != null && simulatorResponse.getProperties() != null) {
-            // Below to enable simulation of slow response
-            String delay = simulatorResponse.getProperties().getProperty("delay");
-            if (delay != null) {
-                log.debug("Delaying response {} for {} ms.", simulatorResponse, delay);
-                try {
-                    Thread.sleep(Long.parseLong(delay));
-                } catch (Exception e) {
-                    log.error(null, e);
-                }
-            }
-        }
     }
 }

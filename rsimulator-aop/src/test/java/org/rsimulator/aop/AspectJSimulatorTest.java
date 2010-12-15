@@ -17,8 +17,7 @@ public class AspectJSimulatorTest {
     @SuppressWarnings("unused")
     @Aspect
     private static class SimulatorAspect {   
-        //TODO Inject
-        private AspectJSimulatorAdapter aspectJSimulatorAdapter = new AspectJSimulatorAdapter();
+        private AspectJSimulatorAdapter aspectJSimulatorAdapter = new AspectJSimulatorAdapterImpl();
         
         @Around("call(* Foo.*(..)) && within(AspectJSimulatorTest)")
         public Object invoke(ProceedingJoinPoint pjp) throws IOException {            

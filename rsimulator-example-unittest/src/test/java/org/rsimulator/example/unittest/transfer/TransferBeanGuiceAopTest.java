@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.rsimulator.aop.AopAllianceSimulator;
+import org.rsimulator.aop.AopAllianceSimulatorImpl;
 import org.rsimulator.example.unittest.transfer.account.Account;
 
 import com.google.inject.AbstractModule;
@@ -23,7 +24,7 @@ public class TransferBeanGuiceAopTest {
         Injector injector = Guice.createInjector(new AbstractModule() {
             @Override
             protected void configure() {
-                AopAllianceSimulator aopAllianceSimulator = new AopAllianceSimulator();
+                AopAllianceSimulator aopAllianceSimulator = new AopAllianceSimulatorImpl();
                 aopAllianceSimulator.setRootPath(TransferBeanGuiceAopTest.class);
                 bindInterceptor(Matchers.subclassesOf(TransferBeanImpl.class), Matchers.any(), aopAllianceSimulator);
             }
