@@ -1,7 +1,0 @@
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-	<soap:Body>
-		<ns2:NewOperation xmlns:ns2="http://www.example.org/myService/">
-			<in>a</in>
-		</ns2:NewOperation>
-	</soap:Body>
-</soap:Envelope>

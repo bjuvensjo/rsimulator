@@ -1,9 +1,0 @@
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-	xmlns:mys="http://www.example.org/myService/">
-	<soapenv:Header />
-	<soapenv:Body>
-		<mys:NewOperationResponse>
-			<out>b</out>
-		</mys:NewOperationResponse>
-	</soapenv:Body>
-</soapenv:Envelope>
