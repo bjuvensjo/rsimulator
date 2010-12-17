@@ -12,3 +12,5 @@
 * Handle delay in groovy-script instead of properties?
 * Remove versions from child poms, review all poms
 * Versions in poms
+* Add log configuration to wiki
+* "Interceptor" for HttpSimulator, e.g. for mapping SOAPAction to rootRelativePath

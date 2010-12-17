@@ -15,7 +15,7 @@ import com.google.inject.name.Named;
 
 /**
  * SimulatorImpl implements {@link Simulator}.
- *
+ * 
  * @author Magnus Bjuvensjö
  */
 @Singleton
@@ -37,9 +37,14 @@ public class SimulatorImpl implements Simulator {
             throws IOException {
         log.debug("rootPath: {}, rootRelativePath: {}, request: {}, contentType: {}", new Object[] {rootPath,
                 rootRelativePath, request, contentType});
-        SimulatorResponse simulatorResponse = handlers.get(contentType)
-                .findMatch(rootPath, rootRelativePath, request);
-        log.debug("simulatorResponse: {}", simulatorResponse);
+        SimulatorResponse simulatorResponse = handlers.get(contentType).findMatch(rootPath, rootRelativePath, request);
+        if (simulatorResponse == null) {
+            String responseBody = "No simulatorResponse found!";
+            log.error("{}, rootPath: {}, rootRelativePath: {}, request: {}, contentType: {}", new Object[] {
+                    responseBody, rootPath, rootRelativePath, request, contentType});
+        } else {
+            log.debug("simulatorResponse: {}", simulatorResponse);
+        }
         return simulatorResponse;
     }
 }

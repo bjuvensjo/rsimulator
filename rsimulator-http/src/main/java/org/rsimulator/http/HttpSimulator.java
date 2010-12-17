@@ -63,8 +63,7 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
      * {@inheritDoc}
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String queryString = request.getQueryString();
         if (queryString == null || "".equals(queryString)) {
             response.getWriter().write("Welcome to the Simulator!");
@@ -112,7 +111,7 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
             log.debug("requestBody: {}", simulatorRequest);
             log.debug("requestURI: {}", requestURI);
             log.debug("rootRelativePath: {}", rootRelativePath);
-            
+
             SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, simulatorRequest,
                     getSimulatorContentType(contentType));
 
@@ -127,8 +126,8 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
             response.getWriter().write(e.getMessage());
         }
     }
-    
-    private String getSimulatorRequest(HttpServletRequest request, String method, String charsetName) 
+
+    private String getSimulatorRequest(HttpServletRequest request, String method, String charsetName)
             throws IOException {
         return "GET".equals(method) ? request.getParameter("request") : readBody(
                 new BufferedInputStream(request.getInputStream()), charsetName);
