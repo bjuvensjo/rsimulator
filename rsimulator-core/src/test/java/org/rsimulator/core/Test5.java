@@ -29,7 +29,7 @@ public class Test5 {
     @Test
     public void test() {
         String rootPath = getClass().getResource("/test5").getPath();
-        String rootRelativePath = ".";
+        String rootRelativePath = "/.";
         String request = "Hello Simulator, says Test5!";
         String contentType = "txt";
         try {

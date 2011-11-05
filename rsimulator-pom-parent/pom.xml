@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.rsimulator</groupId>
 	<artifactId>rsimulator-pom-parent</artifactId>
-	<version>0.62-SNAPSHOT</version>
+	<version>0.63-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>rsimulator-pom-parent</name>
 	<properties>
@@ -100,7 +100,7 @@
 			<dependency>
 				<groupId>org.codehaus.groovy</groupId>
 				<artifactId>groovy-all</artifactId>
-				<version>1.7.5</version>
+				<version>1.8.3</version>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
