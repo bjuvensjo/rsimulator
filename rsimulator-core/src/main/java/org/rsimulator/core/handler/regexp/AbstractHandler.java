@@ -39,12 +39,11 @@ public abstract class AbstractHandler implements Handler {
     @Override
     public SimulatorResponse findMatch(String rootPath, String rootRelativePath, String request) throws IOException {
         SimulatorResponse result = null;
-        String formatedRequest = format(request);
         String path = new StringBuilder().append(rootPath).append(rootRelativePath).toString();
         log.debug("path: {}", path);
         for (File candidateFile : fileUtils.findRequests(new File(path), getExtension())) {
             String candidate = fileUtils.read(candidateFile);
-            Matcher matcher = getMatcher(formatedRequest, candidate);
+            Matcher matcher = getMatcher(request, candidate);
             if (matcher.matches()) {
                 return new SimulatorResponseImpl(getResponse(candidateFile, matcher), getProperties(candidateFile),
                         candidateFile);
@@ -67,11 +66,23 @@ public abstract class AbstractHandler implements Handler {
      * @return the specified request formatted for matching
      */
     protected abstract String format(String request);
-
-    private Matcher getMatcher(String formatedRequest, String candidate) throws IOException {
+    
+    /**
+     * Returns the specified request escaped for matching.
+     *
+     * @param request the request
+     * @param isCandidate the isCandidate
+     * @return the specified request escaped for matching
+     */
+    protected abstract String escape(String request, boolean isCandidate);
+    
+    private Matcher getMatcher(String request, String candidate) throws IOException {
+        String formatedRequest = format(request);
         String formatedCandidate = format(candidate);
-        Pattern p = Pattern.compile(formatedCandidate);
-        return p.matcher(formatedRequest);
+        String escapedRequest = escape(formatedRequest, false);
+        String escapedCandidate = escape(formatedCandidate, true);
+        Pattern p = Pattern.compile(escapedCandidate);
+        return p.matcher(escapedRequest);
     }
 
     private String getResponse(File candidateFile, Matcher matcher) throws IOException {

@@ -12,6 +12,7 @@ import org.rsimulator.core.Simulator;
 import org.rsimulator.core.SimulatorCacheInterceptor;
 import org.rsimulator.core.SimulatorPropertiesInterceptor;
 import org.rsimulator.core.SimulatorScriptInterceptor;
+import org.rsimulator.core.handler.regexp.JsonHandler;
 import org.rsimulator.core.handler.regexp.TxtHandler;
 import org.rsimulator.core.handler.regexp.XmlHandler;
 import org.rsimulator.core.util.FileUtils;
@@ -52,10 +53,13 @@ public class CoreModule extends AbstractModule {
 
         // ***** Handlers *****
         Map<String, Handler> map = new HashMap<String, Handler>();
+        JsonHandler jsonHandler = new JsonHandler();
+        requestInjection(jsonHandler);
         TxtHandler txtHandler = new TxtHandler();
         requestInjection(txtHandler);
         XmlHandler xmlHandler = new XmlHandler();
         requestInjection(xmlHandler);
+        map.put("json", jsonHandler);
         map.put("txt", txtHandler);
         map.put("xml", xmlHandler);
 
