@@ -23,6 +23,7 @@ public class HttpModule extends AbstractModule {
     protected void configure() {
         // ***** Content types *****
         Map<String, String> contentTypes = new HashMap<String, String>();
+        contentTypes.put("application/json", "json");
         contentTypes.put("application/xml", "xml");
         contentTypes.put("application/soap+xml", "xml");
         contentTypes.put("text/xml", "xml");

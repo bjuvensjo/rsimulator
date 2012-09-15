@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.rsimulator</groupId>
 	<artifactId>rsimulator-pom-parent</artifactId>
-	<version>0.63-SNAPSHOT</version>
+	<version>1.0</version>
 	<packaging>pom</packaging>
 	<name>rsimulator-pom-parent</name>
 	<properties>
@@ -103,6 +103,11 @@
 				<version>1.8.3</version>
 				<scope>compile</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>1.9.9</version>
+			</dependency>			
 			<dependency>
 				<groupId>org.jdom</groupId>
 				<artifactId>jdom</artifactId>

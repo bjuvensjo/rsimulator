@@ -4,6 +4,7 @@ import static org.rsimulator.core.config.Constants.REQUEST;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,9 +70,23 @@ public class FileUtilsImpl implements FileUtils {
         }
     }
 
-    private void find(File file, Filter filter, List<File> files) {
+    private void find(File file, final Filter filter, List<File> files) {
         if (file.isDirectory()) {
-            File[] dirFiles = file.listFiles();
+            File[] acceptedFiles = file.listFiles(new FileFilter() {
+				@Override
+				public boolean accept(File f) {
+					return f.isFile();
+				}
+			});
+            for (int i = 0; i < acceptedFiles.length; i++) {
+                find(acceptedFiles[i], filter, files);
+            }            
+            File[] dirFiles = file.listFiles(new FileFilter() {
+				@Override
+				public boolean accept(File f) {
+					return f.isDirectory();
+				}
+			});
             for (int i = 0; i < dirFiles.length; i++) {
                 find(dirFiles[i], filter, files);
             }

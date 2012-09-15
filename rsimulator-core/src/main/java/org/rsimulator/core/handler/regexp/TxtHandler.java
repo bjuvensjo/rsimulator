@@ -15,6 +15,14 @@ public class TxtHandler extends AbstractHandler {
     /**
      * {@inheritDoc}
      */
+	@Override
+	protected String escape(String request, boolean isCandidate) {
+		return request;
+	}
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected String format(String request) {
         return request;
