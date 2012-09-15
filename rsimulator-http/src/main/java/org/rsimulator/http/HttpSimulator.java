@@ -117,8 +117,6 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
             log.debug("method: {}", method);
             log.debug("requestBody: {}", simulatorRequest);
             log.debug("requestURI: {}", requestURI);
-            log.debug("useRootRelativePath: {}", useRootRelativePath);
-log.debug("" + "true".equals(System.getProperty(Constants.USE_ROOT_RELATIVE_PATH)));
             log.debug("rootRelativePath: {}", rootRelativePath);
 
             SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, simulatorRequest,

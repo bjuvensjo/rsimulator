@@ -100,5 +100,5 @@ public class JsonHandler extends AbstractHandler {
 	@Override
 	protected String getExtension() {
 		return EXTENSION;
-	}
+	}	
 }
