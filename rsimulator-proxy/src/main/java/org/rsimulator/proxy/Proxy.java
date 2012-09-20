@@ -77,14 +77,13 @@ public class Proxy extends HttpServlet {
 			copyRequestHeaders(request, con);
 			copyRequest(request, con);
 			
-			copyResponseHeaders(con, response);
-			copyResponse(con, response);
+			copyResponseHeaders(response, con);
+			copyResponse(response, con);			
 		} catch (Exception e) {
 			log.error("Can not service.", e);
 			throw new ServletException(e);
 		}
-	}
-	
+	}	
 	private HttpURLConnection getConnection(String method, String url) throws IOException {
 		HttpURLConnection con = null;
 		con = (HttpURLConnection) new URL(url).openConnection();
@@ -108,6 +107,7 @@ public class Proxy extends HttpServlet {
 
 	private void copyRequest(HttpServletRequest request, HttpURLConnection con) throws IOException {
 		String method = request.getMethod();
+		log.debug("method: {}", method);
 		if ("GET".equals(method) || "DELETE".equals(method)) {
 			return;
 		}
@@ -120,29 +120,29 @@ public class Proxy extends HttpServlet {
 		}			
 	}
 
-	private void copyResponseHeaders(HttpURLConnection con,
-			HttpServletResponse response) {
-		Map<String, List<String>> headerFields = con.getHeaderFields();
-		for (Entry<String, List<String>> entry: headerFields.entrySet()) {
-			String key = entry.getKey();
-			if (key != null) {
-				for (String value: entry.getValue()) {
-					if (value != null) {
-						response.addHeader(entry.getKey(), value);
-					}
-				}
-			}
-		}
+	private void copyResponseHeaders(HttpServletResponse response, HttpURLConnection con) {
+		response.setContentType(con.getContentType());
+//		Map<String, List<String>> headerFields = con.getHeaderFields();
+//		for (Entry<String, List<String>> entry: headerFields.entrySet()) {
+//			String key = entry.getKey();
+//			if (key != null) {
+//				for (String value: entry.getValue()) {
+//					if (value != null) {
+//						response.addHeader(entry.getKey(), value);
+//					}
+//				}
+//			}
+//		}
 	}
 	
-	private void copyResponse(HttpURLConnection con,
-			HttpServletResponse response) throws IOException {
+	private void copyResponse(HttpServletResponse response,
+			HttpURLConnection con) throws IOException {
 		InputStream is = con.getInputStream();
 		ServletOutputStream os = response.getOutputStream();
 		byte[] buffer = new byte[BUFFER_SIZE];
 		int n;
 		while ((n = is.read(buffer)) > 0) {
 			os.write(buffer, 0, n);
-		}			
-	}
+		}
+	}	
 }
