@@ -2,6 +2,7 @@ package org.rsimulator.proxy;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -74,23 +75,49 @@ public class Proxy extends HttpServlet {
 			HttpURLConnection con = getConnection(method, mappedURL);
 
 			copyRequestHeaders(request, con);
+			copyRequest(request, con);
 			
 			copyResponseHeaders(con, response);
-
-			//FIXME Now only supports get...
-			//FIXME copyResponseHaders...
-			//response.setContentType(con.getContentType());
-			InputStream is = con.getInputStream();
-			ServletOutputStream os = response.getOutputStream();
-			byte[] buffer = new byte[BUFFER_SIZE];
-			int n;
-			while ((n = is.read(buffer)) > 0) {
-				os.write(buffer, 0, n);
-			}			
+			copyResponse(con, response);
 		} catch (Exception e) {
 			log.error("Can not service.", e);
 			throw new ServletException(e);
 		}
+	}
+	
+	private HttpURLConnection getConnection(String method, String url) throws IOException {
+		HttpURLConnection con = null;
+		con = (HttpURLConnection) new URL(url).openConnection();
+		con.setRequestMethod(method);
+		con.setDoOutput(true);
+		con.setDoInput(true);
+		con.setReadTimeout(READ_TIMEOUT);
+		return con;
+	}	
+
+	private void copyRequestHeaders(HttpServletRequest request,
+			HttpURLConnection connection) {
+		@SuppressWarnings("unchecked")
+		Enumeration<String> headerNames = request.getHeaderNames();
+		while (headerNames.hasMoreElements()) {
+			String headerName = headerNames.nextElement();
+			String headerValue = request.getHeader(headerName);
+			connection.addRequestProperty(headerName, headerValue);
+		}
+	}
+
+	private void copyRequest(HttpServletRequest request, HttpURLConnection con) throws IOException {
+		String method = request.getMethod();
+		if ("GET".equals(method) || "DELETE".equals(method)) {
+			return;
+		}
+		InputStream is = request.getInputStream();
+		OutputStream os = con.getOutputStream();
+		byte[] buffer = new byte[BUFFER_SIZE];
+		int n;
+		while ((n = is.read(buffer)) > 0) {
+			os.write(buffer, 0, n);
+		}			
 	}
 
 	private void copyResponseHeaders(HttpURLConnection con,
@@ -106,33 +133,16 @@ public class Proxy extends HttpServlet {
 				}
 			}
 		}
-		
 	}
-
-	private void copyRequestHeaders(HttpServletRequest request,
-			HttpURLConnection connection) {
-		@SuppressWarnings("unchecked")
-		Enumeration<String> headerNames = request.getHeaderNames();
-		while (headerNames.hasMoreElements()) {
-			String headerName = headerNames.nextElement();
-			String headerValue = request.getHeader(headerName);
-			connection.addRequestProperty(headerName, headerValue);
-		}
-	}
-
-	private HttpURLConnection getConnection(String method, String url) throws IOException {
-		HttpURLConnection con = null;
-		con = (HttpURLConnection) new URL(url).openConnection();
-		con.setRequestMethod(method);
-		con.setDoOutput(true);
-		con.setDoInput(true);
-		con.setReadTimeout(READ_TIMEOUT);
-		return con;
-	}
-
-	public static void main(String[] args) {
-		String requestURI = "ncf/api/account";
-		String requestURIWithoutContext = requestURI.replaceFirst("[/]*[a-zA-Z0-9]+[/]*", "");
-		System.out.println(requestURIWithoutContext);
+	
+	private void copyResponse(HttpURLConnection con,
+			HttpServletResponse response) throws IOException {
+		InputStream is = con.getInputStream();
+		ServletOutputStream os = response.getOutputStream();
+		byte[] buffer = new byte[BUFFER_SIZE];
+		int n;
+		while ((n = is.read(buffer)) > 0) {
+			os.write(buffer, 0, n);
+		}			
 	}
 }
