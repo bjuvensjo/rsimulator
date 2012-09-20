@@ -35,6 +35,7 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
     private static final String DEFAULT_ROOT_PATH = "src/main/resources";
     private static final int BUFFER_SIZE = 1000;
     private static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([0-9A-Z-]+)");
+    private static final Pattern ACCEPT_PATTERN = Pattern.compile("([^;]+)");
     private static final Pattern CONTENT_TYPE_PATTERN = Pattern.compile("([^;]+)");
     private static Logger log = LoggerFactory.getLogger(HttpSimulator.class);
     private static String rootPath;
@@ -44,6 +45,9 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
     @Inject
     @Named("contentTypes")
     private Map<String, String> contentTypes;
+    @Inject
+    @Named("accepts")
+    private Map<String, String> accepts;
 
     /**
      * {@inheritDoc}
@@ -105,7 +109,8 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
 
 	private void handle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String contentType = request.getContentType();
+            String contentType = request.getContentType();            
+            String accept = request.getHeader("Accept");
             String charsetName = getCharsetName(contentType);
             String method = request.getMethod();
             String simulatorRequest = getSimulatorRequest(request, method, charsetName);
@@ -113,6 +118,7 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
             String rootRelativePath = useRootRelativePath ? requestURI : "";
             
             log.debug("contentType: {}", contentType);
+            log.debug("accept: {}", accept);
             log.debug("charsetName: {}", charsetName);
             log.debug("method: {}", method);
             log.debug("requestBody: {}", simulatorRequest);
@@ -120,7 +126,7 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
             log.debug("rootRelativePath: {}", rootRelativePath);
 
             SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, simulatorRequest,
-                    getSimulatorContentType(contentType));
+                    getSimulatorContentType(contentType, accept));
 
             String responseBody = simulatorResponse != null ? simulatorResponse.getResponse()
                     : "No simulatorResponse found!";
@@ -170,17 +176,28 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
         return sb.toString();
     }
 
-    private String getSimulatorContentType(String contentType) {
+    private String getSimulatorContentType(String contentType, String accept) {
         String result = null;
         if (contentType != null) {
             Matcher m = CONTENT_TYPE_PATTERN.matcher(contentType);
             if (m.find()) {
                 result = contentTypes.get(m.group(1));
             }
-        }
+        }        
         if (result == null) {
-            result = contentTypes.get("default");
+        	if (accept != null) {        		
+                Matcher m = ACCEPT_PATTERN.matcher(accept);
+                if (m.find()) {
+                	String[] split = m.group(1).split(" *, *");
+                	for (int i = 0; result == null && i < split.length; i++) {
+						result = accepts.get(split[i]);
+					}
+                }        		
+        	}
         }
+    	if (result == null) {
+    		result = contentTypes.get("default");
+    	}        
         return result;
     }
 

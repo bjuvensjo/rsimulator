@@ -126,6 +126,8 @@ public class HttpSimulatorTest {
 				"http://localhost:8080/json-examples/account",
 				"application/json");
 		try {
+			con.setRequestProperty("Accept", "application/json, text/javascript, */*; q=0.01");
+			con.setRequestProperty("Content-type", "");
 			String response = read(con.getInputStream());
 			assertTrue(response.indexOf("id") != -1);
 			assertTrue(response.indexOf("balance") != -1);

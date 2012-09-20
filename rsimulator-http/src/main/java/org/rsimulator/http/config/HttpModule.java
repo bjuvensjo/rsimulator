@@ -31,5 +31,14 @@ public class HttpModule extends AbstractModule {
 
         bind(new TypeLiteral<Map<String, String>>() {
         }).annotatedWith(Names.named("contentTypes")).toInstance(contentTypes);
+        
+        // ***** Accepts *****
+        Map<String, String> accepts = new HashMap<String, String>();
+        accepts.put("application/json", "json");
+        accepts.put("default", "txt");
+
+        bind(new TypeLiteral<Map<String, String>>() {
+        }).annotatedWith(Names.named("accepts")).toInstance(accepts);
+        
     }
 }
