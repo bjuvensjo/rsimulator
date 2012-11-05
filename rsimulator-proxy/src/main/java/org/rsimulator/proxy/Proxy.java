@@ -5,12 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.ResourceBundle;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -23,28 +18,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Servlet implementation class Proxy
+ * The Proxy servlet proxies as {@link URIMapper} is confgured. 
+ *
+ * @author Magnus Bjuvensjö
  */
 public class Proxy extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final int BUFFER_SIZE = 100000;
 	private static final int READ_TIMEOUT = 12000;
 	private Logger log = LoggerFactory.getLogger(Proxy.class);
-	private List<String[]> mappings;
+	private URIMapper uriMapper;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		mappings = new ArrayList<String[]>();
 		try {
-			ResourceBundle bundle = ResourceBundle.getBundle("Proxy");
-			String[] proxyMappings = bundle.getString("mappings").split(
-					" *, *");
-			for (int i = 0; i < proxyMappings.length; i++) {
-				String[] proxyMapping = proxyMappings[i].split(" *= *");
-				log.debug("Adding mapping: {} = {}", proxyMapping);
-				mappings.add(proxyMapping);
-			}
+			uriMapper = new URIMapper();
 		} catch (Exception e) {
 			log.error("Can not initialize.", e);
 		}
@@ -63,13 +52,7 @@ public class Proxy extends HttpServlet {
 			String requestURIWithoutContext = requestURI.replaceFirst(
 					"[/]*[a-zA-Z0-9]+[/]*", "");
 			log.debug("requestURIWithoutContext: {}", requestURIWithoutContext);
-			String mappedURL = null;
-			for (String[] mapping : mappings) {
-				if (requestURIWithoutContext.matches(mapping[0])) {
-					mappedURL = mapping[1] + "/" + requestURIWithoutContext;
-					break;
-				}
-			}
+			String mappedURL = uriMapper.map(requestURIWithoutContext);
 			log.debug("mappedURL: {}", mappedURL);
 			
 			HttpURLConnection con = getConnection(method, mappedURL);
