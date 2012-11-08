@@ -29,6 +29,13 @@
 						</goals>
 					</execution>
 				</executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjtools</artifactId>
+                        <version>1.6.9</version>
+                    </dependency>
+                </dependencies>
 			</plugin>
 		</plugins>
 	</build>
