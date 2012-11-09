@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Named;
+import org.apache.commons.lang.StringUtils;
 import org.rsimulator.core.Simulator;
 import org.rsimulator.core.SimulatorResponse;
 import org.rsimulator.core.config.CoreModule;
@@ -30,7 +31,6 @@ import java.util.regex.Pattern;
  */
 public class HttpSimulator extends javax.servlet.http.HttpServlet {
     private static final long serialVersionUID = -3272134329745138875L;
-    private static final String DEFAULT_ROOT_PATH = "src/main/resources";
     private static final int BUFFER_SIZE = 1000;
     private static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([0-9A-Z-]+)");
     private static final Pattern ACCEPT_PATTERN = Pattern.compile("([^;]+)");
@@ -56,7 +56,7 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
         Injector injector = Guice.createInjector(new CoreModule(), new HttpModule());
         injector.injectMembers(this);
         rootPath = System.getProperty(Constants.ROOT_PATH) != null ? System.getProperty(Constants.ROOT_PATH)
-                : DEFAULT_ROOT_PATH;
+                : Constants.DEFAULT_ROOT_PATH;
         useRootRelativePath = System.getProperty(Constants.USE_ROOT_RELATIVE_PATH) != null ? "true".equals(System
                 .getProperty(Constants.USE_ROOT_RELATIVE_PATH)) : false;
     }
@@ -107,6 +107,8 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
 
     private void handle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            updateRootPath(request);
+            updateUseRootRelativePath(request);
             String contentType = request.getContentType();
             String accept = request.getHeader("Accept");
             String charsetName = getCharsetName(contentType);
@@ -127,6 +129,8 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
 
             String responseBody = simulatorResponse != null ? simulatorResponse.getResponse()
                     : "No simulatorResponse found!";
+            request.setAttribute(Constants.SIMULATOR_RESPONSE, simulatorResponse);
+
             log.debug("responseBody: {}", responseBody);
             response.setContentType(contentType == null ? accept : contentType);
             response.setDateHeader("Date", System.currentTimeMillis());
@@ -135,6 +139,20 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
         } catch (Exception e) {
             log.error(null, e);
             response.getWriter().write(e.getMessage());
+        }
+    }
+
+    private void updateRootPath(HttpServletRequest request) {
+        Object rootPath = request.getAttribute(Constants.ROOT_PATH);
+        if (rootPath != null && rootPath instanceof String && StringUtils.isBlank((String)rootPath)) {
+            this.rootPath = (String)rootPath;
+        }
+    }
+
+    private void updateUseRootRelativePath(HttpServletRequest request) {
+        Object useRootRelativePath = request.getAttribute(Constants.USE_ROOT_RELATIVE_PATH);
+        if (useRootRelativePath != null && useRootRelativePath instanceof Boolean) {
+            this.useRootRelativePath = (Boolean)useRootRelativePath;
         }
     }
 

@@ -15,6 +15,9 @@ public final class Constants {
      */
     public static final String ROOT_PATH = "rootPath";
 
+    public static final String DEFAULT_ROOT_PATH = "src/main/resources";
+    public static final String SIMULATOR_RESPONSE = "simulatorResponse";
+
     private Constants() {
     }
 }
