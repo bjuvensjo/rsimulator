@@ -19,7 +19,7 @@
 					<scanIntervalSeconds>0</scanIntervalSeconds>
 					<webAppConfig>
 						<descriptor>${basedir}/src/test/resources/web.xml</descriptor>
-						<contextPath>/proxy</contextPath>
+						<contextPath>/</contextPath>
 					</webAppConfig>
 					<webAppSourceDirectory>${basedir}/src/test/resources</webAppSourceDirectory>
 					<systemProperties>
