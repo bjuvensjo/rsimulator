@@ -12,11 +12,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 /**
- * Test1.
- * 
+ * Test7.
+ *
  * @author Magnus Bjuvensjö
  */
-public class Test1 {
+public class Test8 {
     private Simulator simulator;
 
     @Before
@@ -27,17 +27,13 @@ public class Test1 {
 
     @Test
     public void test() {
-        String rootPath = getClass().getResource("/").getPath();
-        String rootRelativePath = ".";
-        String request = "Hello Simulator, says Test1!";
-        String contentType = "txt";
+        String rootPath = getClass().getResource("/test8").getPath();
+        String rootRelativePath = "/.";
+		String request = "query=1234&another='dododo'";
+        String contentType = "json";
         try {
             SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType);
-            assertEquals("Hello Test1, says Simulator!", simulatorResponse.getResponse());
-
-            // to test cache
-            simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType);
-            assertEquals("Hello Test1, says Simulator!", simulatorResponse.getResponse());
+            assertEquals("{\"result\":\"ok\"}", simulatorResponse.getResponse());
         } catch (IOException e) {
             fail(e.getMessage());
         }
