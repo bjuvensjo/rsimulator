@@ -1,17 +1,9 @@
 package org.rsimulator.http;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.util.Map;
-import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.name.Named;
 import org.rsimulator.core.Simulator;
 import org.rsimulator.core.SimulatorResponse;
 import org.rsimulator.core.config.CoreModule;
@@ -20,14 +12,20 @@ import org.rsimulator.http.config.HttpModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.name.Named;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.util.Map;
+import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * HttpSimulator makes the {@link Simulator} functionality available over http.
- * 
+ *
  * @author Magnus Bjuvensjö
  */
 public class HttpSimulator extends javax.servlet.http.HttpServlet {
@@ -96,31 +94,30 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
     }
 
     @Override
-	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-    	handle(request, response);
-	}
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        handle(request, response);
+    }
 
-	@Override
-	protected void doPut(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		handle(request, response);
-	}
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        handle(request, response);
+    }
 
-	private void handle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void handle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String contentType = request.getContentType();            
+            String contentType = request.getContentType();
             String accept = request.getHeader("Accept");
             String charsetName = getCharsetName(contentType);
-            String method = request.getMethod();
-            String simulatorRequest = getSimulatorRequest(request, method, charsetName);
+            String simulatorRequest = getSimulatorRequest(request, charsetName);
             String requestURI = request.getRequestURI();
             String rootRelativePath = useRootRelativePath ? requestURI : "";
-            
+
             log.debug("contentType: {}", contentType);
             log.debug("accept: {}", accept);
             log.debug("charsetName: {}", charsetName);
-            log.debug("method: {}", method);
+            log.debug("method: {}", request.getMethod());
             log.debug("requestBody: {}", simulatorRequest);
             log.debug("requestURI: {}", requestURI);
             log.debug("rootRelativePath: {}", rootRelativePath);
@@ -140,16 +137,12 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
         }
     }
 
-    private String getSimulatorRequest(HttpServletRequest request, String method, String charsetName)
+    private String getSimulatorRequest(HttpServletRequest request, String charsetName)
             throws IOException {
-    	if ("GET".equals(method)) {
-    		String requestParameter = request.getParameter("request");
-    		return requestParameter != null ? requestParameter : "";
-    	}    	
-    	if ("DELETE".equals(method)) {
-    		return "";
-    	}
-        return readBody(new BufferedInputStream(request.getInputStream()), charsetName);
+        if (request.getContentLength() > 0) {
+            return readBody(new BufferedInputStream(request.getInputStream()), charsetName);
+        }
+        return copyQueryString(request);
     }
 
     private void handleResponseProperties(HttpServletResponse response, SimulatorResponse simulatorResponse) {
@@ -183,22 +176,26 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
             if (m.find()) {
                 result = contentTypes.get(m.group(1));
             }
-        }        
+        }
         if (result == null) {
-        	if (accept != null) {        		
+            if (accept != null) {
                 Matcher m = ACCEPT_PATTERN.matcher(accept);
                 if (m.find()) {
-                	String[] split = m.group(1).split(" *, *");
-                	for (int i = 0; result == null && i < split.length; i++) {
-						result = accepts.get(split[i]);
-					}
-                }        		
-        	}
+                    String[] split = m.group(1).split(" *, *");
+                    for (int i = 0; result == null && i < split.length; i++) {
+                        result = accepts.get(split[i]);
+                    }
+                }
+            }
         }
-    	if (result == null) {
-    		result = contentTypes.get("default");
-    	}        
+        if (result == null) {
+            result = contentTypes.get("default");
+        }
         return result;
+    }
+
+    private String copyQueryString(HttpServletRequest request) {
+        return request.getQueryString() == null ? "" : request.getQueryString();
     }
 
     private String getCharsetName(String contentType) {
