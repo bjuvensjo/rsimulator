@@ -75,7 +75,7 @@ public class Recorder implements Filter {
             String fileWithPath = buildFilePath(path, filePrefix, REQUEST_FILENAME, fileType);
             log.debug("Writing request file: {}", fileWithPath);
             String requestData = requestData(recorderRequest, encoding);
-            FileUtils.writeStringToFile(new File(fileWithPath), requestData);
+            FileUtils.writeStringToFile(new File(fileWithPath), requestData, ENCODING);
 
             chain.doFilter(recorderRequest, recorderResponse);
 
@@ -83,7 +83,7 @@ public class Recorder implements Filter {
             fileWithPath = buildFilePath(path, filePrefix, RESPONSE_FILENAME, fileType);
             String responseData = recorderResponse.getResponseAsString(encoding);
             log.debug("Writing response file: {}", fileWithPath);
-            FileUtils.writeStringToFile(new File(fileWithPath), responseData);
+            FileUtils.writeStringToFile(new File(fileWithPath), responseData, ENCODING);
             response.getOutputStream().write(recorderResponse.getBytes());
         } else {
             chain.doFilter(request, response);
@@ -140,19 +140,14 @@ public class Recorder implements Filter {
     }
 
     private String requestData(RecorderServletRequestWrapper recorderRequest, String encoding) throws IOException {
-        String method = recorderRequest.getMethod();
-        if ("GET".equals(method)) {
-            String requestParameter = recorderRequest.getParameter("request");
-            return requestParameter != null ? requestParameter : "";
+        if (recorderRequest.getContentLength() > 0) {
+            return recorderRequest.getRequestAsString(encoding);
         }
-        if ("DELETE".equals(method)) {
-            return "";
-        }
-        return recorderRequest.getRequestAsString(encoding);
+        return copyQueryString(recorderRequest);
     }
 
     private String getEncoding(String contentType) {
-        String result = "UTF-8";
+        String result = ENCODING;
         if (contentType != null) {
             Matcher m = CHARSET_PATTERN.matcher(contentType);
             if (m.find()) {
@@ -160,6 +155,10 @@ public class Recorder implements Filter {
             }
         }
         return result;
+    }
+
+    private String copyQueryString(HttpServletRequest request) {
+        return request.getQueryString() == null ? "" : request.getQueryString();
     }
 
     private boolean recorderIsOn() {
