@@ -128,7 +128,8 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
             String responseBody = simulatorResponse != null ? simulatorResponse.getResponse()
                     : "No simulatorResponse found!";
             log.debug("responseBody: {}", responseBody);
-            response.setContentType(contentType);
+            response.setContentType(contentType == null ? accept : contentType);
+            response.setDateHeader("Date", System.currentTimeMillis());
             handleResponseProperties(response, simulatorResponse);
             response.getOutputStream().write(responseBody.getBytes(charsetName));
         } catch (Exception e) {
