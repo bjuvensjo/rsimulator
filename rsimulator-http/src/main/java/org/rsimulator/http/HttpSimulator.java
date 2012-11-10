@@ -9,6 +9,7 @@ import org.rsimulator.core.Simulator;
 import org.rsimulator.core.SimulatorResponse;
 import org.rsimulator.core.config.CoreModule;
 import org.rsimulator.http.config.Constants;
+import org.rsimulator.http.config.GlobalConfig;
 import org.rsimulator.http.config.HttpModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +37,6 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
     private static final Pattern ACCEPT_PATTERN = Pattern.compile("([^;]+)");
     private static final Pattern CONTENT_TYPE_PATTERN = Pattern.compile("([^;]+)");
     private static Logger log = LoggerFactory.getLogger(HttpSimulator.class);
-    private static String rootPath;
-    private static boolean useRootRelativePath;
     @Inject
     private Simulator simulator;
     @Inject
@@ -55,10 +54,6 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
         super.init(config);
         Injector injector = Guice.createInjector(new CoreModule(), new HttpModule());
         injector.injectMembers(this);
-        rootPath = System.getProperty(Constants.ROOT_PATH) != null ? System.getProperty(Constants.ROOT_PATH)
-                : Constants.DEFAULT_ROOT_PATH;
-        useRootRelativePath = System.getProperty(Constants.USE_ROOT_RELATIVE_PATH) != null ? "true".equals(System
-                .getProperty(Constants.USE_ROOT_RELATIVE_PATH)) : false;
     }
 
     /**
@@ -70,10 +65,10 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
         String theUseRootRelativePath = request.getParameter(Constants.USE_ROOT_RELATIVE_PATH);
         if (theRootPath != null || theUseRootRelativePath != null) {
             if (theRootPath != null) {
-                HttpSimulator.rootPath = theRootPath;
+                GlobalConfig.rootPath = theRootPath;
             }
             if (theUseRootRelativePath != null) {
-                HttpSimulator.useRootRelativePath = "true".equals(theUseRootRelativePath);
+                GlobalConfig.useRootRelativePath = "true".equals(theUseRootRelativePath);
             }
             String message = new StringBuilder().append("[").append("rootPath: ").append(theRootPath).append(", ")
                     .append("useRootRelativePath: ").append(theUseRootRelativePath).append("]").toString();
@@ -107,8 +102,8 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
 
     private void handle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            updateRootPath(request);
-            updateUseRootRelativePath(request);
+            String rootPath = getRequestRootPath(request);
+            boolean  useRootRelativePath = getRequestUseRootRelativePath(request);
             String contentType = request.getContentType();
             String accept = request.getHeader("Accept");
             String charsetName = getCharsetName(contentType);
@@ -123,6 +118,7 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
             log.debug("requestBody: {}", simulatorRequest);
             log.debug("requestURI: {}", requestURI);
             log.debug("rootRelativePath: {}", rootRelativePath);
+            log.debug("rootPath: {}", rootPath);
 
             SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, simulatorRequest,
                     getSimulatorContentType(contentType, accept));
@@ -142,18 +138,20 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
         }
     }
 
-    private void updateRootPath(HttpServletRequest request) {
+    private String getRequestRootPath(HttpServletRequest request) {
         Object rootPath = request.getAttribute(Constants.ROOT_PATH);
-        if (rootPath != null && rootPath instanceof String && StringUtils.isBlank((String)rootPath)) {
-            this.rootPath = (String)rootPath;
+        if (rootPath != null && rootPath instanceof String && !StringUtils.isBlank((String)rootPath)) {
+            return (String)rootPath;
         }
+        return GlobalConfig.rootPath;
     }
 
-    private void updateUseRootRelativePath(HttpServletRequest request) {
+    private boolean getRequestUseRootRelativePath(HttpServletRequest request) {
         Object useRootRelativePath = request.getAttribute(Constants.USE_ROOT_RELATIVE_PATH);
         if (useRootRelativePath != null && useRootRelativePath instanceof Boolean) {
-            this.useRootRelativePath = (Boolean)useRootRelativePath;
+            return  (Boolean)useRootRelativePath;
         }
+        return GlobalConfig.useRootRelativePath;
     }
 
     private String getSimulatorRequest(HttpServletRequest request, String charsetName)

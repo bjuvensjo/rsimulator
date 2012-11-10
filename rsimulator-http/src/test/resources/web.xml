@@ -11,4 +11,12 @@
 		<servlet-name>HttpSimulator</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
+    <filter>
+        <filter-name>ScriptFilter</filter-name>
+        <filter-class>org.rsimulator.http.ScriptFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ScriptFilter</filter-name>
+        <servlet-name>HttpSimulator</servlet-name>
+    </filter-mapping>
 </web-app>
