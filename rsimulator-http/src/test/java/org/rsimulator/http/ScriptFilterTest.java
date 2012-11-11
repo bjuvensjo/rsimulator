@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -41,6 +42,20 @@ public class ScriptFilterTest {
             con.setRequestProperty("user", "specific_user");
             String response = read(con.getInputStream());
             assertTrue(response.indexOf("ok") != -1);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        } finally {
+            con.disconnect();
+        }
+    }
+
+    @Test
+    public void testGlobalServletResponseScript() throws Exception {
+        HttpURLConnection con = getConnection("GET", "http://localhost:8080/properties", null);
+        try {
+            con.getOutputStream().write("test".getBytes(ENCODING));
+            assertEquals("1000", con.getHeaderField("Error-Code"));
+            assertEquals("Could not service request", con.getHeaderField("Error-Message"));
         } catch (Exception e) {
             fail(e.getMessage());
         } finally {
