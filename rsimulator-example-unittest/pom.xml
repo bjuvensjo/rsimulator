@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>rsimulator-pom-parent</artifactId>
 		<groupId>org.rsimulator</groupId>
-		<version>1.0.2</version>
+		<version>1.0.3</version>
 		<relativePath>../rsimulator-pom-parent/pom.xml</relativePath>
 	</parent>
 	<build>
