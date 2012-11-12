@@ -72,5 +72,10 @@
 			<groupId>org.rsimulator</groupId>
 			<artifactId>rsimulator-http</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>org.rsimulator</groupId>
+            <artifactId>rsimulator-proxy</artifactId>
+        </dependency>
+
 	</dependencies>
 </project>

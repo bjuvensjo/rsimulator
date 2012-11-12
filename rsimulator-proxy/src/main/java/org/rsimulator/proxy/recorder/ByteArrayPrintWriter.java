@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
 /**
+ * A PrintWriter and ServletOutputStream decorator which shares a ByteArrayOutputStream
+ *
  * @author Anders Bälter
  */
 public class ByteArrayPrintWriter {
@@ -25,6 +27,12 @@ public class ByteArrayPrintWriter {
         return sos;
     }
 
+    /**
+     * Get the byte array as a String
+     * @param encoding
+     * @return String
+     * @throws UnsupportedEncodingException
+     */
     public String toString(String encoding) throws UnsupportedEncodingException {
         return baos.toString(encoding);
     }

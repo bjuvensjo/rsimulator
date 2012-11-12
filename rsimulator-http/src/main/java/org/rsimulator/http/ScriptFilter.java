@@ -73,11 +73,11 @@ public class ScriptFilter implements Filter {
             String script = null;
             switch (type) {
                 case GLOBAL_REQUEST:
-                    root = (String) vars.get(ROOT_PATH);
+                    root = GlobalConfig.rootPath;
                     script = "GlobalServletRequest.groovy";
                     break;
                 case GLOBAL_RESPONSE:
-                    root = (String) vars.get(ROOT_PATH);
+                    root = GlobalConfig.rootPath;
                     script = "GlobalServletResponse.groovy";
                     break;
                 case LOCAL_RESPONSE:
@@ -107,7 +107,7 @@ public class ScriptFilter implements Filter {
         }
     }
 
-    private enum Scope {
+    private static enum Scope {
         GLOBAL_REQUEST, GLOBAL_RESPONSE, LOCAL_RESPONSE
     }
 }

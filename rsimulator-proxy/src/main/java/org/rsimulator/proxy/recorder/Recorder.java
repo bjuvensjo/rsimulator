@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -24,18 +22,15 @@ import java.util.regex.Pattern;
 public class Recorder implements Filter {
 
     private Logger log = LoggerFactory.getLogger(Recorder.class);
-    private Config config = new Config();
-    private FilterConfig filterConfig;
 
-    private static final String REQUEST_FILENAME = "_Request";
-    private static final String RESPONSE_FILENAME = "_Response";
     private static final Pattern ACCEPT_PATTERN = Pattern.compile("([^;]+)");
     private static final Pattern CONTENT_TYPE_PATTERN = Pattern.compile("([^;]+)");
     private static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([0-9A-Z-]+)");
     private static final String ENCODING = "UTF-8";
 
-    Map<String, String> contentTypes = new HashMap<String, String>();
-    Map<String, String> accepts = new HashMap<String, String>();
+    private Map<String, String> contentTypes = new HashMap<String, String>();
+    private Map<String, String> accepts = new HashMap<String, String>();
+    private Config config;
 
     {
         contentTypes.put("application/json", "json");
@@ -51,7 +46,7 @@ public class Recorder implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        this.filterConfig = filterConfig;
+        config = new Config();
     }
 
     @Override
@@ -69,21 +64,21 @@ public class Recorder implements Filter {
             new File(path).mkdirs();
             String contentType = recorderRequest.getContentType();
             String encoding = getEncoding(contentType);
-            String fileType = fileType(recorderRequest);
+            String fileType = fileType(contentType, recorderRequest.getHeader("Accept"));
             log.debug("Content-Type: {}", contentType);
-            String filePrefix = buildFilePrefix();
-            String fileWithPath = buildFilePath(path, filePrefix, REQUEST_FILENAME, fileType);
-            log.debug("Writing request file: {}", fileWithPath);
+            String filePrefix = (String)recorderRequest.getAttribute(Constants.FILE_PREFIX);
+            String fileURI = buildFileURI(path, filePrefix, Constants.REQUEST_FILENAME, fileType);
+            log.debug("Writing request file: {}", fileURI);
             String requestData = requestData(recorderRequest, encoding);
-            FileUtils.writeStringToFile(new File(fileWithPath), requestData, ENCODING);
+            FileUtils.writeStringToFile(new File(fileURI), requestData, ENCODING);
 
             chain.doFilter(recorderRequest, recorderResponse);
 
             log.debug("Recording response");
-            fileWithPath = buildFilePath(path, filePrefix, RESPONSE_FILENAME, fileType);
+            fileURI = buildFileURI(path, filePrefix, Constants.RESPONSE_FILENAME, fileType);
             String responseData = recorderResponse.getResponseAsString(encoding);
-            log.debug("Writing response file: {}", fileWithPath);
-            FileUtils.writeStringToFile(new File(fileWithPath), responseData, ENCODING);
+            log.debug("Writing response file: {}", fileURI);
+            FileUtils.writeStringToFile(new File(fileURI), responseData, ENCODING);
             response.getOutputStream().write(recorderResponse.getBytes());
         } else {
             chain.doFilter(request, response);
@@ -94,27 +89,12 @@ public class Recorder implements Filter {
     public void destroy() {
     }
 
-    private String buildPath(HttpServletRequest request) {
-        String requestedUriWithoutContext = requestedUriWithoutContext(request);
-        return new StringBuilder(basePath()).append(File.separator).append(requestedUriWithoutContext).toString();
-    }
-
-    private String buildFilePrefix() {
-        return new SimpleDateFormat("yyyyMMddHHmmssSS").format(new Date());
-    }
-
-    private String buildFilePath(String path, String filePrefix, String fileSuffix, String fileType) {
+    private String buildFileURI(String path, String filePrefix, String fileSuffix, String fileType) {
         return new StringBuilder(path).append(File.separator).append(filePrefix).append(fileSuffix)
                 .append(".").append(fileType).toString();
     }
 
-    private String requestedUriWithoutContext(HttpServletRequest httpServletRequest) {
-        return httpServletRequest.getRequestURI().substring(httpServletRequest.getContextPath().length() + 1);
-    }
-
-    private String fileType(HttpServletRequest httpServletRequest) {
-        String contentType = httpServletRequest.getContentType();
-        String accept =  httpServletRequest.getHeader("Accept");
+    private String fileType(String contentType, String accept) {
         String result = null;
         if (contentType != null) {
             Matcher m = CONTENT_TYPE_PATTERN.matcher(contentType);
@@ -162,11 +142,13 @@ public class Recorder implements Filter {
     }
 
     private boolean recorderIsOn() {
-        return config.getBoolean("recorder.record");
+        return config.getBoolean(Config.RECORDER_IS_ON);
     }
 
-    private String basePath() {
-        String basePath = config.get("recorder.directory");
-        return basePath != null ? basePath : "";
+    private String buildPath(HttpServletRequest request) {
+        String requestedUriWithoutContext = (String)request.getAttribute(Constants.RELATIVE_RECORD_PATH);
+        String basePath = (String)request.getAttribute(Constants.BASE_PATH);
+        return new StringBuilder(basePath).append(File.separator).append(requestedUriWithoutContext).toString();
     }
+
 }

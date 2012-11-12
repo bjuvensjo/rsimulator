@@ -15,6 +15,15 @@
 		<servlet-name>Proxy</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
+    <!-- Filter order matters! -->
+    <filter>
+        <filter-name>RecorderScript</filter-name>
+        <filter-class>org.rsimulator.proxy.recorder.RecorderScriptFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>RecorderScript</filter-name>
+        <servlet-name>Proxy</servlet-name>
+    </filter-mapping>
     <filter>
         <filter-name>Recorder</filter-name>
         <filter-class>org.rsimulator.proxy.recorder.Recorder</filter-class>
@@ -23,4 +32,12 @@
         <filter-name>Recorder</filter-name>
         <servlet-name>Proxy</servlet-name>
     </filter-mapping>
+    <servlet>
+        <servlet-name>Test Page</servlet-name>
+        <jsp-file>/test.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Test Page</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
 </web-app>

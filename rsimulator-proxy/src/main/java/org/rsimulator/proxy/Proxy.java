@@ -42,6 +42,7 @@ public class Proxy extends HttpServlet {
     /**
      * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
      */
+    @Override
     protected void service(HttpServletRequest request,
                            HttpServletResponse response) throws ServletException, IOException {
         try {

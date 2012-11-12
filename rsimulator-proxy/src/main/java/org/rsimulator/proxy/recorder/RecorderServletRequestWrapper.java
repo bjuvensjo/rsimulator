@@ -6,10 +6,9 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.*;
 
 /**
- * EVRY Custom Solutions
- * User: Anders Bälter
- * Date: 2012-11-08
- * Time: 16:29
+ * A HttpServletRequestWrapper which buffers data to a byte array
+ *
+ * @author Anders Bälter
  */
 public class RecorderServletRequestWrapper extends HttpServletRequestWrapper {
 
@@ -49,6 +48,12 @@ public class RecorderServletRequestWrapper extends HttpServletRequestWrapper {
         return buffer;
     }
 
+    /**
+     * Get the request buffer as a String
+     * @param encoding
+     * @return String
+     * @throws UnsupportedEncodingException
+     */
     public String getRequestAsString(String encoding) throws UnsupportedEncodingException {
         return new String(buffer, encoding);
     }

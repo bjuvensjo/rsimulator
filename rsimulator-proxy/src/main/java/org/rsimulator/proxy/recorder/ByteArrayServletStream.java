@@ -5,6 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
+ * A ServletOutputStream which writes to a ByteArrayOutputStream
+ *
  * @author Anders Bälter
  */
 public class ByteArrayServletStream extends ServletOutputStream {

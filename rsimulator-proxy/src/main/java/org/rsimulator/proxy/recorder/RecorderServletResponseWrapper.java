@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
 /**
- * ResponseWrapper allowing OutputStream toString
+ * A HttpServletResponseWrapper which gets its ServletOutputStream from a ByteArrayPrintWriter
  *
  * @author Anders Bälter
  */
