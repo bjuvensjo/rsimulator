@@ -28,10 +28,6 @@
                             <name>jetty.port</name>
                             <value>8888</value>
                         </systemProperty>
-                        <systemProperty>
-                            <name>webapp.dir</name>
-                            <value>${basedir}/src/test/webapp</value>
-                        </systemProperty>
                     </systemProperties>
                     <stopKey>foo</stopKey>
                     <stopPort>9999</stopPort>
