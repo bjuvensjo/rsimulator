@@ -140,7 +140,7 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
 
     private String getRequestRootPath(HttpServletRequest request) {
         Object rootPath = request.getAttribute(Constants.ROOT_PATH);
-        if (rootPath != null && rootPath instanceof String && !StringUtils.isBlank((String)rootPath)) {
+        if (rootPath instanceof String && !StringUtils.isBlank((String)rootPath)) {
             return (String)rootPath;
         }
         return GlobalConfig.rootPath;
