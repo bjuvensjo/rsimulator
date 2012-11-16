@@ -17,4 +17,3 @@ if (user) {
     def userBasePath = basePath + File.separator + user
     vars.put("basePath", userBasePath)
 }
-vars.put("filePrefix", "test")
