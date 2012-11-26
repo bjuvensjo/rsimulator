@@ -1,7 +1,6 @@
 * Support of "default" testdata?
 * Replace jdom?
 * Caching of findFiles?
-* Add "recorder" util
 * Improve logging all over
 * Encoding of test files in rsimulator.properties?
 * Possible to run testdata packaged (jar/war)
