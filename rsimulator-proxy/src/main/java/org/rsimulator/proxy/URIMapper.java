@@ -19,7 +19,7 @@ public class URIMapper {
     private Logger log = LoggerFactory.getLogger(URIMapper.class);
     private List<Mapping> mappings;
 
-    public URIMapper() {
+    public URIMapper() throws IOException {
         mappings = new ArrayList<Mapping>();
         InputStream is = null;
         BufferedReader br = null;
@@ -34,8 +34,6 @@ public class URIMapper {
                     mappings.add(new Mapping(mapping[0], mapping[1]));
                 }
             }
-        } catch (Exception e) {
-            log.warn("Could not load URIMapper file", e);
         } finally {
             IOUtils.closeQuietly(br);
             IOUtils.closeQuietly(is);

@@ -35,7 +35,7 @@ public class Proxy extends HttpServlet {
             requestHandler = new RequestHandler();
             responseHandler = new ResponseHandler();
         } catch (Exception e) {
-            log.error("Can not initialize.", e);
+            throw new ServletException("Can not initialize.", e);
         }
     }
 
