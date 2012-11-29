@@ -16,16 +16,16 @@ import java.util.Map;
  * @author Anders Bälter
  */
 public class ResponseHandler {
-    private Logger log = LoggerFactory.getLogger(RequestHandler.class);
+    private Logger log = LoggerFactory.getLogger(ResponseHandler.class);
 
     public void copyResponseHeaders(HttpServletResponse response, HttpURLConnection con) throws IOException {
         response.setContentType(con.getContentType());
         response.setStatus(con.getResponseCode());
         Map<String, List<String>> headerFields = con.getHeaderFields();
-        for (Map.Entry<String, List<String>> entry: headerFields.entrySet()) {
+        for (Map.Entry<String, List<String>> entry : headerFields.entrySet()) {
             String key = entry.getKey();
             if (key != null) {
-                for (String value: entry.getValue()) {
+                for (String value : entry.getValue()) {
                     if (value != null) {
                         response.addHeader(entry.getKey(), value);
                     }
@@ -34,13 +34,9 @@ public class ResponseHandler {
         }
     }
 
-    public void copyResponse(HttpServletResponse response, HttpURLConnection con) {
-        try {
-            InputStream in = con.getInputStream();
-            ServletOutputStream out = response.getOutputStream();
-            IOUtils.copy(in, out);
-        } catch (IOException e) {
-            log.error("Could not copy response data: {}", e.getMessage());
-        }
+    public void copyResponse(HttpServletResponse response, HttpURLConnection con) throws IOException {
+        InputStream in = con.getInputStream();
+        ServletOutputStream out = response.getOutputStream();
+        IOUtils.copy(in, out);
     }
 }

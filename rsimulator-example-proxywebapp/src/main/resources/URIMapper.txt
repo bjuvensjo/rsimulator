@@ -1,4 +1,4 @@
 #api/(.*)=http://127.0.0.1:8080/my-bank/api/${1}
 #(.*)=http://127.0.0.1:8080/my-bank/${1}
-(.*)=http://localhost:9000/${1}
+(.*)=https://10.188.17.20:443/${1}
 #proxy/(.*)=https://photostation.cardservices.no/${1}
