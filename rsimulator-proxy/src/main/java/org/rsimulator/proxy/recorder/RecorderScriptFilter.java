@@ -58,6 +58,7 @@ public class RecorderScriptFilter implements Filter {
             request.setAttribute(Constants.BASE_PATH, vars.get(BASE_PATH));
             chain.doFilter(httpServletRequest, recorderResponse);
             applyScript(GLOBAL_RESPONSE, vars);
+            response.getOutputStream().write(recorderResponse.getBytes());
         } else {
             chain.doFilter(httpServletRequest, recorderResponse);
         }
