@@ -42,12 +42,12 @@ public class RecorderScriptFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.debug("doFilter");
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        RecorderServletResponseWrapper recorderResponse = new RecorderServletResponseWrapper((HttpServletResponse) response);
         if (config.getBoolean(Config.RECORDER_IS_ON)) {
             log.debug("ApplyingScripts");
             Map<String, Object> vars = new HashMap<String, Object>();
             vars.put(REQUEST, httpServletRequest);
-            vars.put(RESPONSE, httpServletResponse);
+            vars.put(RESPONSE, recorderResponse);
             vars.put(RELATIVE_RECORD_PATH, requestedUriWithoutContext(httpServletRequest));
             vars.put(BASE_PATH, basePath());
             vars.put(FILE_PREFIX, buildFilePrefix());
@@ -56,10 +56,10 @@ public class RecorderScriptFilter implements Filter {
             request.setAttribute(Constants.RELATIVE_RECORD_PATH, vars.get(RELATIVE_RECORD_PATH));
             request.setAttribute(Constants.FILE_PREFIX, vars.get(FILE_PREFIX));
             request.setAttribute(Constants.BASE_PATH, vars.get(BASE_PATH));
-            chain.doFilter(httpServletRequest, httpServletResponse);
+            chain.doFilter(httpServletRequest, recorderResponse);
             applyScript(GLOBAL_RESPONSE, vars);
         } else {
-            chain.doFilter(httpServletRequest, httpServletResponse);
+            chain.doFilter(httpServletRequest, recorderResponse);
         }
     }
 
