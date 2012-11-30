@@ -1,4 +1,9 @@
+/**
+ * See SimulatorProperties, a helper for creating simulator properties
+ */
+
 import org.rsimulator.proxy.recorder.SimulatorProperties
+import javax.servlet.http.HttpServletResponse
 import org.rsimulator.proxy.recorder.RecorderServletResponseWrapper
 
 def relativeRecordPath = vars.get("relativeRecordPath")

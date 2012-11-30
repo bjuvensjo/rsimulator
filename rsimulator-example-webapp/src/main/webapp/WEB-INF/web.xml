@@ -1,43 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <display-name>rsimulator-http-example</display-name>
+  <display-name>rsimulator-example-webapp</display-name>
 	<servlet>
 		<description>The HttpSimulator Servlet</description>
 		<display-name>HttpSimulator</display-name>
 		<servlet-name>HttpSimulator</servlet-name>
 		<servlet-class>org.rsimulator.http.HttpSimulator</servlet-class>
 	</servlet>
-    <servlet>
-        <description>The Proxy Servlet</description>
-        <display-name>Proxy</display-name>
-        <servlet-name>Proxy</servlet-name>
-        <servlet-class>org.rsimulator.proxy.Proxy</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Proxy</servlet-name>
-        <url-pattern>/proxy/*</url-pattern>
-    </servlet-mapping>
-    <!-- Filter order matters! -->
-    <filter>
-        <filter-name>RecorderScript</filter-name>
-        <filter-class>org.rsimulator.proxy.recorder.RecorderScriptFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>RecorderScript</filter-name>
-        <servlet-name>Proxy</servlet-name>
-    </filter-mapping>
-    <filter>
-        <filter-name>Recorder</filter-name>
-        <filter-class>org.rsimulator.proxy.recorder.Recorder</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>Recorder</filter-name>
-        <servlet-name>Proxy</servlet-name>
-    </filter-mapping>
 	<servlet-mapping>
 		<servlet-name>HttpSimulator</servlet-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/rsim*</url-pattern>
 	</servlet-mapping>
     <filter>
         <filter-name>ScriptFilter</filter-name>

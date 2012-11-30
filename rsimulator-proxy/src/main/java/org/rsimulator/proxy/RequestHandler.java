@@ -1,5 +1,6 @@
 package org.rsimulator.proxy;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +16,6 @@ import java.util.Enumeration;
  */
 public class RequestHandler {
     private Logger log = LoggerFactory.getLogger(RequestHandler.class);
-    private static final int BUFFER_SIZE = 100000;
 
     public void copyRequestHeaders(HttpServletRequest request, HttpURLConnection connection) {
         @SuppressWarnings("unchecked")
@@ -28,18 +28,12 @@ public class RequestHandler {
     }
 
     public void copyRequest(HttpServletRequest request, HttpURLConnection con) throws IOException {
-        String method = request.getMethod();
-        log.debug("method: {}", method);
-        if ("GET".equals(method) || "DELETE".equals(method)) {
+        if (request.getContentLength() <= 0) {
             return;
         }
-        InputStream is = request.getInputStream();
-        OutputStream os = con.getOutputStream();
-        byte[] buffer = new byte[BUFFER_SIZE];
-        int n;
-        while ((n = is.read(buffer)) > 0) {
-            os.write(buffer, 0, n);
-        }
+        InputStream in = request.getInputStream();
+        OutputStream out = con.getOutputStream();
+        IOUtils.copy(in, out);
     }
 
     public String copyQueryString(HttpServletRequest request) {

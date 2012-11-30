@@ -39,8 +39,8 @@ public class SimulatorProperties {
      * @param value the value
      * @throws IOException if property line can't be written
      */
-    public void set(String key, String value) throws IOException {
-        String line = new StringBuilder(key).append(EQUALS).append(value).toString();
+    public void set(String key, Object value) throws IOException {
+        String line = new StringBuilder(key).append(EQUALS).append(value.toString()).toString();
         Collection<String> lines = Arrays.asList(line);
         FileUtils.writeLines(file,ENCODING,lines);
     }

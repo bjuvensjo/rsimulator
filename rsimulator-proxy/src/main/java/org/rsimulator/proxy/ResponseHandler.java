@@ -1,5 +1,6 @@
 package org.rsimulator.proxy;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,17 +16,16 @@ import java.util.Map;
  * @author Anders Bälter
  */
 public class ResponseHandler {
-    private Logger log = LoggerFactory.getLogger(RequestHandler.class);
-    private static final int BUFFER_SIZE = 100000;
+    private Logger log = LoggerFactory.getLogger(ResponseHandler.class);
 
     public void copyResponseHeaders(HttpServletResponse response, HttpURLConnection con) throws IOException {
         response.setContentType(con.getContentType());
         response.setStatus(con.getResponseCode());
         Map<String, List<String>> headerFields = con.getHeaderFields();
-        for (Map.Entry<String, List<String>> entry: headerFields.entrySet()) {
+        for (Map.Entry<String, List<String>> entry : headerFields.entrySet()) {
             String key = entry.getKey();
             if (key != null) {
-                for (String value: entry.getValue()) {
+                for (String value : entry.getValue()) {
                     if (value != null) {
                         response.addHeader(entry.getKey(), value);
                     }
@@ -34,17 +34,9 @@ public class ResponseHandler {
         }
     }
 
-    public void copyResponse(HttpServletResponse response, HttpURLConnection con) {
-        try {
-            InputStream is = con.getInputStream();
-            ServletOutputStream os = response.getOutputStream();
-            byte[] buffer = new byte[BUFFER_SIZE];
-            int n;
-            while ((n = is.read(buffer)) > 0) {
-                os.write(buffer, 0, n);
-            }
-        } catch (IOException e) {
-            log.debug("Could not copy response data: {}", e.getMessage());
-        }
+    public void copyResponse(HttpServletResponse response, HttpURLConnection con) throws IOException {
+        InputStream in = con.getInputStream();
+        ServletOutputStream out = response.getOutputStream();
+        IOUtils.copy(in, out);
     }
 }

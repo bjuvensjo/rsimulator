@@ -65,9 +65,9 @@ public class Proxy extends HttpServlet {
 
             requestHandler.copyRequestHeaders(request, con);
             requestHandler.copyRequest(request, con);
-
-            responseHandler.copyResponseHeaders(response, con);
+            con.connect();
             responseHandler.copyResponse(response, con);
+            responseHandler.copyResponseHeaders(response, con);
         } catch (Exception e) {
             log.error("Can not service.", e);
             throw new ServletException(e);

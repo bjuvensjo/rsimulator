@@ -14,6 +14,7 @@
 		<module>../rsimulator-http</module>
 		<module>../rsimulator-example-unittest</module>
 		<module>../rsimulator-example-webapp</module>
+        <module>../rsimulator-example-proxywebapp</module>
 		<module>../rsimulator-proxy</module>
 	</modules>
 </project>

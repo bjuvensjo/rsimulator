@@ -15,6 +15,7 @@ import java.io.UnsupportedEncodingException;
 public class RecorderServletResponseWrapper extends HttpServletResponseWrapper {
 
     private ByteArrayPrintWriter pw = new ByteArrayPrintWriter();
+    private int httpStatus;
 
     public RecorderServletResponseWrapper(HttpServletResponse response) {
         super(response);
@@ -28,6 +29,29 @@ public class RecorderServletResponseWrapper extends HttpServletResponseWrapper {
     @Override
     public PrintWriter getWriter() throws IOException {
         return pw.getWriter();
+    }
+
+    @Override
+    public void sendError(int sc) throws IOException {
+        httpStatus = sc;
+        super.sendError(sc);
+    }
+
+    @Override
+    public void sendError(int sc, String msg) throws IOException {
+        httpStatus = sc;
+        super.sendError(sc, msg);
+    }
+
+
+    @Override
+    public void setStatus(int sc) {
+        httpStatus = sc;
+        super.setStatus(sc);
+    }
+
+    public int getStatus() {
+        return httpStatus;
     }
 
     public String getResponseAsString(String encoding) throws UnsupportedEncodingException {
