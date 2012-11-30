@@ -9,7 +9,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>HttpSimulator</servlet-name>
-		<url-pattern>/rsim*</url-pattern>
+		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
     <filter>
         <filter-name>ScriptFilter</filter-name>
