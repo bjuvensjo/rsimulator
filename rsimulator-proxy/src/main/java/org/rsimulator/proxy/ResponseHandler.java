@@ -19,7 +19,7 @@ public class ResponseHandler {
     private Logger log = LoggerFactory.getLogger(ResponseHandler.class);
 
     public void copyResponseHeaders(HttpServletResponse response, HttpURLConnection con) throws IOException {
-        response.setContentType(con.getContentType());
+        //response.setContentType(con.getContentType());
         response.setStatus(con.getResponseCode());
         Map<String, List<String>> headerFields = con.getHeaderFields();
         for (Map.Entry<String, List<String>> entry : headerFields.entrySet()) {
@@ -27,7 +27,8 @@ public class ResponseHandler {
             if (key != null) {
                 for (String value : entry.getValue()) {
                     if (value != null) {
-                        response.addHeader(entry.getKey(), value);
+                        response.addHeader(key, value);
+                        log.debug("copied response header {} : {}", key, value);
                     }
                 }
             }

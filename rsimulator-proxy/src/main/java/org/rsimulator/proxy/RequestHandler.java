@@ -24,6 +24,7 @@ public class RequestHandler {
             String headerName = headerNames.nextElement();
             String headerValue = request.getHeader(headerName);
             connection.setRequestProperty(headerName, headerValue);
+            log.debug("copied request header {} : {}", headerName, headerValue);
         }
     }
 
