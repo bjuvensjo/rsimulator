@@ -1,6 +1,9 @@
 package org.rsimulator.proxy;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -10,25 +13,30 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+
 /**
  * The URIMapper supports regular expression mappings configured in the resource /URIMapper.txt.
  *
  * @author Magnus Bjuvensjö
  */
+@Singleton
 public class URIMapper {
     private Logger log = LoggerFactory.getLogger(URIMapper.class);
     private List<Mapping> mappings;
 
-    public URIMapper() throws IOException {
+    @Inject
+    public URIMapper(@Named("uri-mappings") File mappingsFile) throws IOException {
         mappings = new ArrayList<Mapping>();
-        InputStream is = null;
         BufferedReader br = null;
         try {
-            is = URIMapper.class.getResourceAsStream("/URIMapper.txt");
-            br = new BufferedReader(new InputStreamReader(is));
+            br = new BufferedReader(new FileReader(mappingsFile));
             String line;
             while ((line = br.readLine()) != null) {
-                if (!line.trim().startsWith("#") && line.trim().length() > 0) {
+                line = line.trim();
+                if (!line.startsWith("#") && line.length() > 0) {
                     String[] mapping = line.split(" *= *");
                     log.debug("Adds mapping: {} = {}", mapping);
                     mappings.add(new Mapping(mapping[0], mapping[1]));
@@ -36,7 +44,6 @@ public class URIMapper {
             }
         } finally {
             IOUtils.closeQuietly(br);
-            IOUtils.closeQuietly(is);
         }
     }
 

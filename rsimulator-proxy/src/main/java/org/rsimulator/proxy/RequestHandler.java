@@ -4,6 +4,8 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Singleton;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,11 +15,18 @@ import java.util.Enumeration;
 
 /**
  * @author Anders Bälter
+ * @author Magnus Bjuvensjö
  */
+@Singleton
 public class RequestHandler {
     private Logger log = LoggerFactory.getLogger(RequestHandler.class);
 
-    public void copyRequestHeaders(HttpServletRequest request, HttpURLConnection connection) {
+    public void handle(HttpServletRequest request, HttpURLConnection connection) throws IOException {
+        copyRequestHeaders(request, connection);
+        copyRequest(request, connection);
+    }
+    
+    private void copyRequestHeaders(HttpServletRequest request, HttpURLConnection connection) {
         @SuppressWarnings("unchecked")
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
@@ -28,22 +37,12 @@ public class RequestHandler {
         }
     }
 
-    public void copyRequest(HttpServletRequest request, HttpURLConnection con) throws IOException {
+    private void copyRequest(HttpServletRequest request, HttpURLConnection connection) throws IOException {
         if (request.getContentLength() <= 0) {
             return;
         }
         InputStream in = request.getInputStream();
-        OutputStream out = con.getOutputStream();
+        OutputStream out = connection.getOutputStream();
         IOUtils.copy(in, out);
-    }
-
-    public String copyQueryString(HttpServletRequest request) {
-        String query = request.getQueryString();
-        if (query != null) {
-            query = new StringBuilder("?").append(query).toString();
-        } else {
-            query = "";
-        }
-        return query;
     }
 }

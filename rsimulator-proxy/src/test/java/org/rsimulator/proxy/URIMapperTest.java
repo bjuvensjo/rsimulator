@@ -1,16 +1,27 @@
 package org.rsimulator.proxy;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.rsimulator.proxy.config.ProxyModule;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 public class URIMapperTest {
+    private URIMapper uriMapper;
+    
+    @Before
+    public void init() {
+        Injector injector = Guice.createInjector(new ProxyModule());
+        uriMapper = injector.getInstance(URIMapper.class);
+    }
 
 	@Test
 	public void testApi() {
 		try {
-			URIMapper uriMapper = new URIMapper();
 			String expected = "http://127.0.0.1:8080/my-bank/api/account";
 			String actual = null;
 			
@@ -24,7 +35,6 @@ public class URIMapperTest {
 	@Test
 	public void testDn() {
 		try {
-			URIMapper uriMapper = new URIMapper();
 			String uri = "x/y/z";
 			String expected = "http://127.0.0.1:8080/my-bank/" + uri;
 			String actual = uriMapper.map(uri);

@@ -1,24 +1,34 @@
 package org.rsimulator.proxy;
 
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.inject.Singleton;
+
 /**
  * @author Anders Bälter
+ * @author Magnus Bjuvensjö
  */
+@Singleton
 public class ResponseHandler {
     private Logger log = LoggerFactory.getLogger(ResponseHandler.class);
 
-    public void copyResponseHeaders(HttpServletResponse response, HttpURLConnection con) throws IOException {
+    public void handle(HttpServletResponse response, HttpURLConnection connection) throws IOException {
+        copyResponseHeaders(response, connection);
+        copyResponse(response, connection);
+    }
+    
+    private void copyResponseHeaders(HttpServletResponse response, HttpURLConnection con) throws IOException {
         //response.setContentType(con.getContentType());
         response.setStatus(con.getResponseCode());
         Map<String, List<String>> headerFields = con.getHeaderFields();
@@ -35,8 +45,8 @@ public class ResponseHandler {
         }
     }
 
-    public void copyResponse(HttpServletResponse response, HttpURLConnection con) throws IOException {
-        InputStream in = con.getInputStream();
+    private void copyResponse(HttpServletResponse response, HttpURLConnection connection) throws IOException {
+        InputStream in = connection.getInputStream();
         ServletOutputStream out = response.getOutputStream();
         IOUtils.copy(in, out);
     }
