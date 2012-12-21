@@ -14,7 +14,6 @@ import org.rsimulator.aop.AspectJSimulatorAdapter;
 public class AspectJSimulatorTest {
     private Foo foo;
     
-    @SuppressWarnings("unused")
     @Aspect
     private static class SimulatorAspect {   
         private AspectJSimulatorAdapter aspectJSimulatorAdapter = new AspectJSimulatorAdapterImpl();
