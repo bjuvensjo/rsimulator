@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 /**
  * HttpSimulator makes the {@link Simulator} functionality available over http.
- *
+ * 
  * @author Magnus Bjuvensjö
  */
 public class HttpSimulator extends javax.servlet.http.HttpServlet {
@@ -40,11 +40,14 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
     @Inject
     private Simulator simulator;
     @Inject
-    @Named("contentTypes")
-    private Map<String, String> contentTypes;
+    @Named("simulatorContentTypes")
+    private Map<String, String> simulatorContentTypes;
     @Inject
     @Named("accepts")
     private Map<String, String> accepts;
+    @Inject
+    @Named("responseContentTypes")
+    private Map<String, String> responseContentTypes;
 
     /**
      * {@inheritDoc}
@@ -83,33 +86,31 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
      * {@inheritDoc}
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         handle(request, response);
     }
 
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         handle(request, response);
     }
 
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         handle(request, response);
     }
 
     private void handle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String rootPath = getRequestRootPath(request);
-            boolean  useRootRelativePath = getRequestUseRootRelativePath(request);
+            boolean useRootRelativePath = getRequestUseRootRelativePath(request);
             String contentType = request.getContentType();
             String accept = request.getHeader("Accept");
             String charsetName = getCharsetName(contentType);
             String simulatorRequest = getSimulatorRequest(request, charsetName);
             String requestURI = request.getRequestURI();
             String rootRelativePath = useRootRelativePath ? requestURI : "";
+            String simulatorContentType = getSimulatorContentType(contentType, accept);
 
             log.debug("contentType: {}", contentType);
             log.debug("accept: {}", accept);
@@ -119,18 +120,26 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
             log.debug("requestURI: {}", requestURI);
             log.debug("rootRelativePath: {}", rootRelativePath);
             log.debug("rootPath: {}", rootPath);
+            log.debug("simulatorContentType: {}", simulatorContentType);
 
-            SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, simulatorRequest,
-                    getSimulatorContentType(contentType, accept));
+            SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, simulatorRequest, simulatorContentType);
 
-            String responseBody = simulatorResponse != null ? simulatorResponse.getResponse()
-                    : "No simulatorResponse found!";
-            request.setAttribute(Constants.SIMULATOR_RESPONSE, simulatorResponse);
+            request.setAttribute(Constants.SIMULATOR_RESPONSE, simulatorResponse);            
 
+            String responseBody = simulatorResponse != null ? simulatorResponse.getResponse() : "No simulatorResponse found!";
+            String responseContentType = getResponseContentType(simulatorContentType);
+            String responseCharacterEncoding = charsetName;
+            
             log.debug("responseBody: {}", responseBody);
-            response.setContentType(contentType == null ? accept : contentType);
+            log.debug("responseContentType: {}", responseContentType);
+            log.debug("responseCharacterEncoding: {}", responseCharacterEncoding);            
+            
+            response.setContentType(responseContentType);
             response.setDateHeader("Date", System.currentTimeMillis());
+            response.setCharacterEncoding(responseCharacterEncoding);            
+
             handleResponseProperties(response, simulatorResponse);
+            
             response.getOutputStream().write(responseBody.getBytes(charsetName));
         } catch (Exception e) {
             log.error(null, e);
@@ -140,8 +149,8 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
 
     private String getRequestRootPath(HttpServletRequest request) {
         Object rootPath = request.getAttribute(Constants.ROOT_PATH);
-        if (rootPath instanceof String && !StringUtils.isBlank((String)rootPath)) {
-            return (String)rootPath;
+        if (rootPath instanceof String && !StringUtils.isBlank((String) rootPath)) {
+            return (String) rootPath;
         }
         return GlobalConfig.rootPath;
     }
@@ -149,13 +158,12 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
     private boolean getRequestUseRootRelativePath(HttpServletRequest request) {
         Object useRootRelativePath = request.getAttribute(Constants.USE_ROOT_RELATIVE_PATH);
         if (useRootRelativePath != null && useRootRelativePath instanceof Boolean) {
-            return  (Boolean)useRootRelativePath;
+            return (Boolean) useRootRelativePath;
         }
         return GlobalConfig.useRootRelativePath;
     }
 
-    private String getSimulatorRequest(HttpServletRequest request, String charsetName)
-            throws IOException {
+    private String getSimulatorRequest(HttpServletRequest request, String charsetName) throws IOException {
         if (request.getContentLength() > 0) {
             return readBody(new BufferedInputStream(request.getInputStream()), charsetName);
         }
@@ -191,7 +199,7 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
         if (contentType != null) {
             Matcher m = CONTENT_TYPE_PATTERN.matcher(contentType);
             if (m.find()) {
-                result = contentTypes.get(m.group(1));
+                result = simulatorContentTypes.get(m.group(1));
             }
         }
         if (result == null) {
@@ -206,10 +214,19 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
             }
         }
         if (result == null) {
-            result = contentTypes.get("default");
+            result = simulatorContentTypes.get("default");
         }
         return result;
     }
+    
+    private String getResponseContentType(String simulatorContentType) {
+        String responseContentType  = responseContentTypes.get(simulatorContentType);
+        if (responseContentType == null) {
+            responseContentType = responseContentTypes.get("default");
+        }
+        return responseContentType;
+    }
+    
 
     private String copyQueryString(HttpServletRequest request) {
         return request.getQueryString() == null ? "" : request.getQueryString();

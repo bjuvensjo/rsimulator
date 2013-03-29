@@ -21,17 +21,17 @@ public class HttpModule extends AbstractModule {
      */
     @Override
     protected void configure() {
-        // ***** Content types *****
-        Map<String, String> contentTypes = new HashMap<String, String>();
-        contentTypes.put("application/json", "json");
-        contentTypes.put("application/xml", "xml");
-        contentTypes.put("application/soap+xml", "xml");
-        contentTypes.put("text/xml", "xml");
-        contentTypes.put("default", "txt");
+        // ***** Simulator content types *****
+        Map<String, String> simulatorContentTypes = new HashMap<String, String>();
+        simulatorContentTypes.put("application/json", "json");
+        simulatorContentTypes.put("application/xml", "xml");
+        simulatorContentTypes.put("application/soap+xml", "xml");
+        simulatorContentTypes.put("text/xml", "xml");
+        simulatorContentTypes.put("default", "txt");
 
         bind(new TypeLiteral<Map<String, String>>() {
-        }).annotatedWith(Names.named("contentTypes")).toInstance(contentTypes);
-        
+        }).annotatedWith(Names.named("simulatorContentTypes")).toInstance(simulatorContentTypes);
+
         // ***** Accepts *****
         Map<String, String> accepts = new HashMap<String, String>();
         accepts.put("application/json", "json");
@@ -40,5 +40,14 @@ public class HttpModule extends AbstractModule {
         bind(new TypeLiteral<Map<String, String>>() {
         }).annotatedWith(Names.named("accepts")).toInstance(accepts);
         
+        // ***** Response content types *****
+        Map<String, String> responseContentTypes = new HashMap<String, String>();
+        responseContentTypes.put("json", "application/json");
+        responseContentTypes.put("txt", "text/plain");
+        responseContentTypes.put("xml", "application/xml");
+        responseContentTypes.put("default", "text/plain");
+
+        bind(new TypeLiteral<Map<String, String>>() {
+        }).annotatedWith(Names.named("responseContentTypes")).toInstance(responseContentTypes);        
     }
 }
