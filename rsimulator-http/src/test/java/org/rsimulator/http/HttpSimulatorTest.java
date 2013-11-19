@@ -1,8 +1,8 @@
 package org.rsimulator.http;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.Before;
+import org.junit.Test;
+import org.rsimulator.http.config.HttpSimulatorConfig;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,20 +10,19 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.rsimulator.http.config.HttpSimulatorConfig;
+import static org.junit.Assert.*;
 
 public class HttpSimulatorTest {
 	private static final int BUFFER_SIZE = 500;
 	private static final int READ_TIMEOUT = 12000;
 	private static final String ENCODING = "UTF-8";
+    private static final String PORT = System.getProperty("jetty.port", "25001");
 
 	@Before
 	public void init() {
 		try {
 			String rootPath = new File(getClass().getResource("/").getPath()).getPath();
-			HttpSimulatorConfig.config(rootPath, true);
+			HttpSimulatorConfig.config(rootPath, true, "http://localhost:"+PORT);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		
@@ -32,7 +31,7 @@ public class HttpSimulatorTest {
 	@Test
 	public void testTxtWithUseRootRelativeURL() {
 		HttpURLConnection con = getConnection("POST",
-				"http://localhost:8080/txt-examples", "text/plain");
+				"http://localhost:" + PORT + "/txt-examples", "text/plain");
 		try {
 			con.getOutputStream().write(
 					"Hello Simulator, says testTxtWithUseRootRelativeURL!"
@@ -50,7 +49,7 @@ public class HttpSimulatorTest {
 
 	@Test
 	public void testTxtWithoutUseRootRelativeURL() {
-		HttpURLConnection con = getConnection("POST", "http://localhost:8080",
+		HttpURLConnection con = getConnection("POST", "http://localhost:" + PORT,
 				"text/plain");
 		try {
 			con.getOutputStream().write(
@@ -69,7 +68,7 @@ public class HttpSimulatorTest {
 
 	@Test
 	public void testTxtResponseCodeAndDelay() {
-		HttpURLConnection con = getConnection("POST", "http://localhost:8080",
+		HttpURLConnection con = getConnection("POST", "http://localhost:" + PORT,
 				"text/plain");
 		try {
 			con.getOutputStream().write("Bad request...".getBytes(ENCODING));
@@ -83,7 +82,7 @@ public class HttpSimulatorTest {
 
 	@Test
 	public void testXml() {
-		HttpURLConnection con = getConnection("POST", "http://localhost:8080",
+		HttpURLConnection con = getConnection("POST", "http://localhost:" + PORT,
 				"application/soap+xml");
 		try {
 			con.getOutputStream()
@@ -93,9 +92,9 @@ public class HttpSimulatorTest {
 							+ "hello</greeting></hel:SayHelloRequest></soapenv:Body></soapenv:Envelope>")
 							.getBytes(ENCODING));
 			String response = read(con.getInputStream());
-			assertTrue(response.indexOf("rsimulator-http-example") != -1);
-			assertTrue(response.indexOf("SoapUI") != -1);
-			assertTrue(response.indexOf("good bye") != -1);
+			assertTrue(response.contains("rsimulator-http-example"));
+			assertTrue(response.contains("SoapUI"));
+			assertTrue(response.contains("good bye"));
 		} catch (Exception e) {
 			fail(e.getMessage());
 		} finally {
@@ -106,13 +105,13 @@ public class HttpSimulatorTest {
 	@Test
 	public void testJsonDelete() {
 		HttpURLConnection con = getConnection("DELETE",
-				"http://localhost:8080/json-examples/account/1",
+				"http://localhost:" + PORT + "/json-examples/account/1",
 				"application/json");
 		try {
 			String response = read(con.getInputStream());
-			assertTrue(response.indexOf("id1") != -1);
-			assertTrue(response.indexOf("name1") != -1);
-			assertTrue(response.indexOf("874") != -1);
+			assertTrue(response.contains("id1"));
+			assertTrue(response.contains("name1"));
+			assertTrue(response.contains("874"));
 		} catch (Exception e) {
 			fail(e.getMessage());
 		} finally {
@@ -123,15 +122,15 @@ public class HttpSimulatorTest {
 	@Test
 	public void testJsonGet() {
 		HttpURLConnection con = getConnection("GET",
-				"http://localhost:8080/json-examples/account",
+				"http://localhost:" + PORT + "/json-examples/account",
 				"application/json");
 		try {
 			con.setRequestProperty("Accept", "application/json, text/javascript, */*; q=0.01");
 			con.setRequestProperty("Content-type", "");
 			String response = read(con.getInputStream());
-			assertTrue(response.indexOf("id") != -1);
-			assertTrue(response.indexOf("balance") != -1);
-			assertTrue(response.indexOf("874.8714758855125") != -1);
+			assertTrue(response.contains("id"));
+			assertTrue(response.contains("balance"));
+			assertTrue(response.contains("874.8714758855125"));
 		} catch (Exception e) {
 			fail(e.getMessage());
 		} finally {
@@ -141,15 +140,15 @@ public class HttpSimulatorTest {
 
 	@Test
 	public void testJsonPost() {
-		HttpURLConnection con = getConnection("POST", "http://localhost:8080/json-examples/account",
+		HttpURLConnection con = getConnection("POST", "http://localhost:" + PORT + "/json-examples/account",
 				"application/json");
 		try {
 			String request = "{\"id\": \"1234567890\", \"name\": \"name\", \"balance\": 1}";
 			con.getOutputStream().write(request.getBytes(ENCODING));
 			String response = read(con.getInputStream());
-			assertTrue(response.indexOf("1234567890") != -1);
-			assertTrue(response.indexOf("name") != -1);
-			assertTrue(response.indexOf("1") != -1);
+			assertTrue(response.contains("1234567890"));
+			assertTrue(response.contains("name"));
+			assertTrue(response.contains("1"));
 		} catch (Exception e) {
 			fail(e.getMessage());
 		} finally {
@@ -159,15 +158,15 @@ public class HttpSimulatorTest {
 	
 	@Test
 	public void testJsonPut() {
-		HttpURLConnection con = getConnection("PUT", "http://localhost:8080/json-examples/account/1",
+		HttpURLConnection con = getConnection("PUT", "http://localhost:" + PORT + "/json-examples/account/1",
 				"application/json");
 		try {
 			String request = "{\"id\": \"1234567890\", \"name\": \"name\", \"balance\": 1}";
 			con.getOutputStream().write(request.getBytes(ENCODING));
 			String response = read(con.getInputStream());
-			assertTrue(response.indexOf("1234567890") != -1);
-			assertTrue(response.indexOf("name") != -1);
-			assertTrue(response.indexOf("1") != -1);
+			assertTrue(response.contains("1234567890"));
+			assertTrue(response.contains("name"));
+			assertTrue(response.contains("1"));
 		} catch (Exception e) {
 			fail(e.getMessage());
 		} finally {

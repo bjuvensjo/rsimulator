@@ -1,6 +1,7 @@
-package org.rsimulator.proxy.recorder;
+package org.rsimulator.recorder;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -9,8 +10,6 @@ import java.io.FileInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Properties;
-
-import static org.junit.Assert.*;
 
 /**
  * @author Anders Bälter
@@ -51,9 +50,9 @@ public class RecorderTest {
             File responseFile = new File(responseFileURI);
             String propertiesFileURI = buildFilePath(path, "", ".properties");
             File propertiesFile = new File(propertiesFileURI);
-            assertTrue(requestFile.exists());
-            assertTrue(responseFile.exists());
-            assertTrue(propertiesFile.exists());
+            Assert.assertTrue(requestFile.exists());
+            Assert.assertTrue(responseFile.exists());
+            Assert.assertTrue(propertiesFile.exists());
             FileUtils.deleteDirectory(new File(path));
         }
     }
@@ -84,14 +83,14 @@ public class RecorderTest {
             File responseFile = new File(responseFileURI);
             String propertiesFileURI = buildFilePath(path, "", ".properties");
             File propertiesFile = new File(propertiesFileURI);
-            assertTrue(requestFile.exists());
-            assertTrue(responseFile.exists());
-            assertTrue(propertiesFile.exists());
+            Assert.assertTrue(requestFile.exists());
+            Assert.assertTrue(responseFile.exists());
+            Assert.assertTrue(propertiesFile.exists());
             Properties properties = new Properties();
             properties.load(new FileInputStream(propertiesFile));
             String recordedResponseCode = properties.getProperty("responseCode");
-            assertNotNull(recordedResponseCode);
-            assertEquals(actualResponseCode, properties.getProperty("responseCode"));
+            Assert.assertNotNull(recordedResponseCode);
+            Assert.assertEquals(actualResponseCode, properties.getProperty("responseCode"));
             FileUtils.deleteDirectory(new File(path));
         }
     }
@@ -106,7 +105,7 @@ public class RecorderTest {
             con.setDoInput(true);
             con.setReadTimeout(READ_TIMEOUT);
         } catch (Exception e) {
-            fail(e.getMessage());
+            Assert.fail(e.getMessage());
         }
         return con;
     }

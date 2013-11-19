@@ -1,4 +1,4 @@
-package org.rsimulator.proxy.recorder;
+package org.rsimulator.recorder;
 
 import javax.servlet.ServletInputStream;
 import java.io.ByteArrayInputStream;

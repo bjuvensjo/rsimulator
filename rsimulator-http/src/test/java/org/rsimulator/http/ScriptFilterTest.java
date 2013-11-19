@@ -1,8 +1,9 @@
 package org.rsimulator.http;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.rsimulator.http.config.HttpSimulatorConfig;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,10 +11,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.rsimulator.http.config.HttpSimulatorConfig;
+import static org.junit.Assert.*;
 
 /**
  * @author Anders Bälter
@@ -22,6 +20,7 @@ public class ScriptFilterTest {
     private static final int BUFFER_SIZE = 500;
     private static final int READ_TIMEOUT = 12000;
     private static final String ENCODING = "UTF-8";
+    private static final String PORT = System.getProperty("jetty.port", "25001");
 
     @Before
     public void setUp() throws Exception {
@@ -36,7 +35,7 @@ public class ScriptFilterTest {
 
     @Test
     public void testGlobalServletRequestScript() throws Exception {
-        HttpURLConnection con = getConnection("GET", "http://localhost:8080", "application/json");
+        HttpURLConnection con = getConnection("GET", "http://localhost:" + PORT, "application/json");
         try {
             con.setRequestProperty("user", "specific_user");
             String response = read(con.getInputStream());
@@ -50,7 +49,7 @@ public class ScriptFilterTest {
 
     @Test
     public void testGlobalServletResponseScript() throws Exception {
-        HttpURLConnection con = getConnection("GET", "http://localhost:8080/properties", null);
+        HttpURLConnection con = getConnection("GET", "http://localhost:" + PORT + "/properties", null);
         try {
             con.getOutputStream().write("test".getBytes(ENCODING));
             assertEquals("1000", con.getHeaderField("Error-Code"));

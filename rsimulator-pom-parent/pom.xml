@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.rsimulator</groupId>
 	<artifactId>rsimulator-pom-parent</artifactId>
-	<version>1.0.5</version>
+	<version>1.0.6</version>
 	<packaging>pom</packaging>
 	<name>rsimulator-pom-parent</name>
 	<properties>
@@ -25,21 +25,21 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.3.2</version>
+					<version>3.1</version>
 					<configuration>
-						<source>1.7</source>
-						<target>1.7</target>
+						<source>1.6</source>
+						<target>1.6</target>
 					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
-					<version>2.1.1</version>
+					<version>2.4</version>
 				</plugin>
 				<plugin>
 					<groupId>org.mortbay.jetty</groupId>
 					<artifactId>jetty-maven-plugin</artifactId>
-					<version>8.1.8.v20121106</version>
+					<version>8.1.14.v20131031</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -56,7 +56,7 @@
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
-				<version>0.9.26</version>
+				<version>1.0.13</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.inject</groupId>
@@ -66,28 +66,28 @@
 			<dependency>
 				<groupId>com.thoughtworks.xstream</groupId>
 				<artifactId>xstream</artifactId>
-				<version>1.3.1</version>
+				<version>1.4.5</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-rt-frontend-jaxws</artifactId>
-				<version>2.3.0</version>
+				<version>2.7.7</version>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.8.2</version>
+				<version>4.11</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.ehcache</groupId>
 				<artifactId>ehcache-core</artifactId>
-				<version>2.3.0</version>
+				<version>2.6.6</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-rt-transports-http</artifactId>
-				<version>2.3.0</version>
+				<version>2.7.7</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.geronimo.specs</groupId>
@@ -97,34 +97,39 @@
 			<dependency>
 				<groupId>org.aspectj</groupId>
 				<artifactId>aspectjrt</artifactId>
-				<version>1.6.11</version>
+				<version>1.7.4</version>
 			</dependency>
 			<dependency>
 				<groupId>org.aspectj</groupId>
 				<artifactId>aspectjweaver</artifactId>
-				<version>1.6.11</version>
+				<version>1.7.4</version>
 			</dependency>
 			<dependency>
 				<groupId>org.codehaus.groovy</groupId>
 				<artifactId>groovy-all</artifactId>
-				<version>1.8.3</version>
+				<version>2.2.0</version>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-mapper-asl</artifactId>
-				<version>1.9.9</version>
+				<version>1.9.11</version>
 			</dependency>			
 			<dependency>
 				<groupId>org.jdom</groupId>
 				<artifactId>jdom</artifactId>
-				<version>1.1</version>
+				<version>2.0.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.rsimulator</groupId>
 				<artifactId>rsimulator-aop</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+            <dependency>
+                <groupId>org.rsimulator</groupId>
+                <artifactId>rsimulator-recorder</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 			<dependency>
 				<groupId>org.rsimulator</groupId>
 				<artifactId>rsimulator-core</artifactId>
@@ -143,38 +148,38 @@
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.6.1</version>
+				<version>1.7.5</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-aop</artifactId>
-				<version>3.0.5.RELEASE</version>
+				<version>4.0.0.RC1</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>
-				<version>3.0.5.RELEASE</version>
+				<version>4.0.0.RC1</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
-				<version>3.0.5.RELEASE</version>
+				<version>4.0.0.RC1</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-test</artifactId>
-				<version>3.0.5.RELEASE</version>
+				<version>4.0.0.RC1</version>
 				<scope>test</scope>
 			</dependency>
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>1.3.2</version>
+                <version>2.4</version>
             </dependency>
             <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
-                <version>2.5</version>
+                <version>2.6</version>
             </dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -183,6 +188,10 @@
 			<email>bjuvensjo@gmail.com</email>
 			<name>Magnus Bjuvensjö</name>
 		</developer>
+        <developer>
+            <email>abaelter@gmail.com</email>
+            <name>Anders Bälter</name>
+        </developer>
 	</developers>
 	<scm>
 		<url>https://github.com/bjuvensjo/rsimulator/tree/master/</url>

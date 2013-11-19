@@ -1,4 +1,4 @@
-package org.rsimulator.proxy.recorder;
+package org.rsimulator.recorder;
 
 /**
  * @author Anders Bälter

@@ -1,5 +1,9 @@
-import org.rsimulator.proxy.recorder.SimulatorProperties
-import org.rsimulator.proxy.recorder.RecorderServletResponseWrapper
+/**
+ * See SimulatorProperties, a helper for creating simulator properties
+ */
+
+import org.rsimulator.recorder.SimulatorProperties
+import org.rsimulator.recorder.RecorderServletResponseWrapper
 
 def relativeRecordPath = vars.get("relativeRecordPath")
 def basePath = vars.get("basePath")

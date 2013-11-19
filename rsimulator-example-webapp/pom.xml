@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.rsimulator</groupId>
 		<artifactId>rsimulator-pom-parent</artifactId>
-		<version>1.0.5</version>
+		<version>1.0.6</version>
 		<relativePath>../rsimulator-pom-parent/pom.xml</relativePath>
 	</parent>
 	<build>
@@ -37,25 +37,6 @@
 						</systemProperty>
 					</systemProperties>
 				</configuration>
-				<executions>
-					<execution>
-						<id>start-jetty</id>
-						<phase>test-compile</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<daemon>true</daemon>
-						</configuration>
-					</execution>
-					<execution>
-						<id>stop-jetty</id>
-						<phase>test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

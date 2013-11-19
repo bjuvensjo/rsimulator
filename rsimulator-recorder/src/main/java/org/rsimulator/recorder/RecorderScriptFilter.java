@@ -1,4 +1,4 @@
-package org.rsimulator.proxy.recorder;
+package org.rsimulator.recorder;
 
 import groovy.lang.Binding;
 import groovy.util.GroovyScriptEngine;

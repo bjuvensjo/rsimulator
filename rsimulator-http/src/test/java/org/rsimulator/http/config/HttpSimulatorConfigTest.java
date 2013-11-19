@@ -1,7 +1,6 @@
 package org.rsimulator.http.config;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,12 +8,14 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class HttpSimulatorConfigTest {
     private static final int BUFFER_SIZE = 500;
     private static final int READ_TIMEOUT = 12000;
     private static final String ENCODING = "UTF-8";
+    private static final String PORT = System.getProperty("jetty.port", "25001");
     
     @Test
     public void testConfigClassOfQextendsObject() {
@@ -29,7 +30,7 @@ public class HttpSimulatorConfigTest {
     @Test
     public void testConfigClassOfQextendsObjectString() {
         try {
-            HttpSimulatorConfig.config(getClass(), "http://localhost:8080/foo/bar");
+            HttpSimulatorConfig.config(getClass(), "http://localhost:" + PORT + "/foo/bar");
             call();
         } catch (IOException e) {
             fail(e.getMessage());
@@ -60,7 +61,7 @@ public class HttpSimulatorConfigTest {
     public void testConfigStringBooleanString() {
         try {
             String rootPath = new File(getClass().getResource("/").getPath()).getPath();
-            HttpSimulatorConfig.config(rootPath, false, "http://localhost:8080/qwerty");
+            HttpSimulatorConfig.config(rootPath, false, "http://localhost:" + PORT + "/qwerty");
             call();
         } catch (IOException e) {
             fail(e.getMessage());
@@ -69,7 +70,7 @@ public class HttpSimulatorConfigTest {
 
     @Test
     public void call() throws IOException {
-        HttpURLConnection con = getConnection("POST", "http://localhost:8080/org/rsimulator", "text/plain");
+        HttpURLConnection con = getConnection("POST", "http://localhost:" + PORT + "/org/rsimulator", "text/plain");
         try {
             con.getOutputStream().write("Hello".getBytes(ENCODING));
             String response = read(con.getInputStream());

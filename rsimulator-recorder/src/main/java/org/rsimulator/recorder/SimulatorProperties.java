@@ -1,4 +1,4 @@
-package org.rsimulator.proxy.recorder;
+package org.rsimulator.recorder;
 
 import org.apache.commons.io.FileUtils;
 

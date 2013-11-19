@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         id="WebApp_ID" version="2.5">
   <display-name>rsimulator-example-proxywebapp</display-name>
     <servlet>
         <description>The Proxy Servlet</description>
@@ -15,7 +17,7 @@
     <!-- Filter order matters! -->
     <filter>
         <filter-name>RecorderScript</filter-name>
-        <filter-class>org.rsimulator.proxy.recorder.RecorderScriptFilter</filter-class>
+        <filter-class>org.rsimulator.recorder.RecorderScriptFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>RecorderScript</filter-name>
@@ -23,7 +25,7 @@
     </filter-mapping>
     <filter>
         <filter-name>Recorder</filter-name>
-        <filter-class>org.rsimulator.proxy.recorder.Recorder</filter-class>
+        <filter-class>org.rsimulator.recorder.Recorder</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>Recorder</filter-name>
