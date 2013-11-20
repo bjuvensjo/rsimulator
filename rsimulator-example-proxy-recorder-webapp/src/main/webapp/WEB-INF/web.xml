@@ -14,15 +14,6 @@
         <servlet-name>Proxy</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
-    <!-- Filter order matters! -->
-    <filter>
-        <filter-name>RecorderScript</filter-name>
-        <filter-class>org.rsimulator.recorder.RecorderScriptFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>RecorderScript</filter-name>
-        <servlet-name>Proxy</servlet-name>
-    </filter-mapping>
     <filter>
         <filter-name>Recorder</filter-name>
         <filter-class>org.rsimulator.recorder.Recorder</filter-class>

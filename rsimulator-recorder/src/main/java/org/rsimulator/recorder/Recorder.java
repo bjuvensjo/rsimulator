@@ -31,6 +31,7 @@ public class Recorder implements Filter {
     private Map<String, String> contentTypes = new HashMap<String, String>();
     private Map<String, String> accepts = new HashMap<String, String>();
     private Config config;
+    private RecorderScriptRunner recorderScriptRunner;
 
     {
         contentTypes.put("application/json", "json");
@@ -47,6 +48,7 @@ public class Recorder implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         config = new Config();
+        recorderScriptRunner = new RecorderScriptRunner(config);
     }
 
     @Override
@@ -58,25 +60,27 @@ public class Recorder implements Filter {
             log.debug("Recording request");
             RecorderServletRequestWrapper recorderRequest = new RecorderServletRequestWrapper(httpServletRequest);
             RecorderServletResponseWrapper recorderResponse = new RecorderServletResponseWrapper(httpServletResponse);
+            String contentType = recorderRequest.getContentType();
+            String encoding = getEncoding(contentType);
+            recorderScriptRunner.runRequestScript(recorderRequest, recorderResponse, encoding);
 
             String path = buildPath(recorderRequest);
             log.debug("Creating directory: {}", path);
-            new File(path).mkdirs();
-            String contentType = recorderRequest.getContentType();
-            String encoding = getEncoding(contentType);
+            (new File(path)).mkdirs();
             String fileType = fileType(contentType, recorderRequest.getHeader("Accept"));
             log.debug("Content-Type: {}", contentType);
             String filePrefix = (String)recorderRequest.getAttribute(Constants.FILE_PREFIX);
             String fileURI = buildFileURI(path, filePrefix, Constants.REQUEST_FILENAME, fileType);
             log.debug("Writing request file: {}", fileURI);
-            String requestData = requestData(recorderRequest, encoding);
+            String requestData = (String)recorderRequest.getAttribute(Constants.REQUEST_BODY_TO_RECORD);
             FileUtils.writeStringToFile(new File(fileURI), requestData, ENCODING);
 
             chain.doFilter(recorderRequest, recorderResponse);
 
             log.debug("Recording response");
+            recorderScriptRunner.runResponseScript(recorderRequest, recorderResponse, encoding);
             fileURI = buildFileURI(path, filePrefix, Constants.RESPONSE_FILENAME, fileType);
-            String responseData = recorderResponse.getResponseAsString(encoding);
+            String responseData = (String)recorderRequest.getAttribute(Constants.RESPONSE_BODY_TO_RECORD);
             log.debug("Writing response file: {}", fileURI);
             FileUtils.writeStringToFile(new File(fileURI), responseData, ENCODING);
             response.getOutputStream().write(recorderResponse.getBytes());
@@ -119,13 +123,6 @@ public class Recorder implements Filter {
         return result;
     }
 
-    private String requestData(RecorderServletRequestWrapper recorderRequest, String encoding) throws IOException {
-        if (recorderRequest.getContentLength() > 0) {
-            return recorderRequest.getRequestAsString(encoding);
-        }
-        return copyQueryString(recorderRequest);
-    }
-
     private String getEncoding(String contentType) {
         String result = ENCODING;
         if (contentType != null) {
@@ -135,10 +132,6 @@ public class Recorder implements Filter {
             }
         }
         return result;
-    }
-
-    private String copyQueryString(HttpServletRequest request) {
-        return request.getQueryString() == null ? "" : request.getQueryString();
     }
 
     private boolean recorderIsOn() {

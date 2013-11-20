@@ -1,5 +1,16 @@
 /**
  * See SimulatorProperties, a helper for creating simulator properties
+ *
+ * Available vars are:
+ *
+ * String "relativeRecordPath"
+ * RecorderServletRequestWrapper "request"
+ * RecorderServletResponseWrapper "response"
+ * String "filePrefix"
+ * String "basePath"
+ * String "responseBodyToRecord"
+ *
+ * See RecorderScriptVars
  */
 
 import org.rsimulator.recorder.SimulatorProperties

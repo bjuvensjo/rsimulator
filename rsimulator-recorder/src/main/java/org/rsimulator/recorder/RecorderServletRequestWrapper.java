@@ -22,13 +22,15 @@ public class RecorderServletRequestWrapper extends HttpServletRequestWrapper {
 
     public RecorderServletRequestWrapper(HttpServletRequest req) throws IOException {
         super(req);
-        InputStream is = req.getInputStream();
+        initByteArrayOutputStream(req.getInputStream());
+    }
+
+    private void initByteArrayOutputStream(InputStream is) throws IOException {
         baos = new ByteArrayOutputStream();
         byte buffer[] = new byte[1024];
         int letti;
-        while ((letti = is.read(buffer)) > 0) {
+        while((letti = is.read(buffer)) > 0)
             baos.write(buffer, 0, letti);
-        }
         this.buffer = baos.toByteArray();
     }
 
@@ -46,6 +48,10 @@ public class RecorderServletRequestWrapper extends HttpServletRequestWrapper {
 
     public byte[] getBuffer() {
         return buffer;
+    }
+
+    public String getRequestBody(String encoding) throws UnsupportedEncodingException {
+        return new String(buffer, encoding);
     }
 
     /**
