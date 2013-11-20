@@ -11,7 +11,7 @@ import java.net.URL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class HttpSimulatorConfigTest {
+public class HttpSimulatorConfigIT {
     private static final int BUFFER_SIZE = 500;
     private static final int READ_TIMEOUT = 12000;
     private static final String ENCODING = "UTF-8";

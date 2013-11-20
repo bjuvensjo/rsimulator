@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 /**
  * @author Anders Bälter
  */
-public class ScriptFilterTest {
+public class ScriptFilterIT {
     private static final int BUFFER_SIZE = 500;
     private static final int READ_TIMEOUT = 12000;
     private static final String ENCODING = "UTF-8";
@@ -39,7 +39,7 @@ public class ScriptFilterTest {
         try {
             con.setRequestProperty("user", "specific_user");
             String response = read(con.getInputStream());
-            assertTrue(response.indexOf("ok") != -1);
+            assertTrue(response.contains("ok"));
         } catch (Exception e) {
             fail(e.getMessage());
         } finally {

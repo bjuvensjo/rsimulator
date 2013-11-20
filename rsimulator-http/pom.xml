@@ -45,7 +45,7 @@
 				<executions>
 					<execution>
 						<id>start-jetty</id>
-						<phase>test-compile</phase>
+						<phase>pre-integration-test</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
@@ -55,7 +55,7 @@
 					</execution>
 					<execution>
 						<id>stop-jetty</id>
-						<phase>test</phase>
+						<phase>post-integration-test</phase>
 						<goals>
 							<goal>stop</goal>
 						</goals>

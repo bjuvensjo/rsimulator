@@ -12,7 +12,7 @@ import java.net.URL;
 
 import static org.junit.Assert.*;
 
-public class HttpSimulatorTest {
+public class HttpSimulatorIT {
 	private static final int BUFFER_SIZE = 500;
 	private static final int READ_TIMEOUT = 12000;
 	private static final String ENCODING = "UTF-8";
