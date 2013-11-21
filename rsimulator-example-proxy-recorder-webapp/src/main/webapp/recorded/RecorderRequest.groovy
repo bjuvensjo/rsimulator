@@ -22,5 +22,5 @@ if (user) {
 }
 
 def String requestBody = request.getRequestBody("UTF-8");
-def finalBody = (requestBody =~ /<LFBClientContext>(?s).*<\/LFBSecurityContext>/).replaceFirst("<LFBClientContext><Channel>.*</Channel><IP>.*</IP><Reference>(.*)</Reference></LFBClientContext><LFBSecurityContext><Ticket>.*</Ticket><CallInfo>.*</CallInfo></LFBSecurityContext>")
+def finalBody = (requestBody =~ /<ClientContext>(?s).*<\/SecurityContext>/).replaceFirst("<ClientContext><Channel>.*</Channel><IP>.*</IP><Reference>(.*)</Reference></ClientContext><SecurityContext><Ticket>.*</Ticket><CallInfo>.*</CallInfo></SecurityContext>")
 vars.put(RecorderScriptVars.REQUEST_BODY_TO_RECORD, finalBody);
