@@ -15,6 +15,7 @@
 
 import org.rsimulator.recorder.SimulatorProperties
 import org.rsimulator.recorder.RecorderServletResponseWrapper
+import org.rsimulator.recorder.RecorderScriptVars
 
 def relativeRecordPath = vars.get("relativeRecordPath")
 def basePath = vars.get("basePath")
@@ -25,3 +26,7 @@ if (responseCode != 200) {
     SimulatorProperties simulatorProperties = new SimulatorProperties(basePath, relativeRecordPath, filePrefix);
     simulatorProperties.set("responseCode", responseCode)
 }
+
+def String responseBody = response.getResponseAsString("UTF-8")
+def String finalBody = responseBody.replaceFirst("<ns:Id>.*</ns:Id>", "<ns:Id>\\\${1}</ns:Id>")
+vars.put(RecorderScriptVars.RESPONSE_BODY_TO_RECORD, finalBody);
