@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.rsimulator</groupId>
 	<artifactId>rsimulator-pom-modules</artifactId>
-	<version>1.0.5</version>
+	<version>1.0.6</version>
 	<packaging>pom</packaging>
 	<name>rsimulator-pom-modules</name>
 
@@ -12,9 +12,11 @@
 		<module>../rsimulator-core</module>
 		<module>../rsimulator-aop</module>
 		<module>../rsimulator-http</module>
-		<module>../rsimulator-example-unittest</module>
+		<!--module>../rsimulator-example-unittest</module>
 		<module>../rsimulator-example-webapp</module>
-        <module>../rsimulator-example-proxywebapp</module>
+        <module>../rsimulator-example-proxy-recorder-webapp</module-->
 		<module>../rsimulator-proxy</module>
-	</modules>
+        <module>../rsimulator-recorder</module>
+    </modules>
+
 </project>
