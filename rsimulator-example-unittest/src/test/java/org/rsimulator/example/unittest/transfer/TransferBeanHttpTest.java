@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rsimulator.example.unittest.transfer.account.Account;
@@ -32,22 +33,25 @@ public class TransferBeanHttpTest {
             fail(e.getMessage());
         }
     }    
-    
+
+    @Ignore
     @Test
     public void testGetAccounts1() {
         List<Account> accounts = transferBean.getAccounts("1111");
         assertNotNull(accounts);
         assertEquals(3, accounts.size());
     }
-    
+
+    @Ignore
     @Test
     public void testGetAccounts2() {
         List<Account> accounts = transferBean.getAccounts("2221");
         assertNotNull(accounts);
         assertEquals(1, accounts.size());
         assertEquals(1, transferBean.getAccounts("2222").size());
-    }    
+    }
 
+    @Ignore
     @Test
     public void testTransfer1() {
         Account from = new Account();
@@ -64,7 +68,8 @@ public class TransferBeanHttpTest {
         assertEquals("2", receipt.getTo().getAccountId());
         assertEquals(100, receipt.getTo().getBalance(), 0);
     }
-    
+
+    @Ignore
     @Test
     public void testTransfer2() {
         Account from = new Account();
