@@ -7,9 +7,12 @@
 	<parent>
 		<groupId>org.rsimulator</groupId>
 		<artifactId>rsimulator-pom-parent</artifactId>
-		<version>1.0.6-SNAPSHOT </version>
+		<version>1.0.7-SNAPSHOT  </version>
 		<relativePath>../rsimulator-pom-parent/pom.xml</relativePath>
 	</parent>
+    <properties>
+        <jetty.port>25001</jetty.port>
+    </properties>
 	<build>
 		<plugins>
 			<plugin>
@@ -23,6 +26,10 @@
 					</webAppConfig>
 					<webAppSourceDirectory>${basedir}/src/test/resources</webAppSourceDirectory>
 					<systemProperties>
+                        <systemProperty>
+                            <name>jetty.port</name>
+                            <value>${jetty.port}</value>
+                        </systemProperty>
 						<systemProperty>
 							<name>rootPath</name>
 							<value>${basedir}/src/test/resources</value>
@@ -38,7 +45,7 @@
 				<executions>
 					<execution>
 						<id>start-jetty</id>
-						<phase>test-compile</phase>
+						<phase>pre-integration-test</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
@@ -48,13 +55,21 @@
 					</execution>
 					<execution>
 						<id>stop-jetty</id>
-						<phase>test</phase>
+						<phase>post-integration-test</phase>
 						<goals>
 							<goal>stop</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <systemPropertyVariables>
+                        <jetty.port>${jetty.port}</jetty.port>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 	<dependencies>
