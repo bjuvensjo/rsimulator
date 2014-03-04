@@ -23,7 +23,7 @@ public class AspectJSimulatorTest {
             return aspectJSimulatorAdapter.invoke(pjp, AspectJSimulatorTest.class, false);
         }               
     }
-    
+
     @Test
     public void test() {
         String msg = foo.sayHello("Hello from " + getClass().getName());

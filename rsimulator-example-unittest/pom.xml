@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>rsimulator-pom-parent</artifactId>
 		<groupId>org.rsimulator</groupId>
-		<version>1.0.5</version>
+		<version>1.0.6-SNAPSHOT </version>
 		<relativePath>../rsimulator-pom-parent/pom.xml</relativePath>
 	</parent>
 	<build>
@@ -52,7 +52,7 @@
 						<id>generate-sources</id>
 						<phase>generate-sources</phase>
 						<configuration>
-							<sourceRoot>${basedir}/target/generated/cxf</sourceRoot>
+							<!--<sourceRoot>${basedir}/target/generated/cxf</sourceRoot>-->
 							<wsdlRoot>${basedir}/src/main/resources/org/rsimulator</wsdlRoot>
 							<includes>
 								<include>**/*.wsdl</include>
@@ -67,11 +67,11 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>aspectj-maven-plugin</artifactId>
-				<version>1.3</version>
+				<version>1.5</version>
 				<configuration>
 					<verbose>true</verbose>
 					<!--<privateScope>true</privateScope> -->
-					<complianceLevel>1.6</complianceLevel>
+					<complianceLevel>1.5</complianceLevel>
 					<!--<ajdtBuildDefFile>build.ajproperties</ajdtBuildDefFile> -->
 				</configuration>
 				<executions>
@@ -82,6 +82,13 @@
 						</goals>
 					</execution>
 				</executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjtools</artifactId>
+                        <version>1.7.4</version>
+                    </dependency>
+                </dependencies>
 			</plugin>			
 		</plugins>
 	</build>

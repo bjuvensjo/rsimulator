@@ -28,8 +28,7 @@ public class TransferBeanImpl implements TransferBean {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public List<Account> getAccounts(String userId) {        
+    public List<Account> getAccounts(String userId) {
         GetAccountsRequest getAccountsRequest = new GetAccountsRequest();
         getAccountsRequest.setUserId(userId);
         GetAccountsResponse getAccountsResponse = accountService.getAccounts(getAccountsRequest);
@@ -39,7 +38,6 @@ public class TransferBeanImpl implements TransferBean {
     /**
      * {@inheritDoc}
      */
-    @Override
     public TransferResponse.Receipt transfer(Account from, Account to, double amount) {
         TransferRequest transferRequest = new TransferRequest();
         Transfer transfer = new Transfer();
