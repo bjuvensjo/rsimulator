@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>rsimulator-example-webapp</artifactId>
+	<artifactId>rsimulator-example-proxy-recorder-webapp</artifactId>
 	<packaging>war</packaging>
-	<name>rsimulator-example-webapp</name>
+	<name>rsimulator-example-proxy-recorder-webapp</name>
 	<parent>
 		<groupId>org.rsimulator</groupId>
 		<artifactId>rsimulator-pom-parent</artifactId>
-		<version>1.0.7-SNAPSHOT </version>
+		<version>1.0.7</version>
 	</parent>
 	<build>
 		<plugins>
@@ -26,36 +26,19 @@
 							<name>jetty.port</name>
 							<value>8081</value>
 						</systemProperty>
-						<systemProperty>
-							<name>rootPath</name>
-							<value>${basedir}/src/main/webapp/utv</value>
-						</systemProperty>
-						<systemProperty>
-							<name>useRootRelativePath</name>
-							<value>true</value>
-						</systemProperty>
 					</systemProperties>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.rsimulator</groupId>
-			<artifactId>rsimulator-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.rsimulator</groupId>
-			<artifactId>rsimulator-http</artifactId>
-		</dependency>
         <dependency>
             <groupId>org.rsimulator</groupId>
             <artifactId>rsimulator-proxy</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.rsimulator</groupId>
+            <artifactId>rsimulator-recorder</artifactId>
+        </dependency>
 	</dependencies>
 </project>
