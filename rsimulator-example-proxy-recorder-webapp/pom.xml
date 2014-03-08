@@ -8,7 +8,6 @@
 		<groupId>org.rsimulator</groupId>
 		<artifactId>rsimulator-pom-parent</artifactId>
 		<version>1.0.7-SNAPSHOT</version>
-		<relativePath>../rsimulator-pom-parent/pom.xml</relativePath>
 	</parent>
 	<build>
 		<plugins>
