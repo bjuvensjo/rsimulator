@@ -74,9 +74,14 @@
                 <version>1.4.5</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-frontend-jaxws</artifactId>
-                <version>2.7.7</version>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.6</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -88,6 +93,11 @@
                 <groupId>net.sf.ehcache</groupId>
                 <artifactId>ehcache-core</artifactId>
                 <version>2.6.6</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-frontend-jaxws</artifactId>
+                <version>2.7.7</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
@@ -126,6 +136,12 @@
                 <version>2.0.2</version>
             </dependency>
             <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.8.1-rc1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.rsimulator</groupId>
                 <artifactId>rsimulator-aop</artifactId>
                 <version>${project.version}</version>
@@ -148,6 +164,11 @@
             <dependency>
                 <groupId>org.rsimulator</groupId>
                 <artifactId>rsimulator-proxy</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.rsimulator</groupId>
+                <artifactId>rsimulator-socket</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -175,16 +196,6 @@
                 <artifactId>spring-test</artifactId>
                 <version>3.2.8.RELEASE</version>
                 <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>2.4</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>2.6</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
