@@ -8,6 +8,7 @@
     <name>rsimulator-pom-parent</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <skipITTests>true</skipITTests>
     </properties>
     <build>
         <plugins>
@@ -22,6 +23,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <skipTests>${skipITTests}</skipTests> <!-- Run integration tests with -DskipTests=false -->
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -50,16 +54,7 @@
                                 <goal>integration-test</goal>
                             </goals>
                         </execution>
-                        <execution>
-                            <id>verify</id>
-                            <goals>
-                                <goal>verify</goal>
-                            </goals>
-                        </execution>
                     </executions>
-                    <configuration>
-                        <skipTests>true</skipTests> <!-- Run integration tests with -DskipTests=false -->
-                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
