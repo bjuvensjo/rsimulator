@@ -25,7 +25,7 @@ public class ScriptFilterIT {
     @Before
     public void setUp() throws Exception {
         String rootPath = new File(getClass().getResource("/").getPath()).getPath();
-        HttpSimulatorConfig.config(rootPath, true);
+        HttpSimulatorConfig.config(rootPath, true, "http://localhost:" + PORT);
     }
 
     @After

@@ -42,28 +42,28 @@
 					<stopKey>foo</stopKey>
 					<stopPort>9999</stopPort>
 				</configuration>
-				<executions>
-					<execution>
-						<id>start-jetty</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<daemon>true</daemon>
-						</configuration>
-					</execution>
-					<execution>
-						<id>stop-jetty</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
+				<!--<executions>-->
+					<!--<execution>-->
+						<!--<id>start-jetty</id>-->
+						<!--<phase>pre-integration-test</phase>-->
+						<!--<goals>-->
+							<!--<goal>run</goal>-->
+						<!--</goals>-->
+						<!--<configuration>-->
+							<!--<daemon>true</daemon>-->
+						<!--</configuration>-->
+					<!--</execution>-->
+					<!--<execution>-->
+						<!--<id>stop-jetty</id>-->
+						<!--<phase>post-integration-test</phase>-->
+						<!--<goals>-->
+							<!--<goal>stop</goal>-->
+						<!--</goals>-->
+					<!--</execution>-->
+				<!--</executions>-->
 			</plugin>
             <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
+                <artifactId>maven-failsafe-plugin</artifactId>
                 <configuration>
                     <systemPropertyVariables>
                         <jetty.port>${jetty.port}</jetty.port>

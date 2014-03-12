@@ -18,16 +18,6 @@ public class HttpSimulatorConfigIT {
     private static final String PORT = System.getProperty("jetty.port", "25001");
     
     @Test
-    public void testConfigClassOfQextendsObject() {
-        try {
-            HttpSimulatorConfig.config(getClass());
-            call();
-        } catch (IOException e) {
-            fail(e.getMessage());
-        }
-    }
-
-    @Test
     public void testConfigClassOfQextendsObjectString() {
         try {
             HttpSimulatorConfig.config(getClass(), "http://localhost:" + PORT + "/foo/bar");
@@ -43,14 +33,14 @@ public class HttpSimulatorConfigIT {
             String rootPath = null;
             
             rootPath = new File(getClass().getResource("/").getPath()).getPath();
-            HttpSimulatorConfig.config(rootPath, false);
+            HttpSimulatorConfig.config(rootPath, false, "http://localhost:" + PORT);
             call();
-            HttpSimulatorConfig.config(rootPath, true);
+            HttpSimulatorConfig.config(rootPath, true, "http://localhost:" + PORT);
             call();
 
             String resource = new StringBuilder().append(getClass().getSimpleName()).append(".class").toString();            
             rootPath = new File(getClass().getResource(resource).getPath()).getParentFile().getPath();            
-            HttpSimulatorConfig.config(rootPath, false);
+            HttpSimulatorConfig.config(rootPath, false, "http://localhost:" + PORT);
             call();
         } catch (IOException e) {
             fail(e.getMessage());
