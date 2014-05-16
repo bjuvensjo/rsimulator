@@ -19,8 +19,6 @@ import org.simulator.jms.config.JmsModule;
  */
 public class JmsSimulator extends RouteBuilder {
     private static final String className = JmsSimulator.class.getName();
-    // TODO Use encoding?
-    private String encoding;
     private String jms;
     private String queue;
     private String replyTo;
@@ -47,10 +45,6 @@ public class JmsSimulator extends RouteBuilder {
                     }
                 })
                 .to("log:" + className + "?showAll=true&multiline=true");
-    }
-
-    public void setEncoding(String encoding) {
-        this.encoding = encoding;
     }
 
     public void setJms(String jms) {
