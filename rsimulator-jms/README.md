@@ -108,48 +108,25 @@ Create a Maven configuration
                 <artifactId>commons-lang</artifactId>
                 <version>2.6</version>
             </dependency>
-            <dependency>
-                <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-all</artifactId>
-                <version>${activemq.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-api</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-log4j12</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-pool</artifactId>
-                <version>${activemq.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.rsimulator</groupId>
-                <artifactId>rsimulator-jms</artifactId>
-                <version>${rsimulator.version}</version>
-            </dependency>
-        </dependencies>
-    
-        <repositories>
-            <repository>
-                <id>fusesource-releases</id>
-                <name>FuseSource Release Repository</name>
-                <url>http://repo.fusesource.com/maven2</url>
-                <snapshots>
-                    <enabled>false</enabled>
-                </snapshots>
-                <releases>
-                    <enabled>true</enabled>
-                </releases>
-            </repository>
-        </repositories>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-camel</artifactId>
+            <version>${activemq.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.camel</groupId>
+                    <artifactId>camel-jms</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-pool</artifactId>
+            <version>${activemq.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.rsimulator</groupId>
+            <artifactId>rsimulator-jms</artifactId>
+            <version>${rsimulator.version}</version>
+        </dependency>
     </project>
