@@ -85,7 +85,7 @@ Create a Maven configuration
         <name>rsimulator-acompany</name>
     
         <properties>
-            <rsimulator.version>1.0.9-SNAPSHOT</rsimulator.version>
+            <rsimulator.version>1.0.9</rsimulator.version>
             <activemq.version>5.8.0</activemq.version>
         </properties>
     
