@@ -12,6 +12,7 @@
 		<module>../rsimulator-aop</module>
 		<module>../rsimulator-core</module>
 		<module>../rsimulator-http</module>
+		<module>../rsimulator-jms</module>
 		<module>../rsimulator-proxy</module>
         <module>../rsimulator-recorder</module>
         <module>../rsimulator-socket</module>
