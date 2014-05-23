@@ -18,6 +18,9 @@ Implement a class
         public static void main(String[] args) {
             Logger log = LoggerFactory.getLogger(ACompanyJmsSimulator.class);
             try {
+                // Suppress ehcache update check (just to avoid an exception in the log...)
+                System.setProperty("net.sf.ehcache.skipUpdateCheck", "true");
+
                 // Start ActiveMQ
                 BrokerService broker = new BrokerService();
                 // configure the broker
@@ -45,18 +48,28 @@ Create a Spring configuration
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camel="http://camel.apache.org/schema/spring"
            xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
            http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
-    
+
         <bean class="org.simulator.jms.JmsSimulator">
             <property name="jms" value="activemq" />
             <property name="queue" value="outQueue" />
             <property name="replyTo" value="inQueue" />
             <property name="simulatorContentType" value="txt" />
+            <property name="decoder">
+                <bean class="org.simulator.jms.Decoder">
+                    <property name="encoding" value="UTF-8"/>
+                </bean>
+            </property>
+            <property name="encoder">
+                <bean class="org.simulator.jms.Encoder">
+                    <property name="encoding" value="UTF-8"/>
+                </bean>
+            </property>
         </bean>
-    
+
         <camel:camelContext useMDCLogging="true" streamCache="true">
             <camel:contextScan/>
             <camel:jmxAgent id="agent" disabled="true"/>
-        </camel:cameLCONTEXT>
+        </camel:camelContext>
     </beans>
 
 ### Maven
