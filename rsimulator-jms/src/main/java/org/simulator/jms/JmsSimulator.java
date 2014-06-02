@@ -26,6 +26,9 @@ public class JmsSimulator extends RouteBuilder {
     private String simulatorContentType;
     private Decoder decoder;
     private Encoder encoder;
+    private int concurrentConsumers;
+    private int maxConcurrentConsumers;
+    private int receiveTimeout;    
 
     @Inject
     private Simulator simulator;
@@ -37,8 +40,16 @@ public class JmsSimulator extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        RouteDefinition definition = from(jms + ":queue:" + queue + "?replyTo=" + replyTo + "&useMessageIDAsCorrelationID=true");
-
+        RouteDefinition definition = from(new StringBuilder()
+                .append(jms)
+                .append(":queue:").append(queue)
+                .append("?replyTo=").append(replyTo)
+                .append("&useMessageIDAsCorrelationID=true")
+                .append("&concurrentConsumers=").append(concurrentConsumers)
+                .append("&maxConcurrentConsumers=").append(maxConcurrentConsumers)
+                .append("&receiveTimeout=").append(receiveTimeout)
+                .toString());
+        
         definition.to("log:" + className + "?showAll=true&multiline=true");
 
         if (decoder != null) {
@@ -83,5 +94,17 @@ public class JmsSimulator extends RouteBuilder {
 
     public void setEncoder(Encoder encoder) {
         this.encoder = encoder;
+    }
+
+    public void setConcurrentConsumers(int concurrentConsumers) {
+        this.concurrentConsumers = concurrentConsumers;
+    }
+
+    public void setMaxConcurrentConsumers(int maxConcurrentConsumers) {
+        this.maxConcurrentConsumers = maxConcurrentConsumers;
+    }
+
+    public void setReceiveTimeout(int receiveTimeout) {
+        this.receiveTimeout = receiveTimeout;
     }
 }
