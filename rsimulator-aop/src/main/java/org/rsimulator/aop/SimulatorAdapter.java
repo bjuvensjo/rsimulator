@@ -1,7 +1,5 @@
 package org.rsimulator.aop;
 
-import java.io.IOException;
-
 import org.rsimulator.core.Simulator;
 import org.rsimulator.core.SimulatorResponse;
 import org.slf4j.Logger;
@@ -38,17 +36,21 @@ class SimulatorAdapter {
      * @param rootPath the root path in which to (recursively) find simulator test data
      * @param useRootRelativePath true if the declaringClassCanonicalName and methodName should be used as an relative path extension of rootPath, otherwise false
      * @return some simulation response
-     * @throws IOException if something goes wrong
+     * @throws Exception 
      */
     public Object service(String declaringClassCanonicalName, String methodName, Object[] arguments, String rootPath, boolean useRootRelativePath) 
-            throws IOException {
+            throws Exception {
         log.debug(
                 "declaringClassCanonicalName: {}, methodName: {}, arguments: {}, rootPath: {}, useRootRelativePath: {}",
                 new Object[] {declaringClassCanonicalName, methodName, arguments, rootPath, useRootRelativePath});
         SimulatorResponse simulatorResponse = simulator.service(rootPath,
                 useRootRelativePath ? getRootRelativePath(declaringClassCanonicalName, methodName) : "",
                 createRequest(arguments), CONTENT_TYPE);
-        return createResponse(simulatorResponse.getResponse());
+        Object response = createResponse(simulatorResponse.getResponse());
+        if (response instanceof Throwable) {
+        	throw (Exception)response;
+        }
+        return response;
     }
 
     private String createRequest(Object[] arguments) {

@@ -20,6 +20,11 @@ public class GuiceAopAllianceSimulatorTest {
         public String sayHello(String msg) {
             return null;
         }
+
+		@Override
+		public String doThrow(String msg) throws BarException {
+			return null;
+		}
     }
  
     @Before

@@ -34,7 +34,7 @@ public class SimulatorAdapterTest {
         try {
             String msg = (String) simulatorAdapter.service(declaringClassCanonicalName, methodName, arguments, rootPath, useRootRelativePath);
             assertEquals("Hello " + getClass().getName() + " from SimulatorAdapter", msg);
-        } catch (IOException e) {
+        } catch (Exception e) {
             fail(e.getMessage());
         }
     }

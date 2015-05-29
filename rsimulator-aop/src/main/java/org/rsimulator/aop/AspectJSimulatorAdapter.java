@@ -1,7 +1,5 @@
 package org.rsimulator.aop;
 
-import java.io.IOException;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 
 import com.google.inject.ImplementedBy;
@@ -23,9 +21,9 @@ public interface AspectJSimulatorAdapter {
      * @param rootPath the rootPath
      * @param useRootRelativePath the useRootRelativePath
      * @return some simulation response
-     * @throws IOException if something goes wrong
+     * @throws Exception if something goes wrong
      */
-    Object invoke(ProceedingJoinPoint pjp, String rootPath, boolean useRootRelativePath) throws IOException;
+    Object invoke(ProceedingJoinPoint pjp, String rootPath, boolean useRootRelativePath) throws Exception;
     
     /**
      * Returns some simulation response if found.
@@ -34,7 +32,7 @@ public interface AspectJSimulatorAdapter {
      * @param testClass used to set the rootPath to the folder of the specified testClass class file folder
      * @param useRootRelativePath the useRootRelativePath
      * @return some simulation response
-     * @throws IOException if something goes wrong
+     * @throws Exception if something goes wrong
      */
-    Object invoke(ProceedingJoinPoint pjp, Class<? extends Object> testClass, boolean useRootRelativePath) throws IOException;    
+    Object invoke(ProceedingJoinPoint pjp, Class<? extends Object> testClass, boolean useRootRelativePath) throws Exception;    
 }

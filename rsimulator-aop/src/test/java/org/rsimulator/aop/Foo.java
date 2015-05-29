@@ -6,4 +6,6 @@ import org.springframework.stereotype.Service;
 public interface Foo {
 
     public String sayHello(String msg);
+    
+    public String doThrow(String msg) throws BarException;
 }

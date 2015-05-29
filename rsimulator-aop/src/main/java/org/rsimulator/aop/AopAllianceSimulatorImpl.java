@@ -1,7 +1,6 @@
 package org.rsimulator.aop;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Method;
 
 import org.aopalliance.intercept.MethodInvocation;
@@ -57,9 +56,9 @@ public class AopAllianceSimulatorImpl implements AopAllianceSimulator {
      * 
      * @param mi the MethodInvocation
      * @return some simulation response
-     * @throws IOException if something goes wrong
+     * @throws Exception if something goes wrong
      */
-    public Object invoke(MethodInvocation mi) throws IOException {
+    public Object invoke(MethodInvocation mi) throws Exception {
         Method method = mi.getMethod();
         return simulatorAdapter.service(method.getDeclaringClass().getCanonicalName(), method.getName(), mi.getArguments(), rootPath, useRootRelativePath);
     }

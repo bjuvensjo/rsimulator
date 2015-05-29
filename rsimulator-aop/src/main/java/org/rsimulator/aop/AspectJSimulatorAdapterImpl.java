@@ -1,7 +1,6 @@
 package org.rsimulator.aop;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.rsimulator.core.config.CoreModule;
@@ -30,7 +29,7 @@ public class AspectJSimulatorAdapterImpl implements AspectJSimulatorAdapter {
     /**
      * {@inheritDoc}
      */
-    public Object invoke(ProceedingJoinPoint pjp, String rootPath, boolean useRootRelativePath) throws IOException {
+    public Object invoke(ProceedingJoinPoint pjp, String rootPath, boolean useRootRelativePath) throws Exception {
         String declaringClassCanonicalName = pjp.getSignature().getDeclaringTypeName();
         String methodName = pjp.getSignature().getName();
         Object[] arguments = pjp.getArgs(); 
@@ -40,7 +39,7 @@ public class AspectJSimulatorAdapterImpl implements AspectJSimulatorAdapter {
     /**
      * {@inheritDoc}
      */
-    public Object invoke(ProceedingJoinPoint pjp, Class<? extends Object> testClass, boolean useRootRelativePath) throws IOException {
+    public Object invoke(ProceedingJoinPoint pjp, Class<? extends Object> testClass, boolean useRootRelativePath) throws Exception {
         String resource = new StringBuilder().append(testClass.getSimpleName()).append(".class").toString(); 
         return invoke(pjp, new File(testClass.getResource(resource).getPath()).getParentFile().getPath(), useRootRelativePath);
     }    

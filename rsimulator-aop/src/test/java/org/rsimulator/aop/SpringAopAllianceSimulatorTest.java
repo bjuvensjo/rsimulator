@@ -1,6 +1,7 @@
 package org.rsimulator.aop;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,5 +32,20 @@ public class SpringAopAllianceSimulatorTest {
         aopAllianceSimulator.setUseRootRelativePath(true);
         String msg = foo.sayHello("Hi from " + getClass().getName());
         assertEquals("Hello " + getClass().getName(), msg);
-    }    
+    }
+    
+    @Test
+    public void testException() {        
+        aopAllianceSimulator.setRootPath(this.getClass());
+        aopAllianceSimulator.setUseRootRelativePath(false);
+        try {			
+        	foo.doThrow("Give me an exception");
+        	fail("Exception expected");
+		} catch (BarException barException) {	
+			assertEquals("1", barException.getCode());
+			assertEquals("msg", barException.getMessage());
+		}
+    }
+    
+    
 }
