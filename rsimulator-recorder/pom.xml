@@ -35,6 +35,20 @@
             <artifactId>geronimo-servlet_2.5_spec</artifactId>
         </dependency>
     </dependencies>
+    <developers>
+        <developer>
+            <name>Magnus Bjuvensjö</name>
+            <email>bjuvensjo@gmail.com</email>
+            <organization>GitHub</organization>
+            <organizationUrl>https://github.com/bjuvensjo</organizationUrl>
+        </developer>
+        <developer>
+            <name>Anders Bälter</name>
+            <email>abaelter@gmail.com</email>
+            <organization>GitHub</organization>
+            <organizationUrl>https://github.com/baelter</organizationUrl>
+        </developer>
+    </developers>
     <scm>
         <connection>scm:git@github.com:bjuvensjo/rsimulator.git</connection>
         <developerConnection>scm:git@github.com:bjuvensjo/rsimulator.git</developerConnection>
