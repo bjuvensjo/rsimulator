@@ -5,7 +5,7 @@
     <artifactId>rsimulator-example-pom-modules</artifactId>    
     <version>1.0.9-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>rsimulator-example-pom-modules</name>
+    <name>${project.groupId}:${project.artifactId}</name>
 
     <modules>
         <module>../rsimulator-example-unittest</module>
