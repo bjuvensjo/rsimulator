@@ -4,6 +4,7 @@
     <artifactId>rsimulator-example-unittest</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>${project.artifactId} module</description>
+    <url>https://github.com/bjuvensjo/rsimulator/wiki</url>
     <parent>
         <artifactId>rsimulator-pom-parent</artifactId>
         <groupId>org.rsimulator</groupId>

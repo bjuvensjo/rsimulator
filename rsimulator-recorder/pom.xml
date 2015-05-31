@@ -6,6 +6,7 @@
     <artifactId>rsimulator-recorder</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>   
     <description>${project.artifactId} module</description>
+    <url>https://github.com/bjuvensjo/rsimulator/wiki</url>
     <parent>
         <groupId>org.rsimulator</groupId>
         <artifactId>rsimulator-pom-parent</artifactId>
