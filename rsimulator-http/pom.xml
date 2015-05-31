@@ -1,67 +1,67 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>rsimulator-http</artifactId>
-	<packaging>jar</packaging>
-	<name>rsimulator-http</name>
-	<parent>
-		<groupId>org.rsimulator</groupId>
-		<artifactId>rsimulator-pom-parent</artifactId>
-		<version>1.1.1-SNAPSHOT</version>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>rsimulator-http</artifactId>
+    <packaging>jar</packaging>
+    <name>rsimulator-http</name>
+    <parent>
+        <groupId>org.rsimulator</groupId>
+        <artifactId>rsimulator-pom-parent</artifactId>
+        <version>1.1.1-SNAPSHOT</version>
         <relativePath>../rsimulator-pom-parent/pom.xml</relativePath>
-	</parent>
+    </parent>
     <properties>
         <jetty.port>25001</jetty.port>
     </properties>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<configuration>
-					<scanIntervalSeconds>0</scanIntervalSeconds>
-					<webAppConfig>
-						<descriptor>${basedir}/src/test/resources/web.xml</descriptor>						
-						<contextPath>/</contextPath>
-					</webAppConfig>
-					<webAppSourceDirectory>${basedir}/src/test/resources</webAppSourceDirectory>
-					<systemProperties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <configuration>
+                    <scanIntervalSeconds>0</scanIntervalSeconds>
+                    <webAppConfig>
+                        <descriptor>${basedir}/src/test/resources/web.xml</descriptor>                        
+                        <contextPath>/</contextPath>
+                    </webAppConfig>
+                    <webAppSourceDirectory>${basedir}/src/test/resources</webAppSourceDirectory>
+                    <systemProperties>
                         <systemProperty>
                             <name>jetty.port</name>
                             <value>${jetty.port}</value>
                         </systemProperty>
-						<systemProperty>
-							<name>rootPath</name>
-							<value>${basedir}/src/test/resources</value>
-						</systemProperty>
-						<systemProperty>
-							<name>useRootRelativePath</name>
-							<value>true</value>
-						</systemProperty>
-					</systemProperties>
-					<stopKey>foo</stopKey>
-					<stopPort>9999</stopPort>
-				</configuration>
-				<!--<executions>-->
-					<!--<execution>-->
-						<!--<id>start-jetty</id>-->
-						<!--<phase>pre-integration-test</phase>-->
-						<!--<goals>-->
-							<!--<goal>run</goal>-->
-						<!--</goals>-->
-						<!--<configuration>-->
-							<!--<daemon>true</daemon>-->
-						<!--</configuration>-->
-					<!--</execution>-->
-					<!--<execution>-->
-						<!--<id>stop-jetty</id>-->
-						<!--<phase>post-integration-test</phase>-->
-						<!--<goals>-->
-							<!--<goal>stop</goal>-->
-						<!--</goals>-->
-					<!--</execution>-->
-				<!--</executions>-->
-			</plugin>
+                        <systemProperty>
+                            <name>rootPath</name>
+                            <value>${basedir}/src/test/resources</value>
+                        </systemProperty>
+                        <systemProperty>
+                            <name>useRootRelativePath</name>
+                            <value>true</value>
+                        </systemProperty>
+                    </systemProperties>
+                    <stopKey>foo</stopKey>
+                    <stopPort>9999</stopPort>
+                </configuration>
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>start-jetty</id>-->
+                        <!--<phase>pre-integration-test</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>run</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<daemon>true</daemon>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                    <!--<execution>-->
+                        <!--<id>stop-jetty</id>-->
+                        <!--<phase>post-integration-test</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>stop</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            </plugin>
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <configuration>
@@ -70,36 +70,43 @@
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
-		</plugins>
-	</build>
-	<dependencies>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.inject</groupId>
-			<artifactId>guice</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
         </dependency>
-		<dependency>
-			<groupId>org.apache.geronimo.specs</groupId>
-			<artifactId>geronimo-servlet_2.5_spec</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.rsimulator</groupId>
-			<artifactId>rsimulator-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-servlet_2.5_spec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.rsimulator</groupId>
+            <artifactId>rsimulator-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+    </dependencies>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>            
 </project>
