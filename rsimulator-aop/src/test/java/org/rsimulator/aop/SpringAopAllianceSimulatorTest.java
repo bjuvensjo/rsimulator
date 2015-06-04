@@ -46,6 +46,16 @@ public class SpringAopAllianceSimulatorTest {
 			assertEquals("msg", barException.getMessage());
 		}
     }
-    
-    
+
+    @Test
+    public void testDoNotReturn() {
+        aopAllianceSimulator.setRootPath(this.getClass());
+        aopAllianceSimulator.setUseRootRelativePath(false);
+        try {
+            foo.doNotReturn("Do not return");
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            fail(exception.getMessage());
+        }
+    }
 }

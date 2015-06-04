@@ -8,4 +8,6 @@ public interface Foo {
     public String sayHello(String msg);
     
     public String doThrow(String msg) throws BarException;
+    
+    public void doNotReturn(String msg);
 }

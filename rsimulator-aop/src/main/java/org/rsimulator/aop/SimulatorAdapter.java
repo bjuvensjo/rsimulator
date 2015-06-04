@@ -69,9 +69,17 @@ class SimulatorAdapter {
     private Object createResponse(String theResponse) {
         int startResponseIndex = theResponse.indexOf(RESPONSE_BEGIN);
         int stopResponseIndex = theResponse.lastIndexOf(RESPONSE_END);
-        String response = theResponse.substring(startResponseIndex + RESPONSE_BEGIN_LENGTH, stopResponseIndex);
+        String responseElement = theResponse.substring(startResponseIndex + RESPONSE_BEGIN_LENGTH, stopResponseIndex);
+        log.debug("responseElement: {}", responseElement);
+
+        Object response = null;
+        // An empty response should mean void
+        if (responseElement.trim().length() > 0) {
+            response = new XStream().fromXML(responseElement);
+        }
+
         log.debug("response: {}", response);
-        return new XStream().fromXML(response);
+        return response;
     }
 
     private String getRootRelativePath(String declaringClassCanonicalName, String methodName) {

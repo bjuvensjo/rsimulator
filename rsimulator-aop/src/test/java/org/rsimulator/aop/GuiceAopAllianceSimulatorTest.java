@@ -25,6 +25,11 @@ public class GuiceAopAllianceSimulatorTest {
 		public String doThrow(String msg) throws BarException {
 			return null;
 		}
+
+        @Override
+        public void doNotReturn(String msg) {
+            
+        }
     }
  
     @Before
