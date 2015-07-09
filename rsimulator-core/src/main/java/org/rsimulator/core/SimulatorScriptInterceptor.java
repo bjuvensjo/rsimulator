@@ -17,7 +17,7 @@ import com.google.inject.Singleton;
 /**
  * SimulatorScriptInterceptor is an interceptor that supports Groovy scripts intercepting invocations of
  * {@link Simulator#service(String, String, String, String)}.
- * <p/>
+ * <p>
  * The scripts supported are:
  * <ol>
  * <li>GlobalRequest.groovy; Must be put in the rootPath folder and is applied before the invocation.</li>
@@ -26,8 +26,8 @@ import com.google.inject.Singleton;
  * Test1.groovy.</li>
  * <li>GlobalResponse.groovy; Must be put in the rootPath folder and is applied last after the invocation.</li>
  * </ol>
- * <p/>
- * All script have a Map<String, Object> available through the variable vars. The keys contentType, simulatorResponse,
+ * <p>
+ * All script have a Map&lt;String, Object&gt; available through the variable vars. The keys contentType, simulatorResponse,
  * request, rootPath, rootRelativePath can be used to access invocation arguments and return value. In addition, the map
  * can be used to communicate arbitrary objects between the Groovy scripts. If a script sets a SimulatorResponse in the
  * vars map, this SimulatorResponse is directly returned.

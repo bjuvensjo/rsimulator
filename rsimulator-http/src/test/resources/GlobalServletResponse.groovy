@@ -3,6 +3,7 @@ import javax.servlet.http.HttpServletResponse
 
 def SimulatorResponse simulatorResponse = vars.get("simulatorResponse")
 def Properties properties = simulatorResponse.getProperties()
+
 def HttpServletResponse response = vars.get("response")
 if (properties != null) {
     if (properties.getProperty("header.Error-Code")) {

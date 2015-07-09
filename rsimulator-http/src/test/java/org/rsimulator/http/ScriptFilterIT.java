@@ -49,7 +49,7 @@ public class ScriptFilterIT {
 
     @Test
     public void testGlobalServletResponseScript() throws Exception {
-        HttpURLConnection con = getConnection("GET", "http://localhost:" + PORT + "/properties", null);
+        HttpURLConnection con = getConnection("GET", "http://localhost:" + PORT + "/properties", "text/plain");
         try {
             con.getOutputStream().write("test".getBytes(ENCODING));
             assertEquals("1000", con.getHeaderField("Error-Code"));

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.rsimulator</groupId>
     <artifactId>rsimulator-example-pom-modules</artifactId>    
-    <version>1.0.9-SNAPSHOT</version>
+    <version>1.2.0</version>
     <packaging>pom</packaging>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>${project.artifactId} module</description>

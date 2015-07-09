@@ -22,7 +22,7 @@ public class TransferBeanAspectJAopTest {
         private AspectJSimulatorAdapter aspectJSimulatorAdapter = new AspectJSimulatorAdapterImpl();
         
         @Around("call(* TransferBean.*(..)) && within(TransferBeanAspectJAopTest)")
-        public Object invoke(ProceedingJoinPoint pjp) throws IOException {
+        public Object invoke(ProceedingJoinPoint pjp) throws Exception {
             return aspectJSimulatorAdapter.invoke(pjp, TransferBeanAspectJAopTest.class, false);
         }   
     }
