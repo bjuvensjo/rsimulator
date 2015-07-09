@@ -9,7 +9,7 @@
     <parent>
         <groupId>org.rsimulator</groupId>
         <artifactId>rsimulator-pom-parent</artifactId>
-        <version>1.2.0</version>
+        <version>1.2.1-SNAPSHOT</version>
     </parent>
     <properties>
         <maven.javadoc.skip>true</maven.javadoc.skip>
