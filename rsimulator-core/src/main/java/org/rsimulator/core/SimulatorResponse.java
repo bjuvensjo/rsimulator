@@ -1,9 +1,11 @@
 package org.rsimulator.core;
 
-import java.io.File;
-import java.util.Properties;
-
 import com.google.inject.ImplementedBy;
+
+import java.io.File;
+import java.nio.file.Path;
+import java.util.Optional;
+import java.util.Properties;
 
 /**
  * SimulatorResponse is returned by {@link Simulator}.
@@ -20,14 +22,14 @@ public interface SimulatorResponse {
      *
      * @return the properties of a specific test data request and response pair
      */
-    Properties getProperties();
+    Optional<Properties> getProperties();
 
     /**
      * Sets the specified properties.
      *
      * @param properties the properties to set
      */
-    void setProperties(Properties properties);
+    void setProperties(Optional<Properties> properties);
 
     /**
      * Returns the test data response.
@@ -44,16 +46,16 @@ public interface SimulatorResponse {
     void setResponse(String response);
 
     /**
-     * Returns the matching request file.
+     * Returns the matching request path.
      *
-     * @return the matching request file
+     * @return the matching request path
      */
-    File getMatchingRequest();
+    Path getMatchingRequest();
 
     /**
-     * Sets the specified file.
+     * Sets the specified path.
      *
-     * @param file the file to set
+     * @param path the path to set
      */
-    void setMatchingRequest(File file);
+    void setMatchingRequest(Path path);
 }

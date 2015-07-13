@@ -1,17 +1,16 @@
 package org.rsimulator.core.util;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.Properties;
-
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import org.rsimulator.core.config.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
+import java.io.BufferedInputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Properties;
 
 /**
  * PropsImpl implements {@link Props}.
@@ -25,34 +24,23 @@ public class PropsImpl implements Props {
     private Logger log = LoggerFactory.getLogger(PropsImpl.class);
     @Inject
     @Named("rsimulator-core-properties")
-    private File propertyFile;
+    private Path propertyPath;
 
-    /**
-     * {@inheritDoc}
-     */
     @Cache
-    @Override
-    public Properties getProperties(File file) {
-        if (!file.exists()) {
+    public Properties getProperties(Path path) {
+        if (!Files.exists(path)) {
             return EMPTY_PROPERTIES;
         }
         Properties result = new Properties();
-        BufferedInputStream bis = null;
-        try {
-            bis = new BufferedInputStream(new FileInputStream(file));
+        try (BufferedInputStream bis = new BufferedInputStream(Files.newInputStream(path))) {
             result.load(bis);
-            bis.close();
         } catch (Exception e) {
-            log.error("Error reading properties from: {}", file.getAbsolutePath(), e);
+            log.error("Error reading properties from: {}", path.toAbsolutePath(), e);
         }
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public boolean isSimulatorCache() {
-        return "true".equals(getProperties(propertyFile).getProperty(SIMULATOR_CACHE));
+        return "true".equals(getProperties(propertyPath).getProperty(SIMULATOR_CACHE));
     }
 }

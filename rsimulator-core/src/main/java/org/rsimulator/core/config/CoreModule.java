@@ -1,12 +1,10 @@
 package org.rsimulator.core.config;
 
-import java.io.File;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
+import com.google.inject.matcher.Matchers;
+import com.google.inject.name.Names;
 import net.sf.ehcache.CacheManager;
-
 import org.rsimulator.core.Handler;
 import org.rsimulator.core.Simulator;
 import org.rsimulator.core.SimulatorCacheInterceptor;
@@ -22,14 +20,17 @@ import org.rsimulator.core.util.PropsCacheInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.TypeLiteral;
-import com.google.inject.matcher.Matchers;
-import com.google.inject.name.Names;
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * CoreModule holds Guice configurations.
- * 
+ *
  * @author Magnus Bjuvensjö
  */
 public class CoreModule extends AbstractModule {
@@ -48,8 +49,8 @@ public class CoreModule extends AbstractModule {
             log.debug("No /rsimulator.properties resource exists. Configuring /rsimulator-default.properties");
             resource = getClass().getResource("/rsimulator-default.properties");
         }
-        bind(File.class).annotatedWith(Names.named("rsimulator-core-properties")).toInstance(
-                new File(resource.getFile()));
+        bind(Path.class).annotatedWith(Names.named("rsimulator-core-properties")).toInstance(
+                new File(resource.getFile()).toPath());        
 
         // ***** Handlers *****
         Map<String, Handler> map = new HashMap<String, Handler>();
@@ -97,6 +98,7 @@ public class CoreModule extends AbstractModule {
                 simulatorScriptInterceptor);
         bindInterceptor(Matchers.subclassesOf(FileUtils.class), Matchers.annotatedWith(Cache.class),
                 fileUtilsCacheInterceptor);
-        bindInterceptor(Matchers.subclassesOf(Props.class), Matchers.annotatedWith(Cache.class), propsCacheInterceptor);
+        bindInterceptor(Matchers.subclassesOf(Props.class), Matchers.annotatedWith(Cache.class),
+                propsCacheInterceptor);
     }
 }

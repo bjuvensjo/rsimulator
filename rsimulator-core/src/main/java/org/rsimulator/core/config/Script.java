@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * Script is an annotation that is used for script interceptors.
- * 
+ *
  * @author Magnus Bjuvensjö
  */
 @Retention(RetentionPolicy.RUNTIME)

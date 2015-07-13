@@ -13,6 +13,8 @@ import org.rsimulator.core.config.CoreModule;
 import org.simulator.jms.config.GlobalConfig;
 import org.simulator.jms.config.JmsModule;
 
+import java.util.Optional;
+
 /**
  * JmsSimulator.
  *
@@ -56,13 +58,11 @@ public class JmsSimulator extends RouteBuilder {
             definition.bean(decoder);
         }
 
-        definition.process(new Processor() {
-            @Override
-            public void process(Exchange exchange) throws Exception {
-                String request = exchange.getIn().getBody(String.class);
-                SimulatorResponse simulatorResponse = simulator.service(GlobalConfig.rootPath, "", request, simulatorContentType);
-                exchange.getIn().setBody(simulatorResponse.getResponse());
-            }
+        definition.process(exchange -> {
+            String request = exchange.getIn().getBody(String.class);
+            Optional<SimulatorResponse> simulatorResponseOptional = simulator.service(GlobalConfig.rootPath, "", request, simulatorContentType);
+            String responseBody = simulatorResponseOptional.map(SimulatorResponse::getResponse).orElse("No simulatorResponse found!");                
+            exchange.getIn().setBody(responseBody);
         });
 
         if (encoder != null) {

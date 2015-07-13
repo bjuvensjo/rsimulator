@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 import org.junit.Before;
@@ -29,15 +30,15 @@ public class FileUtilsTest {
 
     @Test
     public void testFindRequests() {
-        List<File> xmlRequests = fileUtils.findRequests(new File(getClass().getResource("/").getPath()), "xml");
+        List<Path> xmlRequests = fileUtils.findRequests(new File(getClass().getResource("/").getPath()).toPath(), "xml");
         assertTrue("xmlRequests", xmlRequests.size() > 0);
-        for (File file : xmlRequests) {
-            assertTrue("xmlFile", file.getName().endsWith("Request.xml"));
+        for (Path path : xmlRequests) {
+            assertTrue("xmlFile", path.toString().endsWith("Request.xml"));
         }
-        List<File> txtRequests = fileUtils.findRequests(new File(getClass().getResource("/").getPath()), "txt");
+        List<Path> txtRequests = fileUtils.findRequests(new File(getClass().getResource("/").getPath()).toPath(), "txt");
         assertTrue("txtRequests", txtRequests.size() > 0);
-        for (File file : txtRequests) {
-            assertTrue("txtFile", file.getName().endsWith("Request.txt"));
+        for (Path path : txtRequests) {
+            assertTrue("txtFile",  path.toString().endsWith("Request.txt"));
         }
     }
 
@@ -46,8 +47,8 @@ public class FileUtilsTest {
         String resource = "/test1/Test.properties";
         try {
             File file = new File(getClass().getResource(resource).getPath());
-            String content = fileUtils.read(file);
-            String cachedContent = fileUtils.read(file);
+            String content = fileUtils.read(file.toPath());
+            String cachedContent = fileUtils.read(file.toPath());
             assertNotNull("classFileContent", content);
             assertNotNull("cachedClassFileContent", cachedContent);
             assertSame(content, cachedContent);
@@ -56,7 +57,7 @@ public class FileUtilsTest {
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(content.getBytes());
             fos.close();
-            cachedContent = fileUtils.read(file);
+            cachedContent = fileUtils.read(file.toPath());
             assertNotSame(content, cachedContent);
         } catch (IOException e) {
             fail(e.getMessage());
