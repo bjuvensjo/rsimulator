@@ -1,17 +1,18 @@
 package org.rsimulator.core;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
-
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.rsimulator.core.util.Props;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * SimulatorCacheInterceptor is an interceptor that caches invokations of
@@ -28,22 +29,18 @@ public class SimulatorCacheInterceptor implements MethodInterceptor {
     @Inject
     private Props props;
 
-    /**
-     * {@inheritDoc}
-     */
     public Object invoke(MethodInvocation invocation) throws Throwable {
         log.debug("SimulatorCache is {}", props.isSimulatorCache());
         Object response = null;
         if (props.isSimulatorCache()) {
             if (invocation.getMethod().getName().equals("service")) {
                 Object[] arguments = invocation.getArguments();
-                String key = new StringBuilder().append(arguments[0]).append(arguments[1]).append(arguments[2])
-                        .toString();
+                String key = Arrays.stream(arguments).map(arg -> arg.toString()).collect(Collectors.joining());                        
                 Element cacheElement = cache.get(key);
                 if (cacheElement != null) {
                     response = cacheElement.getObjectValue();
                     if (response != null) {
-                        log.debug("{} returns from cache: {}", new Object[] {invocation.getMethod(), response});
+                        log.debug("{} returns from cache: {}", new Object[]{invocation.getMethod(), response});
                         return response;
                     }
                 }
@@ -54,7 +51,7 @@ public class SimulatorCacheInterceptor implements MethodInterceptor {
         } else {
             response = invocation.proceed();
         }
-        log.debug("{} returns not from cache: {}", new Object[] {invocation.getMethod(), response});
+        log.debug("{} returns not from cache: {}", new Object[]{invocation.getMethod(), response});
         return response;
     }
 }

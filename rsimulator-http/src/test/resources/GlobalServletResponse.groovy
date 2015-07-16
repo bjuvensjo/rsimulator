@@ -2,7 +2,7 @@ import org.rsimulator.core.SimulatorResponse
 import javax.servlet.http.HttpServletResponse
 
 def SimulatorResponse simulatorResponse = vars.get("simulatorResponse")
-def Properties properties = simulatorResponse.getProperties()
+def Properties properties = simulatorResponse.getProperties().orElse(null);
 
 def HttpServletResponse response = vars.get("response")
 if (properties != null) {

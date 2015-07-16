@@ -6,14 +6,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.rsimulator.core.config.CoreModule;
 
-import java.io.IOException;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 /**
  * Test1.
- * 
+ *
  * @author Magnus Bjuvensjö
  */
 public class Test1 {
@@ -31,15 +28,11 @@ public class Test1 {
         String rootRelativePath = ".";
         String request = "Hello Simulator, says Test1!";
         String contentType = "txt";
-        try {
-            SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType);
-            assertEquals("Hello Test1, says Simulator!", simulatorResponse.getResponse());
+        SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType).get();
+        assertEquals("Hello Test1, says Simulator!", simulatorResponse.getResponse());
 
-            // to test cache
-            simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType);
-            assertEquals("Hello Test1, says Simulator!", simulatorResponse.getResponse());
-        } catch (IOException e) {
-            fail(e.getMessage());
-        }
+        // to test cache
+        simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType).get();
+        assertEquals("Hello Test1, says Simulator!", simulatorResponse.getResponse());
     }
 }

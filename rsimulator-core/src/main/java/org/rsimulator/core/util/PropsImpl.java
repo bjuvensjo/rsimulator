@@ -1,17 +1,17 @@
 package org.rsimulator.core.util;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.Properties;
-
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import org.rsimulator.core.config.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
+import java.io.BufferedInputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Optional;
+import java.util.Properties;
 
 /**
  * PropsImpl implements {@link Props}.
@@ -20,39 +20,27 @@ import com.google.inject.name.Named;
  */
 @Singleton
 public class PropsImpl implements Props {
-    private static final Properties EMPTY_PROPERTIES = new Properties();
     private static final String SIMULATOR_CACHE = "simulatorCache";
     private Logger log = LoggerFactory.getLogger(PropsImpl.class);
     @Inject
     @Named("rsimulator-core-properties")
-    private File propertyFile;
+    private Path propertyPath;
 
-    /**
-     * {@inheritDoc}
-     */
     @Cache
-    @Override
-    public Properties getProperties(File file) {
-        if (!file.exists()) {
-            return EMPTY_PROPERTIES;
+    public Optional<Properties> getProperties(Path path) {
+        if (!Files.exists(path)) {
+            return Optional.ofNullable(null);
         }
-        Properties result = new Properties();
-        BufferedInputStream bis = null;
-        try {
-            bis = new BufferedInputStream(new FileInputStream(file));
-            result.load(bis);
-            bis.close();
+        Properties properties = new Properties();
+        try (BufferedInputStream bis = new BufferedInputStream(Files.newInputStream(path))) {
+            properties.load(bis);
         } catch (Exception e) {
-            log.error("Error reading properties from: {}", file.getAbsolutePath(), e);
+            log.error("Error reading properties from: {}", path.toAbsolutePath(), e);
         }
-        return result;
+        return Optional.of(properties);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public boolean isSimulatorCache() {
-        return "true".equals(getProperties(propertyFile).getProperty(SIMULATOR_CACHE));
+        return getProperties(propertyPath).map(p -> "true".equals(p.getProperty(SIMULATOR_CACHE))).orElse(false);
     }
 }

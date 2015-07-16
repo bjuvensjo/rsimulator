@@ -1,11 +1,13 @@
 package org.rsimulator.core;
 
+import com.google.inject.Singleton;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Singleton;
+import java.util.Optional;
+import java.util.Properties;
 
 /**
  * SimulatorPropertiesInterceptor is an interceptor that handles Properties if set on a {@link SimulatorResponse}.
@@ -15,23 +17,20 @@ public class SimulatorPropertiesInterceptor implements MethodInterceptor {
     private static final String DELAY = "delay";
     private Logger log = LoggerFactory.getLogger(SimulatorPropertiesInterceptor.class);
 
-    /**
-     * {@inheritDoc}
-     */
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        SimulatorResponse simulatorResponse = (SimulatorResponse) invocation.proceed();
+        Optional<SimulatorResponse> simulatorResponseOptional = (Optional<SimulatorResponse>) invocation.proceed();
 
-        if (simulatorResponse != null && simulatorResponse.getProperties() != null) {
-            handleDelay(simulatorResponse);
-        }
-        
-        return simulatorResponse;
+        simulatorResponseOptional
+                .flatMap(simulatorResponse -> simulatorResponse.getProperties())
+                .ifPresent(properties -> handleDelay(properties));
+
+        return simulatorResponseOptional;
     }
 
-    private void handleDelay(SimulatorResponse simulatorResponse) {
-        String delay = simulatorResponse.getProperties().getProperty(DELAY);
+    private void handleDelay(Properties properties) {
+        String delay = properties.getProperty(DELAY);
         if (delay != null) {
-            log.debug("Delaying response {} for {} ms.", simulatorResponse, delay);
+            log.debug("Delaying response {} ms.", delay);
             try {
                 Thread.sleep(Long.parseLong(delay));
             } catch (Exception e) {

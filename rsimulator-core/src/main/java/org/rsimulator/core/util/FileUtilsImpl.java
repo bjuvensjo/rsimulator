@@ -1,98 +1,53 @@
 package org.rsimulator.core.util;
 
-import static org.rsimulator.core.config.Constants.REQUEST;
-
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.inject.Singleton;
 import org.rsimulator.core.config.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Singleton;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.rsimulator.core.config.Constants.REQUEST;
 
 /**
  * FileUtilsImpl implements {@link FileUtils}.
- * 
+ *
  * @author Magnus Bjuvensjö
  */
 @Singleton
 public class FileUtilsImpl implements FileUtils {
-    private static final int BUFFER_SIZE = 1000;
     private static final String ENCODING = "UTF-8";
-    private static final String SUFFIX_PREFIX = new StringBuilder().append(REQUEST).append(".").toString();
+    private static final String SUFFIX_PREFIX = REQUEST.concat(".");
     private Logger log = LoggerFactory.getLogger(FileUtilsImpl.class);
 
-    private interface Filter {
-        boolean accept(String t);
-    }
+    public List<Path> findRequests(Path path, String extension) {
+        List<Path> requests;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<File> findRequests(File file, final String extension) {
-        List<File> requests = new ArrayList<File>();
-        find(file, new Filter() {
-            public boolean accept(String t) {
-                return t.endsWith(new StringBuilder().append(SUFFIX_PREFIX).append(extension).toString());
-            }
-        }, requests);
+        try (Stream<Path> stream = Files.walk(path)) {
+            Predicate<Path> predicate = p -> Files.isRegularFile(p) && p.toFile().getName().endsWith(SUFFIX_PREFIX.concat(extension));
+            requests = stream.filter(predicate).collect(Collectors.toList());
+            Collections.sort(requests, Comparator.comparing(Path::getNameCount).thenComparing(Path::compareTo)); // Do not want depth first as given by Files.walk
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         log.debug("Requests: {}", requests);
         return requests;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Cache
-    @Override
-    public String read(File file) throws IOException {
-        BufferedInputStream bis = null;
+    public String read(Path path) {
         try {
-            bis = new BufferedInputStream(new FileInputStream(file));
-            StringBuilder sb = new StringBuilder();
-            byte[] buffer = new byte[BUFFER_SIZE];
-            int n = -1;
-            while ((n = bis.read(buffer)) > 0) {
-                sb.append(new String(buffer, 0, n, ENCODING));
-            }
-            return sb.toString();
-        } finally {
-            if (bis != null) {
-                bis.close();
-            }
-        }
-    }
-
-    private void find(File file, final Filter filter, List<File> files) {
-        if (file.isDirectory()) {
-            File[] acceptedFiles = file.listFiles(new FileFilter() {
-				@Override
-				public boolean accept(File f) {
-					return f.isFile();
-				}
-			});
-            for (int i = 0; i < acceptedFiles.length; i++) {
-                find(acceptedFiles[i], filter, files);
-            }            
-            File[] dirFiles = file.listFiles(new FileFilter() {
-				@Override
-				public boolean accept(File f) {
-					return f.isDirectory();
-				}
-			});
-            for (int i = 0; i < dirFiles.length; i++) {
-                find(dirFiles[i], filter, files);
-            }
-        } else if (filter.accept(file.getName())) {
-            log.debug("adds {}", file.getName());
-            files.add(file);
+            return new String(Files.readAllBytes(path), ENCODING);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

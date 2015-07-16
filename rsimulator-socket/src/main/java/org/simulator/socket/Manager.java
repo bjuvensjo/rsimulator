@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import org.rsimulator.core.Simulator;
 import org.rsimulator.core.SimulatorResponse;
+import org.simulator.socket.config.Constants;
 import org.simulator.socket.config.GlobalConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Optional;
 
 /**
  * Manager
@@ -74,7 +76,8 @@ public class Manager {
                     out = s.getOutputStream();
                     RequestReader.Request request = read(in);
                     if (request.isValid()) {
-                        SimulatorResponse simulatorResponse = simulator.service(GlobalConfig.rootPath, getRootRelativePath(request), request.getBody(), simulatorContentType);
+                        Optional<SimulatorResponse> simulatorResponseOptional = simulator.service(GlobalConfig.rootPath, getRootRelativePath(request), request.getBody(), simulatorContentType);
+                        SimulatorResponse simulatorResponse = simulatorResponseOptional.get();
                         write(request, simulatorResponse, out);
                     }
                 } catch (Exception e) {

@@ -1,9 +1,10 @@
 package org.rsimulator.core.util;
 
-import java.io.File;
-import java.util.Properties;
-
 import com.google.inject.ImplementedBy;
+
+import java.nio.file.Path;
+import java.util.Optional;
+import java.util.Properties;
 
 /**
  * Props is a utility that reloads properties from disk when changed.
@@ -21,10 +22,10 @@ public interface Props {
     boolean isSimulatorCache();
 
     /**
-     * Returns the properties read from the specified file.
+     * Returns the properties read from the specified path.
      *
-     * @param file the file
-     * @return the properties read from the specified file
+     * @param path the path
+     * @return the properties read from the specified path
      */
-    Properties getProperties(File file);
+    Optional<Properties> getProperties(Path path);
 }

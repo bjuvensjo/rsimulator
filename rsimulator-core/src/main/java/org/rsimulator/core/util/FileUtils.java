@@ -1,10 +1,9 @@
 package org.rsimulator.core.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
 import com.google.inject.ImplementedBy;
+
+import java.nio.file.Path;
+import java.util.List;
 
 /**
  * FileUtils provides file utilities.
@@ -15,22 +14,19 @@ import com.google.inject.ImplementedBy;
 public interface FileUtils {
 
     /**
-     * Returns the requests that have the specified file extension and are in the specified file directory or a
-     * subdirectory.
+     * Returns the requests that have the specified file extension and are in the specified directory or a subdirectory.
      *
-     * @param file the directory
+     * @param path      the directory
      * @param extension the file extension
-     * @return the requests that have the specified file extension and are in the specified file directory or a
-     *         subdirectory
+     * @return the requests that have the specified file extension and are in the specified directory or a subdirectory
      */
-    List<File> findRequests(File file, String extension);
+    List<Path> findRequests(Path path, String extension);
 
     /**
-     * Returns the content of the specified file.
+     * Returns the content of the specified path.
      *
-     * @param file the file
-     * @return the content of the specified file
-     * @throws IOException if the file can not be read
+     * @param path the path
+     * @return the content of the specified path
      */
-    String read(File file) throws IOException;
+    String read(Path path);
 }

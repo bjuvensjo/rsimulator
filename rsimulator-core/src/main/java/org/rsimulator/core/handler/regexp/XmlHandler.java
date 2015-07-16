@@ -25,11 +25,11 @@ public class XmlHandler extends AbstractHandler {
     /**
      * {@inheritDoc}
      */
-	@Override
-	protected String escape(String request, boolean isCandidate) {
-		return request;
-	}
-	
+    @Override
+    protected String escape(String request, boolean isCandidate) {
+        return request;
+    }
+
     /**
      * {@inheritDoc}
      */

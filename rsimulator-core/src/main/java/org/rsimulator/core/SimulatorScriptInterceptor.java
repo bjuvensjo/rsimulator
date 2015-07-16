@@ -1,18 +1,18 @@
 package org.rsimulator.core;
 
+import com.google.inject.Singleton;
 import groovy.lang.Binding;
 import groovy.util.GroovyScriptEngine;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Singleton;
+import java.io.File;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * SimulatorScriptInterceptor is an interceptor that supports Groovy scripts intercepting invocations of
@@ -39,7 +39,7 @@ public class SimulatorScriptInterceptor implements MethodInterceptor {
     private static final int ROOT_RELATIVE_PATH_INDEX = 1;
     private static final int ROOT_PATH_INDEX = 0;
     private static final String CONTENT_TYPE = "contentType";
-    private static final String SIMULATOR_RESPONSE = "simulatorResponse";
+    private static final String SIMULATOR_RESPONSE_OPTIONAL = "simulatorResponseOptional";
     private static final String REQUEST = "request";
     private static final String ROOT_PATH = "rootPath";
     private static final String ROOT_RELATIVE_PATH = "rootRelativePath";
@@ -50,9 +50,6 @@ public class SimulatorScriptInterceptor implements MethodInterceptor {
         GLOBAL_REQUEST, GLOBAL_RESPONSE, LOCAL_RESPONSE
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public Object invoke(MethodInvocation invocation) throws Throwable {
         log.debug("Arguments are {}", invocation.getArguments());
         Map<String, Object> vars = new HashMap<String, Object>();
@@ -63,22 +60,23 @@ public class SimulatorScriptInterceptor implements MethodInterceptor {
         vars.put(CONTENT_TYPE, invocation.getArguments()[CONTENT_TYPE_INDEX]);
 
         applyScript(Scope.GLOBAL_REQUEST, vars);
-        SimulatorResponse simulatorResponse = (SimulatorResponse) vars.get(SIMULATOR_RESPONSE);
-        if (simulatorResponse != null) {
-            log.debug("Returning {}", simulatorResponse);
-            return simulatorResponse;
+        Optional<SimulatorResponse> simulatorResponseOptional = (Optional<SimulatorResponse>) vars.get(SIMULATOR_RESPONSE_OPTIONAL);
+        if (simulatorResponseOptional != null && simulatorResponseOptional.isPresent()) {
+            log.debug("Returning {}", simulatorResponseOptional.get());
+            return simulatorResponseOptional;
         }
 
         invocation.getArguments()[ROOT_PATH_INDEX] = vars.get(ROOT_PATH);
         invocation.getArguments()[ROOT_RELATIVE_PATH_INDEX] = vars.get(ROOT_RELATIVE_PATH);
         invocation.getArguments()[REQUEST_INDEX] = vars.get(REQUEST);
         invocation.getArguments()[CONTENT_TYPE_INDEX] = vars.get(CONTENT_TYPE);
-        simulatorResponse = (SimulatorResponse) invocation.proceed();
+        
+        simulatorResponseOptional = (Optional<SimulatorResponse>) invocation.proceed();
 
-        vars.put(SIMULATOR_RESPONSE, simulatorResponse);
+        vars.put(SIMULATOR_RESPONSE_OPTIONAL, simulatorResponseOptional);
         applyScript(Scope.LOCAL_RESPONSE, vars);
         applyScript(Scope.GLOBAL_RESPONSE, vars);
-        return vars.get(SIMULATOR_RESPONSE);
+        return vars.get(SIMULATOR_RESPONSE_OPTIONAL);
     }
 
     private void applyScript(Scope type, Map<String, Object> vars) {
@@ -86,33 +84,34 @@ public class SimulatorScriptInterceptor implements MethodInterceptor {
             String root = null;
             String script = null;
             switch (type) {
-            case GLOBAL_REQUEST:
-                root = (String) vars.get(ROOT_PATH);
-                script = "GlobalRequest.groovy";
-                break;
-            case GLOBAL_RESPONSE:
-                root = (String) vars.get(ROOT_PATH);
-                script = "GlobalResponse.groovy";
-                break;
-            case LOCAL_RESPONSE:
-                SimulatorResponse simulatorResponse = (SimulatorResponse) vars.get(SIMULATOR_RESPONSE);
-                if (simulatorResponse != null && simulatorResponse.getMatchingRequest() != null) {
-                    root = simulatorResponse.getMatchingRequest().getParentFile().getPath();
-                    script = simulatorResponse.getMatchingRequest().getName().replaceAll(GROOVY_PATTERN, ".groovy");
-                }
-                break;
-            default:
-                break;
+                case GLOBAL_REQUEST:
+                    root = (String) vars.get(ROOT_PATH);
+                    script = "GlobalRequest.groovy";
+                    break;
+                case GLOBAL_RESPONSE:
+                    root = (String) vars.get(ROOT_PATH);
+                    script = "GlobalResponse.groovy";
+                    break;
+                case LOCAL_RESPONSE:
+                    Optional<SimulatorResponse> simulatorResponseOptional = (Optional<SimulatorResponse>) vars.get(SIMULATOR_RESPONSE_OPTIONAL);
+                    if (simulatorResponseOptional.isPresent()) {
+                        Path matchingRequest = simulatorResponseOptional.get().getMatchingRequest();
+                        root = matchingRequest.getParent().toAbsolutePath().toString();
+                        script = matchingRequest.getFileName().toString().replaceAll(GROOVY_PATTERN, ".groovy");
+                    }
+                    break;
+                default:
+                    break;
             }
-            File file = new File(new StringBuilder().append(root).append(File.separator).append(script).toString());
+            File file = new File(String.join(File.separator, root, script));
             if (file.exists()) {
-                log.debug("Applying script {} of type: {}, with vars: {}", new Object[] {file, type, vars});
-                String[] roots = new String[] {root};
+                log.debug("Applying script {} of type: {}, with vars: {}", new Object[]{file, type, vars});
+                String[] roots = new String[]{root};
                 GroovyScriptEngine gse = new GroovyScriptEngine(roots);
                 Binding binding = new Binding();
                 binding.setVariable("vars", vars);
                 gse.run(script, binding);
-                log.debug("Applied script {} of type: {}, and updated vars are: {}", new Object[] {file, type, vars});
+                log.debug("Applied script {} of type: {}, and updated vars are: {}", new Object[]{file, type, vars});
             } else {
                 log.debug("When applying script of type {}, script path {} is not an existing file", type, root);
             }

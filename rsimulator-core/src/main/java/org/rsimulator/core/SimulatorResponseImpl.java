@@ -1,85 +1,62 @@
 package org.rsimulator.core;
 
-import java.io.File;
+import java.nio.file.Path;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.StringJoiner;
 
 /**
  * SimulatorResponseImpl implements {@link SimulatorResponse}.
- * 
+ *
  * @author Magnus Bjuvensjö
  */
 public class SimulatorResponseImpl implements SimulatorResponse {
     private String response;
-    private Properties properties;
-    private File matchingRequest;
+    private Optional<Properties> properties;
+    private Path matchingRequest;
 
     /**
      * Creates an instance with the specified parameters.
-     * 
-     * @param aResponse the response
-     * @param aProperties the properties
-     * @param aMatchingRequest the matching request
+     *
+     * @param response        the response
+     * @param properties      the optional properties
+     * @param matchingRequest the matching request
      */
-    public SimulatorResponseImpl(String aResponse, Properties aProperties, File aMatchingRequest) {
-        this.response = aResponse;
-        this.properties = aProperties;
-        this.matchingRequest = aMatchingRequest;
+    public SimulatorResponseImpl(String response, Optional<Properties> properties, Path matchingRequest) {
+        this.response = response;
+        this.properties = properties;
+        this.matchingRequest = matchingRequest;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public String getResponse() {
         return response;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setResponse(String aResponse) {
-        this.response = aResponse;
+    public void setResponse(String response) {
+        this.response = response;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Properties getProperties() {
+    public Optional<Properties> getProperties() {
         return properties;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setProperties(Properties aProperties) {
-        this.properties = aProperties;
+    public void setProperties(Optional<Properties> properties) {
+        this.properties = properties;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public File getMatchingRequest() {
+    public Path getMatchingRequest() {
         return matchingRequest;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setMatchingRequest(File aMatchingRequest) {
-        this.matchingRequest = aMatchingRequest;
+    public void setMatchingRequest(Path matchingRequest) {
+        this.matchingRequest = matchingRequest;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public String toString() {
-        return new StringBuilder().append("[").append("response: ").append(response).append(", properties: ")
-                .append(properties).append(", matchingRequest: ").append(matchingRequest).append("]").toString();
+        return new StringJoiner(", ", "[", "]")
+                .add("response: " + response)
+                .add("properties: " + properties)
+                .add("matchingRequest: " + matchingRequest)
+                .toString();
     }
 }

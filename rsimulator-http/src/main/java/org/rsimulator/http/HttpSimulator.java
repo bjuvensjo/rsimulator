@@ -21,13 +21,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * HttpSimulator makes the {@link Simulator} functionality available over http.
- * 
+ *
  * @author Magnus Bjuvensjö
  */
 public class HttpSimulator extends javax.servlet.http.HttpServlet {
@@ -122,24 +123,26 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
             log.debug("rootPath: {}", rootPath);
             log.debug("simulatorContentType: {}", simulatorContentType);
 
-            SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, simulatorRequest, simulatorContentType);
+            Optional<SimulatorResponse> simulatorResponseOptional = simulator.service(rootPath, rootRelativePath, simulatorRequest, simulatorContentType);
 
-            request.setAttribute(Constants.SIMULATOR_RESPONSE, simulatorResponse);            
+            request.setAttribute(Constants.SIMULATOR_RESPONSE, simulatorResponseOptional.get());
 
-            String responseBody = simulatorResponse != null ? simulatorResponse.getResponse() : "No simulatorResponse found!";
+            String responseBody = simulatorResponseOptional.map(SimulatorResponse::getResponse).orElse("No simulatorResponse found!");
             String responseContentType = getResponseContentType(simulatorContentType);
             String responseCharacterEncoding = charsetName;
-            
+
             log.debug("responseBody: {}", responseBody);
             log.debug("responseContentType: {}", responseContentType);
-            log.debug("responseCharacterEncoding: {}", responseCharacterEncoding);            
-            
+            log.debug("responseCharacterEncoding: {}", responseCharacterEncoding);
+
             response.setContentType(responseContentType);
             response.setDateHeader("Date", System.currentTimeMillis());
-            response.setCharacterEncoding(responseCharacterEncoding);            
+            response.setCharacterEncoding(responseCharacterEncoding);
 
-            handleResponseProperties(response, simulatorResponse);
-            
+            simulatorResponseOptional
+                    .flatMap(simulatorResponse -> simulatorResponse.getProperties())
+                    .ifPresent(properties -> handleResponseProperties(response, properties));
+
             response.getOutputStream().write(responseBody.getBytes(charsetName));
         } catch (Exception e) {
             log.error(null, e);
@@ -170,16 +173,13 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
         return copyQueryString(request);
     }
 
-    private void handleResponseProperties(HttpServletResponse response, SimulatorResponse simulatorResponse) {
-        if (simulatorResponse != null) {
-            Properties properties = simulatorResponse.getProperties();
-            log.debug("properties: {}", properties);
-            if (properties != null) {
-                String responseCode = properties.getProperty("responseCode");
-                log.debug("responseCode: {}", responseCode);
-                if (responseCode != null) {
-                    response.setStatus(Integer.parseInt(responseCode));
-                }
+    private void handleResponseProperties(HttpServletResponse response, Properties properties) {
+        log.debug("properties: {}", properties);
+        if (properties != null) {
+            String responseCode = properties.getProperty("responseCode");
+            log.debug("responseCode: {}", responseCode);
+            if (responseCode != null) {
+                response.setStatus(Integer.parseInt(responseCode));
             }
         }
     }
@@ -218,15 +218,15 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
         }
         return result;
     }
-    
+
     private String getResponseContentType(String simulatorContentType) {
-        String responseContentType  = responseContentTypes.get(simulatorContentType);
+        String responseContentType = responseContentTypes.get(simulatorContentType);
         if (responseContentType == null) {
             responseContentType = responseContentTypes.get("default");
         }
         return responseContentType;
     }
-    
+
 
     private String copyQueryString(HttpServletRequest request) {
         return request.getQueryString() == null ? "" : request.getQueryString();

@@ -1,17 +1,18 @@
 package org.rsimulator.aop;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.thoughtworks.xstream.XStream;
 import org.rsimulator.core.Simulator;
 import org.rsimulator.core.SimulatorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.thoughtworks.xstream.XStream;
+import java.util.Optional;
 
 /**
  * The SimulatorAdapter is used to simulate java interface method invocations by means of AOP.
- * 
+ *
  * @author Magnus Bjuvensjö
  */
 @Singleton
@@ -29,26 +30,29 @@ class SimulatorAdapter {
 
     /**
      * Returns some simulation response if found.
-     * 
+     *
      * @param declaringClassCanonicalName the class that declares the intercepted method
-     * @param methodName the name of the intercepted method
-     * @param arguments the arguments to the intercepted method
-     * @param rootPath the root path in which to (recursively) find simulator test data
-     * @param useRootRelativePath true if the declaringClassCanonicalName and methodName should be used as an relative path extension of rootPath, otherwise false
+     * @param methodName                  the name of the intercepted method
+     * @param arguments                   the arguments to the intercepted method
+     * @param rootPath                    the root path in which to (recursively) find simulator test data
+     * @param useRootRelativePath         true if the declaringClassCanonicalName and methodName should be used as an relative path extension of rootPath, otherwise false
      * @return some simulation response
-     * @throws Exception 
+     * @throws Exception
      */
-    public Object service(String declaringClassCanonicalName, String methodName, Object[] arguments, String rootPath, boolean useRootRelativePath) 
+    public Object service(String declaringClassCanonicalName, String methodName, Object[] arguments, String rootPath, boolean useRootRelativePath)
             throws Exception {
-        log.debug(
-                "declaringClassCanonicalName: {}, methodName: {}, arguments: {}, rootPath: {}, useRootRelativePath: {}",
-                new Object[] {declaringClassCanonicalName, methodName, arguments, rootPath, useRootRelativePath});
-        SimulatorResponse simulatorResponse = simulator.service(rootPath,
-                useRootRelativePath ? getRootRelativePath(declaringClassCanonicalName, methodName) : "",
-                createRequest(arguments), CONTENT_TYPE);
+        log.debug("declaringClassCanonicalName: {}, methodName: {}, arguments: {}, rootPath: {}, useRootRelativePath: {}",
+                new Object[]{declaringClassCanonicalName, methodName, arguments, rootPath, useRootRelativePath});
+
+        String rootRelativePath = useRootRelativePath ? getRootRelativePath(declaringClassCanonicalName, methodName) : "";
+        String simulatorRequest = createRequest(arguments);
+        
+        Optional<SimulatorResponse> simulatorResponseOptional = simulator.service(rootPath, rootRelativePath, simulatorRequest, CONTENT_TYPE);
+        SimulatorResponse simulatorResponse = simulatorResponseOptional.get();
+
         Object response = createResponse(simulatorResponse.getResponse());
         if (response instanceof Throwable) {
-        	throw (Exception)response;
+            throw (Exception) response;
         }
         return response;
     }

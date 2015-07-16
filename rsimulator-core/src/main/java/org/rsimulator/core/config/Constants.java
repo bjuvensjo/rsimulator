@@ -2,7 +2,7 @@ package org.rsimulator.core.config;
 
 /**
  * Constants.
- * 
+ *
  * @author Magnus Bjuvensjö
  */
 public final class Constants {

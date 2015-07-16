@@ -1,20 +1,16 @@
 package org.rsimulator.core;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-
-import java.io.IOException;
-
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.junit.Before;
 import org.junit.Test;
 import org.rsimulator.core.config.CoreModule;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Test3.
- * 
+ *
  * @author Magnus Bjuvensjö
  */
 public class Test3 {
@@ -35,14 +31,8 @@ public class Test3 {
                 + "<hel:SayHelloRequest><from>Test3</from><to>Simulator</to><greeting>Hello</greeting>"
                 + "</hel:SayHelloRequest></soapenv:Body></soapenv:Envelope>";
         String contentType = "xml";
-        try {
-            SimulatorResponse simulatorResponse = simulator
-                    .service(rootPath, rootRelativePath, request, contentType);
-            simulator.service(rootPath, rootRelativePath, request, contentType);
-            assertNotNull(simulatorResponse);
-            assertNotNull(simulatorResponse.getResponse());
-        } catch (IOException e) {
-            fail(e.getMessage());
-        }
+        SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType).get();
+        assertNotNull(simulatorResponse);
+        assertNotNull(simulatorResponse.getResponse());
     }
 }

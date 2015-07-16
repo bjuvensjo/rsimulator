@@ -1,16 +1,12 @@
 package org.rsimulator.core;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
-import java.io.IOException;
-
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.junit.Before;
 import org.junit.Test;
 import org.rsimulator.core.config.CoreModule;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test6.
@@ -32,13 +28,7 @@ public class Test6 {
         String rootRelativePath = "/.";
         String request = "Hello Simulator, says Test6!";
         String contentType = "txt";
-        try {
-            SimulatorResponse simulatorResponse = simulator
-                    .service(rootPath, rootRelativePath, request, contentType);
-            simulator.service(rootPath, rootRelativePath, request, contentType);
-            assertEquals("Hello Test6, says Test.groovy!", simulatorResponse.getResponse());
-        } catch (IOException e) {
-            fail(e.getMessage());
-        }
+        SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType).get();
+        assertEquals("Hello Test6, says Test.groovy!", simulatorResponse.getResponse());
     }
 }

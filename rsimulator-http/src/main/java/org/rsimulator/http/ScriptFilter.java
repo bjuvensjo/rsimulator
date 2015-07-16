@@ -5,6 +5,7 @@ import groovy.util.GroovyScriptEngine;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,8 +89,9 @@ public class ScriptFilter implements Filter {
                 case LOCAL_RESPONSE:
                     SimulatorResponse simulatorResponse = (SimulatorResponse) vars.get(SIMULATOR_RESPONSE);
                     if (simulatorResponse != null && simulatorResponse.getMatchingRequest() != null) {
-                        root = simulatorResponse.getMatchingRequest().getParentFile().getPath();
-                        script = simulatorResponse.getMatchingRequest().getName().replaceAll(GROOVY_PATTERN, "Servlet.groovy");
+                        Path matchingRequest = simulatorResponse.getMatchingRequest();
+                        root = matchingRequest.getParent().toAbsolutePath().toString();
+                        script = matchingRequest.getFileName().toString().replaceAll(GROOVY_PATTERN, "Servlet.groovy");
                     }
                     break;
                 default:
