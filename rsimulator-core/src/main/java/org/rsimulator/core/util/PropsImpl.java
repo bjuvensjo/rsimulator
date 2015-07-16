@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.Properties;
 
 /**
@@ -19,7 +20,6 @@ import java.util.Properties;
  */
 @Singleton
 public class PropsImpl implements Props {
-    private static final Properties EMPTY_PROPERTIES = new Properties();
     private static final String SIMULATOR_CACHE = "simulatorCache";
     private Logger log = LoggerFactory.getLogger(PropsImpl.class);
     @Inject
@@ -27,20 +27,20 @@ public class PropsImpl implements Props {
     private Path propertyPath;
 
     @Cache
-    public Properties getProperties(Path path) {
+    public Optional<Properties> getProperties(Path path) {
         if (!Files.exists(path)) {
-            return EMPTY_PROPERTIES;
+            return Optional.ofNullable(null);
         }
-        Properties result = new Properties();
+        Properties properties = new Properties();
         try (BufferedInputStream bis = new BufferedInputStream(Files.newInputStream(path))) {
-            result.load(bis);
+            properties.load(bis);
         } catch (Exception e) {
             log.error("Error reading properties from: {}", path.toAbsolutePath(), e);
         }
-        return result;
+        return Optional.of(properties);
     }
 
     public boolean isSimulatorCache() {
-        return "true".equals(getProperties(propertyPath).getProperty(SIMULATOR_CACHE));
+        return getProperties(propertyPath).map(p -> "true".equals(p.getProperty(SIMULATOR_CACHE))).orElse(false);
     }
 }

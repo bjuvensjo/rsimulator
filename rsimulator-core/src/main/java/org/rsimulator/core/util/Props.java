@@ -2,8 +2,8 @@ package org.rsimulator.core.util;
 
 import com.google.inject.ImplementedBy;
 
-import java.io.File;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.Properties;
 
 /**
@@ -27,5 +27,5 @@ public interface Props {
      * @param path the path
      * @return the properties read from the specified path
      */
-    Properties getProperties(Path path);
+    Optional<Properties> getProperties(Path path);
 }

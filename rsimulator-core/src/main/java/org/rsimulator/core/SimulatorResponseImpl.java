@@ -3,6 +3,7 @@ package org.rsimulator.core;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.StringJoiner;
 
 /**
  * SimulatorResponseImpl implements {@link SimulatorResponse}.
@@ -18,12 +19,12 @@ public class SimulatorResponseImpl implements SimulatorResponse {
      * Creates an instance with the specified parameters.
      *
      * @param response        the response
-     * @param properties      the properties
+     * @param properties      the optional properties
      * @param matchingRequest the matching request
      */
-    public SimulatorResponseImpl(String response, Properties properties, Path matchingRequest) {
+    public SimulatorResponseImpl(String response, Optional<Properties> properties, Path matchingRequest) {
         this.response = response;
-        this.properties = Optional.ofNullable(properties);
+        this.properties = properties;
         this.matchingRequest = matchingRequest;
     }
 
@@ -52,15 +53,10 @@ public class SimulatorResponseImpl implements SimulatorResponse {
     }
 
     public String toString() {
-        return new StringBuilder()
-                .append("[")
-                .append("response: ")
-                .append(response)
-                .append(", properties: ")
-                .append(properties)
-                .append(", matchingRequest: ")
-                .append(matchingRequest)
-                .append("]")
+        return new StringJoiner(", ", "[", "]")
+                .add("response: " + response)
+                .add("properties: " + properties)
+                .add("matchingRequest: " + matchingRequest)
                 .toString();
     }
 }

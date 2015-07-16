@@ -34,7 +34,7 @@ public abstract class AbstractHandler implements Handler {
     private Props props;
 
     public Optional<SimulatorResponse> findMatch(String rootPath, String rootRelativePath, String request) {
-        String path = new StringBuilder().append(rootPath).append(rootRelativePath).toString();
+        String path = rootPath.concat(rootRelativePath);
         log.debug("path: {}", path);
 
         Optional<SimulatorResponse> result = fileUtils.findRequests(Paths.get(path), getExtension())
@@ -45,7 +45,7 @@ public abstract class AbstractHandler implements Handler {
                     Matcher matcher = getMatcher(request, candidateRequest);
                     if (matcher.matches()) {
                         String response = getResponse(candidatePath, matcher);
-                        Properties properties = getProperties(candidatePath);
+                        Optional<Properties> properties = getProperties(candidatePath);
                         simulatorResponse = new SimulatorResponseImpl(response, properties, candidatePath);
                     }
                     return Optional.ofNullable(simulatorResponse);
@@ -101,10 +101,10 @@ public abstract class AbstractHandler implements Handler {
         return response;
     }
 
-    private Properties getProperties(Path candidatePath) {
+    private Optional<Properties> getProperties(Path candidatePath) {
         String name = candidatePath.getFileName().toString().replaceFirst(PROPERTIES_PATTERN, ".properties");
         Path propertiesPath = candidatePath.resolveSibling(name);
-        Properties properties = props.getProperties(propertiesPath);
+        Optional<Properties> properties = props.getProperties(propertiesPath);
         log.debug("Properties: [{}, {}]", properties, propertiesPath);
         return properties;
     }

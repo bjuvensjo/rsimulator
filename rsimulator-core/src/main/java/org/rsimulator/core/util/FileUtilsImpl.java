@@ -24,14 +24,14 @@ import static org.rsimulator.core.config.Constants.REQUEST;
 @Singleton
 public class FileUtilsImpl implements FileUtils {
     private static final String ENCODING = "UTF-8";
-    private static final String SUFFIX_PREFIX = new StringBuilder().append(REQUEST).append(".").toString();
+    private static final String SUFFIX_PREFIX = REQUEST.concat(".");
     private Logger log = LoggerFactory.getLogger(FileUtilsImpl.class);
 
     public List<Path> findRequests(Path path, String extension) {
         List<Path> requests;
 
         try (Stream<Path> stream = Files.walk(path)) {
-            Predicate<Path> predicate = p -> Files.isRegularFile(p) && p.toFile().getName().endsWith(new StringBuilder().append(SUFFIX_PREFIX).append(extension).toString());
+            Predicate<Path> predicate = p -> Files.isRegularFile(p) && p.toFile().getName().endsWith(SUFFIX_PREFIX.concat(extension));
             requests = stream.filter(predicate).collect(Collectors.toList());
             Collections.sort(requests, Comparator.comparing(Path::getNameCount).thenComparing(Path::compareTo)); // Do not want depth first as given by Files.walk
         } catch (Exception e) {

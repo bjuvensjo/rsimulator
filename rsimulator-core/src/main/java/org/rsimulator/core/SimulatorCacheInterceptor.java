@@ -11,6 +11,9 @@ import org.rsimulator.core.util.Props;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 /**
  * SimulatorCacheInterceptor is an interceptor that caches invokations of
  * {@link Simulator#service(String, String, String, String)}.
@@ -32,7 +35,7 @@ public class SimulatorCacheInterceptor implements MethodInterceptor {
         if (props.isSimulatorCache()) {
             if (invocation.getMethod().getName().equals("service")) {
                 Object[] arguments = invocation.getArguments();
-                String key = new StringBuilder().append(arguments[0]).append(arguments[1]).append(arguments[2]).toString();
+                String key = Arrays.stream(arguments).map(arg -> arg.toString()).collect(Collectors.joining());                        
                 Element cacheElement = cache.get(key);
                 if (cacheElement != null) {
                     response = cacheElement.getObjectValue();

@@ -103,7 +103,7 @@ public class SimulatorScriptInterceptor implements MethodInterceptor {
                 default:
                     break;
             }
-            File file = new File(new StringBuilder().append(root).append(File.separator).append(script).toString());
+            File file = new File(String.join(File.separator, root, script));
             if (file.exists()) {
                 log.debug("Applying script {} of type: {}, with vars: {}", new Object[]{file, type, vars});
                 String[] roots = new String[]{root};
