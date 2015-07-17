@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <ns2:TransferRequest
+                xmlns="http://www.github.com/bjuvensjo/rsimulator/example/unittest/transfer/account/"
+                xmlns:ns2="http://www.github.com/bjuvensjo/rsimulator/example/unittest/transfer/transfer/">
+            <ns2:transfer>
+                <ns2:from>
+                    <accountId>(.*)</accountId>
+                    <balance>.*</balance>
+                </ns2:from>
+                <ns2:to>
+                    <accountId>(.*)</accountId>
+                    <balance>.*</balance>
+                </ns2:to>
+                <ns2:amount>.*</ns2:amount>
+            </ns2:transfer>
+        </ns2:TransferRequest>
+    </soap:Body>
+</soap:Envelope>

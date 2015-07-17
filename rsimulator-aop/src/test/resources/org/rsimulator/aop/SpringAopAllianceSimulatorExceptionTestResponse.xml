@@ -1,6 +1,0 @@
-<response>
-	<org.rsimulator.aop.BarException>
-		<detailMessage>msg</detailMessage>
-		<code>1</code>
-	</org.rsimulator.aop.BarException>
-</response>

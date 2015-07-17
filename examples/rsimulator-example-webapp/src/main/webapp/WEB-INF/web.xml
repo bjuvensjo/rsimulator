@@ -5,7 +5,7 @@
 		<description>The HttpSimulator Servlet</description>
 		<display-name>HttpSimulator</display-name>
 		<servlet-name>HttpSimulator</servlet-name>
-		<servlet-class>org.rsimulator.http.HttpSimulator</servlet-class>
+		<servlet-class>com.github.bjuvensjo.rsimulator.http.HttpSimulator</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>HttpSimulator</servlet-name>
@@ -13,7 +13,7 @@
 	</servlet-mapping>
     <filter>
         <filter-name>ScriptFilter</filter-name>
-        <filter-class>org.rsimulator.http.ScriptFilter</filter-class>
+        <filter-class>com.github.bjuvensjo.rsimulator.http.ScriptFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>ScriptFilter</filter-name>

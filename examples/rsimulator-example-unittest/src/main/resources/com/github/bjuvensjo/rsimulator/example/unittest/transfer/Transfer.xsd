@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.github.com/bjuvensjo/rsimulator/example/unittest/transfer/transfer/"
+        xmlns:tns="http://www.github.com/bjuvensjo/rsimulator/example/unittest/transfer/transfer/"
+        xmlns:acc="http://www.github.com/bjuvensjo/rsimulator/example/unittest/transfer/account/"
+        elementFormDefault="qualified">
+
+    <import namespace="http://www.github.com/bjuvensjo/rsimulator/example/unittest/transfer/account/"
+            schemaLocation="./Account.xsd"></import>
+
+    <complexType name="Transfer">
+        <sequence>
+            <element name="from" type="acc:Account"/>
+            <element name="to" type="acc:Account"/>
+            <element name="amount" type="double"/>
+        </sequence>
+    </complexType>
+    <element name="TransferRequest">
+        <complexType>
+            <sequence>
+                <element name="transfer" type="tns:Transfer"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="TransferResponse">
+        <complexType>
+            <sequence>
+                <element name="Receipt">
+                    <complexType>
+                        <sequence>
+                            <element name="status">
+                                <simpleType>
+                                    <restriction base="string">
+                                        <enumeration value="OK"/>
+                                        <enumeration value="Error"/>
+                                    </restriction>
+                                </simpleType>
+                            </element>
+                            <element name="from" type="acc:Account"/>
+                            <element name="to" type="acc:Account"/>
+                        </sequence>
+                    </complexType>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

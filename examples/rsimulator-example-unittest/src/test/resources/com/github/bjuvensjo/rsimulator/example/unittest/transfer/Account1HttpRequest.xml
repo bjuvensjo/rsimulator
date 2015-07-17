@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <GetAccountsRequest
+                xmlns="http://www.github.com/bjuvensjo/rsimulator/example/unittest/transfer/account/">
+            <userId>1111</userId>
+        </GetAccountsRequest>
+    </soap:Body>
+</soap:Envelope>

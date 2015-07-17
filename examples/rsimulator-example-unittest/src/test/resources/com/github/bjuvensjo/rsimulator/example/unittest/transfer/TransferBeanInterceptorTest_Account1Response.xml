@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+    <list>
+        <com.github.bjuvensjo.rsimulator.example.unittest.transfer.account.Account>
+            <accountId>1111</accountId>
+            <balance>1000.0</balance>
+        </com.github.bjuvensjo.rsimulator.example.unittest.transfer.account.Account>
+        <com.github.bjuvensjo.rsimulator.example.unittest.transfer.account.Account>
+            <accountId>2222</accountId>
+            <balance>2000.0</balance>
+        </com.github.bjuvensjo.rsimulator.example.unittest.transfer.account.Account>
+    </list>
+</response>

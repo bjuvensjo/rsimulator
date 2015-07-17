@@ -6,7 +6,7 @@
     <description>${project.artifactId} module</description>
     <url>https://github.com/bjuvensjo/rsimulator/wiki</url>
     <parent>
-        <groupId>org.rsimulator</groupId>
+        <groupId>com.github.bjuvensjo</groupId>
         <artifactId>rsimulator-pom-parent</artifactId>
         <version>2.0.1-SNAPSHOT</version>
         <relativePath>../rsimulator-pom-parent/pom.xml</relativePath>
@@ -45,7 +45,7 @@
             <artifactId>aspectjweaver</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.rsimulator</groupId>
+            <groupId>com.github.bjuvensjo</groupId>
             <artifactId>rsimulator-core</artifactId>
         </dependency>
         <dependency>

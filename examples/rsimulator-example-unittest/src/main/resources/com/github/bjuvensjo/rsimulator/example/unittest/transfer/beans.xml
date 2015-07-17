@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+         
+         
+         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+    <jaxws:client id="accountService"
+                  serviceClass="com.github.bjuvensjo.rsimulator.example.unittest.transfer.account.AccountPort"
+                  address="http://localhost:8080/"/>
+
+    <jaxws:client id="transferService"
+                  serviceClass="com.github.bjuvensjo.rsimulator.example.unittest.transfer.transfer.TransferPort"
+                  address="http://localhost:8080/"/>
+
+</beans>
