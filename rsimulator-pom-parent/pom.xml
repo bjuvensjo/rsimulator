@@ -14,6 +14,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <skipITTests>true</skipITTests>
 
+        <gpg.executable>gpg2</gpg.executable>
+        <gpg.passphrase>rsimulator</gpg.passphrase>        
+
         <aspectj.version>1.8.4</aspectj.version>
         <camel.version>2.15.2</camel.version>
         <spring.version>3.2.14.RELEASE</spring.version>
@@ -51,6 +54,20 @@
                     <!-- Run integration tests with -DskipTests=false -->
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
