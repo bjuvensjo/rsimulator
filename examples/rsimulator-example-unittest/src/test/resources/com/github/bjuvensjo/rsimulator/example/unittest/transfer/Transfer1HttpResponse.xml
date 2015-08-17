@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <tns:TransferResponse
+                xmlns:tns="http://www.github.com/bjuvensjo/rsimulator/example/unittest/transfer/transfer/"
+                xmlns:tns1="http://www.github.com/bjuvensjo/rsimulator/example/unittest/transfer/account/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.github.com/bjuvensjo/rsimulator/example/unittest/transfer/transfer/ Transfer.xsd ">
+            <tns:Receipt>
+                <tns:status>OK</tns:status>
+                <tns:from>
+                    <tns1:accountId>${1}</tns1:accountId>
+                    <tns1:balance>0.0</tns1:balance>
+                </tns:from>
+                <tns:to>
+                    <tns1:accountId>${2}</tns1:accountId>
+                    <tns1:balance>0.0</tns1:balance>
+                </tns:to>
+            </tns:Receipt>
+        </tns:TransferResponse>
+    </soap:Body>
+</soap:Envelope>

@@ -1,4 +1,4 @@
-import org.rsimulator.core.SimulatorResponse
+import com.github.bjuvensjo.rsimulator.core.SimulatorResponse
 import javax.servlet.http.HttpServletResponse
 
 def SimulatorResponse simulatorResponse = vars.get("simulatorResponse")

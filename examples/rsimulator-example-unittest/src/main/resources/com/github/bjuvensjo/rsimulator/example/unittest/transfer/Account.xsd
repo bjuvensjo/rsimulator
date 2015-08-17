@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.github.com/bjuvensjo/rsimulator/example/unittest/transfer/account/"
+        xmlns:tns="http://www.github.com/bjuvensjo/rsimulator/example/unittest/transfer/account/" elementFormDefault="qualified">
+
+    <complexType name="Account">
+        <sequence>
+            <element name="accountId" type="string"/>
+            <element name="balance" type="double"/>
+        </sequence>
+    </complexType>
+    <element name="GetAccountsRequest">
+        <complexType>
+            <sequence>
+                <element name="userId" type="string"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="GetAccountsResponse">
+        <complexType>
+            <sequence>
+                <element name="account" type="tns:Account" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

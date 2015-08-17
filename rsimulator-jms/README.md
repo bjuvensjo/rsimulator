@@ -49,18 +49,18 @@ Create a Spring configuration
            xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
            http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-        <bean class="org.simulator.jms.JmsSimulator">
+        <bean class="com.github.bjuvensjo.rsimulator.jms.JmsSimulator">
             <property name="jms" value="activemq" />
             <property name="queue" value="outQueue" />
             <property name="replyTo" value="inQueue" />
             <property name="simulatorContentType" value="txt" />
             <property name="decoder">
-                <bean class="org.simulator.jms.Decoder">
+                <bean class="com.github.bjuvensjo.rsimulator.jms.Decoder">
                     <property name="encoding" value="UTF-8"/>
                 </bean>
             </property>
             <property name="encoder">
-                <bean class="org.simulator.jms.Encoder">
+                <bean class="com.github.bjuvensjo.rsimulator.jms.Encoder">
                     <property name="encoding" value="UTF-8"/>
                 </bean>
             </property>
@@ -138,7 +138,7 @@ Create a Maven configuration
             <version>${activemq.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.rsimulator</groupId>
+            <groupId>com.github.bjuvensjo</groupId>
             <artifactId>rsimulator-jms</artifactId>
             <version>${rsimulator.version}</version>
         </dependency>

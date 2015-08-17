@@ -7,8 +7,8 @@
     <url>https://github.com/bjuvensjo/rsimulator/wiki</url>
     <parent>
         <artifactId>rsimulator-pom-parent</artifactId>
-        <groupId>org.rsimulator</groupId>
-        <version>2.0.0</version>
+        <groupId>com.github.bjuvensjo</groupId>
+        <version>2.0.1</version>
     </parent>
     <properties>
         <cxf.version>3.1.1</cxf.version>
@@ -58,7 +58,7 @@
                         <phase>generate-sources</phase>
                         <configuration>
                             <!--<sourceRoot>${basedir}/target/generated/cxf</sourceRoot>-->
-                            <wsdlRoot>${basedir}/src/main/resources/org/rsimulator</wsdlRoot>
+                            <wsdlRoot>${basedir}/src/main/resources/com/github/bjuvensjo</wsdlRoot>
                             <includes>
                                 <include>**/*.wsdl</include>
                             </includes>
@@ -72,7 +72,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
-            </plugin>            
+            </plugin>
         </plugins>
     </build>
     <dependencies>
@@ -101,17 +101,17 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-        </dependency>    
+        </dependency>
         <dependency>
-            <groupId>org.rsimulator</groupId>
+            <groupId>com.github.bjuvensjo</groupId>
             <artifactId>rsimulator-aop</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.rsimulator</groupId>
+            <groupId>com.github.bjuvensjo</groupId>
             <artifactId>rsimulator-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.rsimulator</groupId>
+            <groupId>com.github.bjuvensjo</groupId>
             <artifactId>rsimulator-http</artifactId>
         </dependency>
         <dependency>
@@ -147,5 +147,5 @@
             <name>MIT License</name>
             <url>http://www.opensource.org/licenses/mit-license.php</url>
         </license>
-    </licenses>            
+    </licenses>
 </project>

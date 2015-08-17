@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="aopAllianceSimulator" class="com.github.bjuvensjo.rsimulator.aop.AopAllianceSimulatorImpl"/>
+
+    <bean id="transferBean" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="proxyInterfaces" value="com.github.bjuvensjo.rsimulator.example.unittest.transfer.TransferBean"/>
+        <property name="interceptorNames">
+            <list>
+                <value>aopAllianceSimulator</value>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

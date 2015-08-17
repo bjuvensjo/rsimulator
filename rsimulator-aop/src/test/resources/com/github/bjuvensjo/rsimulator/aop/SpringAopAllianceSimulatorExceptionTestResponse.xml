@@ -1,0 +1,6 @@
+<response>
+	<com.github.bjuvensjo.rsimulator.aop.BarException>
+		<detailMessage>msg</detailMessage>
+		<code>1</code>
+	</com.github.bjuvensjo.rsimulator.aop.BarException>
+</response>

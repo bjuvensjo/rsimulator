@@ -13,9 +13,9 @@
  * See RecorderScriptVars
  */
 
-import org.rsimulator.recorder.SimulatorProperties
-import org.rsimulator.recorder.RecorderServletResponseWrapper
-import org.rsimulator.recorder.RecorderScriptVars
+import com.github.bjuvensjo.rsimulator.recorder.SimulatorProperties
+import com.github.bjuvensjo.rsimulator.recorder.RecorderServletResponseWrapper
+import com.github.bjuvensjo.rsimulator.recorder.RecorderScriptVars
 
 def relativeRecordPath = vars.get("relativeRecordPath")
 def basePath = vars.get("basePath")

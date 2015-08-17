@@ -10,10 +10,10 @@
  *
  * See RecorderScriptVars
  */
-import org.rsimulator.recorder.RecorderServletRequestWrapper;
-import org.rsimulator.recorder.RecorderScriptVars;
+import com.github.bjuvensjo.rsimulator.recorder.RecorderServletRequestWrapper;
+import com.github.bjuvensjo.rsimulator.recorder.RecorderScriptVars;
 
-def org.rsimulator.recorder.RecorderServletRequestWrapper request = vars.get("request")
+def RecorderServletRequestWrapper request = vars.get("request")
 def user = request.getHeader("Utoken")
 if (user) {
     def basePath = vars.get("basePath")

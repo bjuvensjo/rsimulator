@@ -1,4 +1,4 @@
-import org.rsimulator.core.SimulatorResponseImpl;
+import com.github.bjuvensjo.rsimulator.core.SimulatorResponseImpl;
 
 vars.put "a", "b"
 def request = vars.get("request")

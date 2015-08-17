@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <tns:GetAccountsResponse
+                xmlns:tns="http://www.github.com/bjuvensjo/rsimulator/example/unittest/transfer/account/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.github.com/bjuvensjo/rsimulator/example/unittest/transfer/account/ Account.xsd ">
+            <tns:account>
+                <tns:accountId>1</tns:accountId>
+                <tns:balance>1000</tns:balance>
+            </tns:account>
+        </tns:GetAccountsResponse>
+    </soap:Body>
+</soap:Envelope>
