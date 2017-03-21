@@ -12,11 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
  * SimulatorCacheInterceptor is an interceptor that caches invokations of
- * {@link Simulator#service(String, String, String, String)}.
+ * {@link Simulator#service(String, String, String, String, Map...)}.
  *
  * @author Magnus Bjuvensjö
  */

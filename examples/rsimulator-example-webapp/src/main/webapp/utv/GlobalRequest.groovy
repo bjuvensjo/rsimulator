@@ -1,7 +1,7 @@
 import com.github.bjuvensjo.rsimulator.core.SimulatorResponseImpl;
 
 vars.put "a", "b"
-def request = vars.get("request")
+def request = vars.get("simulatorRequest")
 //request = "Kalle"
 //vars.put("request", request)
 //if ("txt".equals(vars.get("contentType")))

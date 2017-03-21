@@ -1,8 +1,9 @@
 import groovy.xml.StreamingMarkupBuilder;
 
-def simulatorResponse = vars.get("simulatorResponse")
+def simulatorResponseOptional = vars.get("simulatorResponseOptional")
 
-def request = new XmlSlurper().parseText(vars.get("request"))
+def request = new XmlSlurper().parseText(vars.get("simulatorRequest"))
+def simulatorResponse = simulatorResponseOptional.get()
 def response = new XmlSlurper().parseText(simulatorResponse.response)
 
 def amount = request.Body.TransferRequest.transfer.amount.text().toDouble()
