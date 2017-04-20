@@ -169,8 +169,9 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
     }
 
     private String getSimulatorRequest(HttpServletRequest request, String charsetName) throws IOException {
-        if (request.getContentLength() > 0) {
-            return readBody(new BufferedInputStream(request.getInputStream()), charsetName);
+        String simulatorRequest = readBody(new BufferedInputStream(request.getInputStream()), charsetName);
+        if (!"".equals(simulatorRequest)) {
+             return simulatorRequest;   
         }
         return copyQueryString(request);
     }
