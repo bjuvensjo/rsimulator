@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <display-name>rsimulator-docker</display-name>
+    <servlet>
+        <description>The HttpSimulator Servlet</description>
+        <display-name>HttpSimulator</display-name>
+        <servlet-name>HttpSimulator</servlet-name>
+        <servlet-class>com.github.bjuvensjo.rsimulator.http.HttpSimulator</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HttpSimulator</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+    <filter>
+        <filter-name>ScriptFilter</filter-name>
+        <filter-class>com.github.bjuvensjo.rsimulator.http.ScriptFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ScriptFilter</filter-name>
+        <servlet-name>HttpSimulator</servlet-name>
+    </filter-mapping>
+</web-app>
