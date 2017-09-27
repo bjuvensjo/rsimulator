@@ -14,9 +14,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.github.bjuvensjo.rsimulator.core.config.Constants.CONTENT_TYPE;
+import static com.github.bjuvensjo.rsimulator.core.config.Constants.ROOT_PATH;
+import static com.github.bjuvensjo.rsimulator.core.config.Constants.ROOT_RELATIVE_PATH;
+import static com.github.bjuvensjo.rsimulator.core.config.Constants.SIMULATOR_REQUEST;
+import static com.github.bjuvensjo.rsimulator.core.config.Constants.SIMULATOR_RESPONSE_OPTIONAL;
+
 /**
  * SimulatorScriptInterceptor is an interceptor that supports Groovy scripts intercepting invocations of
- * {@link Simulator#service(String, String, String, String)}.
+ * {@link Simulator#service(String, String, String, String, Map...)}.
  * <p>
  * The scripts supported are:
  * <ol>
@@ -34,15 +40,11 @@ import java.util.Optional;
  */
 @Singleton
 public class SimulatorScriptInterceptor implements MethodInterceptor {
-    private static final int CONTENT_TYPE_INDEX = 3;
-    private static final int REQUEST_INDEX = 2;
-    private static final int ROOT_RELATIVE_PATH_INDEX = 1;
     private static final int ROOT_PATH_INDEX = 0;
-    private static final String CONTENT_TYPE = "contentType";
-    private static final String SIMULATOR_RESPONSE_OPTIONAL = "simulatorResponseOptional";
-    private static final String REQUEST = "request";
-    private static final String ROOT_PATH = "rootPath";
-    private static final String ROOT_RELATIVE_PATH = "rootRelativePath";
+    private static final int ROOT_RELATIVE_PATH_INDEX = 1;
+    private static final int SIMULATOR_REQUEST_INDEX = 2;
+    private static final int CONTENT_TYPE_INDEX = 3;
+    private static final int VARS_INDEX = 4;
     private static final String GROOVY_PATTERN = com.github.bjuvensjo.rsimulator.core.config.Constants.REQUEST + ".*";
     private Logger log = LoggerFactory.getLogger(SimulatorScriptInterceptor.class);
 
@@ -52,11 +54,20 @@ public class SimulatorScriptInterceptor implements MethodInterceptor {
 
     public Object invoke(MethodInvocation invocation) throws Throwable {
         log.debug("Arguments are {}", invocation.getArguments());
-        Map<String, Object> vars = new HashMap<String, Object>();
+        Map<String, Object> vars = null;
+
+        Map[] varsArray = (Map[]) invocation.getArguments()[VARS_INDEX];
+        if (varsArray.length > 0) {
+            vars = (Map<String, Object>) varsArray[0];
+        }
+        
+        if (vars == null) {
+            vars = new HashMap();
+        }
 
         vars.put(ROOT_PATH, invocation.getArguments()[ROOT_PATH_INDEX]);
         vars.put(ROOT_RELATIVE_PATH, invocation.getArguments()[ROOT_RELATIVE_PATH_INDEX]);
-        vars.put(REQUEST, invocation.getArguments()[REQUEST_INDEX]);
+        vars.put(SIMULATOR_REQUEST, invocation.getArguments()[SIMULATOR_REQUEST_INDEX]);
         vars.put(CONTENT_TYPE, invocation.getArguments()[CONTENT_TYPE_INDEX]);
 
         applyScript(Scope.GLOBAL_REQUEST, vars);
@@ -68,7 +79,7 @@ public class SimulatorScriptInterceptor implements MethodInterceptor {
 
         invocation.getArguments()[ROOT_PATH_INDEX] = vars.get(ROOT_PATH);
         invocation.getArguments()[ROOT_RELATIVE_PATH_INDEX] = vars.get(ROOT_RELATIVE_PATH);
-        invocation.getArguments()[REQUEST_INDEX] = vars.get(REQUEST);
+        invocation.getArguments()[SIMULATOR_REQUEST_INDEX] = vars.get(SIMULATOR_REQUEST);
         invocation.getArguments()[CONTENT_TYPE_INDEX] = vars.get(CONTENT_TYPE);
         
         simulatorResponseOptional = (Optional<SimulatorResponse>) invocation.proceed();

@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletResponse
 def SimulatorResponse simulatorResponse = vars.get("simulatorResponse")
 def Properties properties = simulatorResponse.getProperties().orElse(null);
 
-def HttpServletResponse response = vars.get("response")
+def HttpServletResponse response = vars.get("servletResponse")
 if (properties != null) {
     if (properties.getProperty("header.Error-Code")) {
         response.setHeader("Error-Code", properties.getProperty("header.Error-Code"))

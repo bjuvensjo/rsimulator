@@ -28,7 +28,7 @@ public class SimulatorImpl implements Simulator {
     @Properties
     @Cache
     @Script
-    public Optional<SimulatorResponse> service(String rootPath, String rootRelativePath, String request, String contentType) {
+    public Optional<SimulatorResponse> service(String rootPath, String rootRelativePath, String request, String contentType, Map<String, Object>... vars) {
         log.info("rootPath: {}, rootRelativePath: {}, request: {}, contentType: {}", new Object[]{rootPath, rootRelativePath, request, contentType});
 
         Optional<SimulatorResponse> simulatorResponse = handlers.get(contentType).findMatch(rootPath, rootRelativePath, request);
