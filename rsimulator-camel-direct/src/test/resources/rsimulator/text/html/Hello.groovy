@@ -1,0 +1,1 @@
+vars.put('key', 'value')

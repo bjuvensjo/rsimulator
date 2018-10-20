@@ -47,7 +47,7 @@ public class DirectProcessor implements Processor {
         accepts.put(DEFAULT, "txt");
     }
 
-    public void process(Exchange exchange) throws Exception {
+    public void process(Exchange exchange) {
         Map<String, Object> vars = new HashMap<>();
 
         Optional<SimulatorResponse> simulatorResponse = simulator.service(
@@ -61,6 +61,7 @@ public class DirectProcessor implements Processor {
             throw new IllegalStateException("No response present in rsimulator!");
         }
         String response = simulatorResponse.get().getResponse();
+//        exchange.setProperty("vars", vars);
         exchange.getOut().setBody(response);
     }
 

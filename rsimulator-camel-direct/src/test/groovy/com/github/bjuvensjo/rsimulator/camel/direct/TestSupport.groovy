@@ -18,11 +18,12 @@ class TestSupport extends Specification {
 
     def setupSpec() {
         context = new DefaultCamelContext()
-        if (context.getComponent("http") != null) {
-            context.removeComponent("http")
+
+        if (context.getComponent('http') != null) {
+            context.removeComponent('http')
         }
 
-        context.addComponent("http", context.getComponent("rsimulator-direct"));
+        context.addComponent('http', context.getComponent('rsimulator-direct'));
 //        The below lines is the alternative to the above if not the default rootPath can be used.
 //        context.addComponent("http", new DirectComponent("./src/test/resources"));
 
