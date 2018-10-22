@@ -50,9 +50,11 @@ public class DirectProcessor implements Processor {
     public void process(Exchange exchange) {
         Map<String, Object> vars = new HashMap<>();
 
+        String rootRelativePath = exchange.getIn().getHeader(Exchange.HTTP_URI) != null ? exchange.getIn().getHeader(Exchange.HTTP_URI, String.class).replaceFirst(".*//[^/]+", "") : endpointUri.replaceFirst("[^/]+", "");
+
         Optional<SimulatorResponse> simulatorResponse = simulator.service(
                 rootPath,
-                endpointUri.replaceFirst("[^/]+", ""),
+                rootRelativePath,
                 exchange.getIn().getBody(String.class),
                 getSimulatorContentType(exchange),
                 vars);
@@ -61,7 +63,6 @@ public class DirectProcessor implements Processor {
             throw new IllegalStateException("No response present in rsimulator!");
         }
         String response = simulatorResponse.get().getResponse();
-//        exchange.setProperty("vars", vars);
         exchange.getOut().setBody(response);
     }
 
@@ -86,7 +87,7 @@ public class DirectProcessor implements Processor {
                 }
             }
         }
-        
+
         return simulatorContentTypes.get(DEFAULT);
     }
 }

@@ -7,12 +7,14 @@ import spock.lang.Unroll
 class DirectComponentTest extends TestSupport {
 
     def setupSpec() {
+        init([http: new DirectComponent()])
+
         context.addRoutes(new RouteBuilder() {
             void configure() {
                 ['text/html', 'application/xml', 'application/json'].each {
                     from("direct:$it")
                             .setHeader('Content-Type', simple("$it; charset=utf-8"))
-                            .to("http://localhost:8888/rsimulator/$it")
+                            .to("http://localhost:8888/$it")
                 }
             }
         })
