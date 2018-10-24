@@ -21,6 +21,11 @@ public final class Constants {
     public static final String CONTENT_TYPE = "contentType";
 
     /**
+     * The EXCEPTION constant is used as key in the script vars.
+     */
+    public static final String EXCEPTION = "exception";
+    
+    /**
      *The SIMULATOR_RESPONSE_OPTIONAL constant is used as key in the script vars.
      */
     public static final String SIMULATOR_RESPONSE_OPTIONAL = "simulatorResponseOptional";

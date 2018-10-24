@@ -12,6 +12,7 @@ import org.apache.camel.Processor;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,6 +63,15 @@ public class DirectProcessor implements Processor {
         if (!simulatorResponse.isPresent()) {
             throw new IllegalStateException("No response present in rsimulator!");
         }
+        Optional<Properties> properties = simulatorResponse.get().getProperties();
+        int status = 200;
+        if (properties != null && properties.isPresent()) {
+            String responseCode = properties.get().getProperty("responseCode");
+            if (responseCode != null) {
+                status = Integer.valueOf(responseCode);
+            }
+        }
+        exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, status);
         String response = simulatorResponse.get().getResponse();
         exchange.getOut().setBody(response);
     }
