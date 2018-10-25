@@ -53,9 +53,9 @@ class DirectComponentTest extends TestSupport {
         where:
         type          | request                     | responseCode | expected
         TEXT          | 'Hello'                     | 200          | 'Hello from rsimulator!'
-        TEXT          | 'This a one request to CSL' | 200          | 'This is the response to CSL'
-        TEXT          | 'This a one request to LF'  | 200          | 'This is the response to LF'
-        TEXT          | '2, 5'                      | 200          | '2 + 5 = 7'
+        TEXT          | 'This is a request to Nils' | 200          | 'Hi Nils'
+        TEXT          | 'This is a request to Lisa' | 200          | 'Hi Lisa'
+        TEXT          | '2, 6'                      | 200          | '2 + 6 = 8'
         TEXT          | '7, 9'                      | 200          | '7 + 9 = 16'
         JSON          | '{"message": "Hello"}'      | 201          | '{"response": "Hello from rsimulator!"}'
         XML           | '<request>Hello</request>'  | 200          | "<?xml version='1.0' encoding='UTF-8'?>\n<response>Hello from rsimulator!</response>"

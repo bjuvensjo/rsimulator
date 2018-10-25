@@ -1,1 +1,1 @@
-This is the response to ${1}
+Hi ${1}
