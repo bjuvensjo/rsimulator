@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.bjuvensjo</groupId>
     <artifactId>rsimulator-pom-modules</artifactId>    
-    <version>2.1.1</version>
+    <version>2.1.2</version>
     <packaging>pom</packaging>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>${project.artifactId} module</description>
@@ -16,6 +16,7 @@
     <modules>
         <module>../rsimulator-pom-parent</module>
         <module>../rsimulator-aop</module>
+        <module>../rsimulator-camel-direct</module>
         <module>../rsimulator-core</module>
         <module>../rsimulator-http</module>
         <module>../rsimulator-jms</module>

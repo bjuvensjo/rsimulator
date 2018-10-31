@@ -14,11 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.github.bjuvensjo.rsimulator.core.config.Constants.CONTENT_TYPE;
-import static com.github.bjuvensjo.rsimulator.core.config.Constants.ROOT_PATH;
-import static com.github.bjuvensjo.rsimulator.core.config.Constants.ROOT_RELATIVE_PATH;
-import static com.github.bjuvensjo.rsimulator.core.config.Constants.SIMULATOR_REQUEST;
-import static com.github.bjuvensjo.rsimulator.core.config.Constants.SIMULATOR_RESPONSE_OPTIONAL;
+import static com.github.bjuvensjo.rsimulator.core.config.Constants.*;
 
 /**
  * SimulatorScriptInterceptor is an interceptor that supports Groovy scripts intercepting invocations of
@@ -81,8 +77,13 @@ public class SimulatorScriptInterceptor implements MethodInterceptor {
         invocation.getArguments()[ROOT_RELATIVE_PATH_INDEX] = vars.get(ROOT_RELATIVE_PATH);
         invocation.getArguments()[SIMULATOR_REQUEST_INDEX] = vars.get(SIMULATOR_REQUEST);
         invocation.getArguments()[CONTENT_TYPE_INDEX] = vars.get(CONTENT_TYPE);
-        
-        simulatorResponseOptional = (Optional<SimulatorResponse>) invocation.proceed();
+
+        try {
+            simulatorResponseOptional = (Optional<SimulatorResponse>) invocation.proceed();
+        } catch (Exception e) {
+            vars.put(EXCEPTION, e);
+            log.warn("Simulator invocation error", e);
+        }
 
         vars.put(SIMULATOR_RESPONSE_OPTIONAL, simulatorResponseOptional);
         applyScript(Scope.LOCAL_RESPONSE, vars);

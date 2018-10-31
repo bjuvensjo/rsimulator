@@ -1,0 +1,1 @@
+vars.simulatorResponseOptional.get().response += vars.simulatorRequest.split(' *, *').collect() { String it -> it.toInteger() }.sum()

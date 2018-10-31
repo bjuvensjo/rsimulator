@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>rsimulator-recorder</artifactId>
-    <name>${project.groupId}:${project.artifactId}</name>   
+    <artifactId>rsimulator-camel-direct</artifactId>
+    <name>${project.groupId}:${project.artifactId}</name>
     <description>${project.artifactId} module</description>
     <url>https://github.com/bjuvensjo/rsimulator/wiki</url>
     <parent>
@@ -13,26 +11,39 @@
         <version>2.1.2</version>
         <relativePath>../rsimulator-pom-parent/pom.xml</relativePath>
     </parent>
+    
     <dependencies>
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>com.github.bjuvensjo</groupId>
+            <artifactId>rsimulator-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-servlet_2.5_spec</artifactId>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-core</artifactId>
+        </dependency>
+        <dependency> <!-- enables mocking of classes (in addition to interfaces) -->
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+        </dependency>
+        <dependency> <!-- enables mocking of classes without default constructor (together with CGLIB) -->
+            <groupId>org.objenesis</groupId>
+            <artifactId>objenesis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-http</artifactId>
+            <version>${camel.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <developers>
@@ -41,12 +52,6 @@
             <email>bjuvensjo@gmail.com</email>
             <organization>GitHub</organization>
             <organizationUrl>https://github.com/bjuvensjo</organizationUrl>
-        </developer>
-        <developer>
-            <name>Anders Bälter</name>
-            <email>abaelter@gmail.com</email>
-            <organization>GitHub</organization>
-            <organizationUrl>https://github.com/baelter</organizationUrl>
         </developer>
     </developers>
     <scm>
@@ -59,5 +64,5 @@
             <name>MIT License</name>
             <url>http://www.opensource.org/licenses/mit-license.php</url>
         </license>
-    </licenses>
+    </licenses> 
 </project>
