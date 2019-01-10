@@ -18,6 +18,7 @@
         <module>../rsimulator-aop</module>
         <module>../rsimulator-camel-direct</module>
         <module>../rsimulator-core</module>
+        <module>../rsimulator-cxf-rt-transport</module>
         <module>../rsimulator-http</module>
         <module>../rsimulator-jms</module>
         <module>../rsimulator-proxy</module>
