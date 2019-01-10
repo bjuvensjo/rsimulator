@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:exam="http://transport.cxf.rsimulator.bjuvensjo.github.com/">
+    <soapenv:Body>
+        <exam:sayHiResponse>
+            <return>RSimulator ${1}!</return>
+        </exam:sayHiResponse>
+    </soapenv:Body>
+</soapenv:Envelope>
