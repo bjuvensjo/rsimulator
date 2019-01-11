@@ -67,7 +67,7 @@ public class RSimulatorConduit extends AbstractConduit {
             Optional<Properties> properties = response.get().getProperties();
             Integer responseCode = 200;
             if (properties != null && properties.isPresent() && properties.get().containsKey("responseCode")) {
-                responseCode = (Integer)properties.get().get("responseCode");
+                responseCode = Integer.valueOf((String)properties.get().get("responseCode"));
             }
             answer.put(Message.RESPONSE_CODE, responseCode);
             updateMessageExchange(message, answer);

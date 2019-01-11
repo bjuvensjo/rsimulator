@@ -51,13 +51,14 @@ class RSimulatorConduitTest extends Specification {
             getBytes() >> "request".getBytes("UTF-8")
         })
         message.setExchange(Mock(Exchange))
+        def properties = Mock(Properties) {
+            containsKey("responseCode") >> true
+            get("responseCode") >> "200"
+        }
         Message result
         def response = Mock(SimulatorResponse) {
             getResponse() >> "response"
-            getProperties() >> Mock(Properties) {
-                containsKey("responseCode") >> true
-                get("responseCode") >> 200
-            }
+            getProperties() >> Optional.of(properties)
         }
         
         def simulator = Mock(Simulator) {

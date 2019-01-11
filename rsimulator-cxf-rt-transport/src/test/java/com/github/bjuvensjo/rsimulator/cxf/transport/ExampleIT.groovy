@@ -34,7 +34,7 @@ class ExampleIT extends Specification {
         then:
             reply == "RSimulator world!"
         and:
-            client.getResponseContext().get(Message.RESPONSE_CODE) == "200"
+            client.getResponseContext().get(Message.RESPONSE_CODE) == 201
     }
     
     def getRootPath() {
