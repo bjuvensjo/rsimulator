@@ -9,32 +9,30 @@ import java.io.ByteArrayInputStream;
  * @author Anders Bälter
  */
 public class BufferedServletInputStream extends ServletInputStream {
+    private ByteArrayInputStream bis;
 
-    ByteArrayInputStream bais;
-
-    public BufferedServletInputStream(ByteArrayInputStream bais) {
-        this.bais = bais;
-    }
-
-    /**
-     * @see ByteArrayInputStream#available()
-     */
-    public int available() {
-        return bais.available();
+    BufferedServletInputStream(ByteArrayInputStream bis) {
+        this.bis = bis;
     }
 
     /**
      * @see ByteArrayInputStream#read()
      */
     public int read() {
-        return bais.read();
+        return bis.read();
     }
 
     /**
      * @see ByteArrayInputStream#read(byte[], int, int)
      */
-    public int read(byte[] buf, int off, int len) {
-        return bais.read(buf, off, len);
+    public int read(byte[] buffer, int off, int len) {
+        return bis.read(buffer, off, len);
     }
 
+    /**
+     * @see ByteArrayInputStream#available()
+     */
+    public int available() {
+        return bis.available();
+    }
 }

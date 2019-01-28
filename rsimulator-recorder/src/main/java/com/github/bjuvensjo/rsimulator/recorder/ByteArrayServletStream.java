@@ -2,7 +2,6 @@ package com.github.bjuvensjo.rsimulator.recorder;
 
 import javax.servlet.ServletOutputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 /**
  * A ServletOutputStream which writes to a ByteArrayOutputStream
@@ -10,15 +9,14 @@ import java.io.IOException;
  * @author Anders Bälter
  */
 public class ByteArrayServletStream extends ServletOutputStream {
+    private ByteArrayOutputStream out;
 
-    ByteArrayOutputStream baos;
-
-    ByteArrayServletStream(ByteArrayOutputStream baos) {
-        this.baos = baos;
+    ByteArrayServletStream(ByteArrayOutputStream out) {
+        this.out = out;
     }
 
     @Override
-    public void write(int param) throws IOException {
-        baos.write(param);
+    public void write(int param) {
+        out.write(param);
     }
 }

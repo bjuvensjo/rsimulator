@@ -11,30 +11,24 @@ import java.io.UnsupportedEncodingException;
  * A HttpServletResponseWrapper which gets its ServletOutputStream from a ByteArrayPrintWriter
  *
  * @author Anders Bälter
+ * @author Magnus Bjuvensjö
  */
 public class RecorderServletResponseWrapper extends HttpServletResponseWrapper {
-
     private ByteArrayPrintWriter pw = new ByteArrayPrintWriter();
     private int httpStatus;
 
-    public RecorderServletResponseWrapper(HttpServletResponse response) {
+    RecorderServletResponseWrapper(HttpServletResponse response) {
         super(response);
     }
 
     @Override
-    public ServletOutputStream getOutputStream() throws IOException {
+    public ServletOutputStream getOutputStream() {
         return pw.getStream();
     }
 
     @Override
-    public PrintWriter getWriter() throws IOException {
+    public PrintWriter getWriter() {
         return pw.getWriter();
-    }
-
-    @Override
-    public void sendError(int sc) throws IOException {
-        httpStatus = sc;
-        super.sendError(sc);
     }
 
     @Override
@@ -43,6 +37,15 @@ public class RecorderServletResponseWrapper extends HttpServletResponseWrapper {
         super.sendError(sc, msg);
     }
 
+    @Override
+    public void sendError(int sc) throws IOException {
+        httpStatus = sc;
+        super.sendError(sc);
+    }
+
+    int getStatus() {
+        return httpStatus;
+    }
 
     @Override
     public void setStatus(int sc) {
@@ -50,15 +53,11 @@ public class RecorderServletResponseWrapper extends HttpServletResponseWrapper {
         super.setStatus(sc);
     }
 
-    public int getStatus() {
-        return httpStatus;
-    }
-
-    public String getResponseAsString(String encoding) throws UnsupportedEncodingException {
+    String getResponseBody(String encoding) throws UnsupportedEncodingException {
         return pw.toString(encoding);
     }
 
-    public byte[] getBytes() {
+    byte[] getBytes() {
         return pw.getBytes();
     }
 }

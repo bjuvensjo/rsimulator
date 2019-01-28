@@ -1,47 +1,43 @@
 package com.github.bjuvensjo.rsimulator.recorder;
 
-import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
+import java.io.OutputStreamWriter;
+import java.util.Properties;
 
 /**
  * Helps creating properties while recording
  *
  * @author Anders Bälter
+ * @author Magnus Bjuvensjö
  */
-public class SimulatorProperties {
-
-    private File file;
-    private static final String FILE_ENDING = ".properties";
-    private static final String ENCODING = "UTF-8";
-    private static final String EQUALS = "=";
+class SimulatorProperties {
+    private Logger log = LoggerFactory.getLogger(SimulatorProperties.class);
+    private Properties properties;
+    private String propertiesFilePath;
 
     /**
      * Create a new property file for the simulator
-     * @param basePath the base path for the current request
-     * @param relativeRecordPath the relative record path for the current request
-     * @param fileName the request and response prefix
+     *
+     * @param propertiesFilePath the propertiesFilePath
      */
-    public SimulatorProperties(String basePath, String relativeRecordPath, String fileName) {
-        String fileWithPath = new StringBuilder(basePath)
-                .append(File.separator)
-                .append(relativeRecordPath)
-                .append(File.separator).append(fileName).append(FILE_ENDING).toString();
-        file = new File(fileWithPath);
+    SimulatorProperties(String propertiesFilePath) {
+        this.propertiesFilePath = propertiesFilePath;
+        properties = new Properties();
     }
 
-    /**
-     * Writes a property line to file
-     * @param key the key
-     * @param value the value
-     * @throws IOException if property line can't be written
-     */
-    public void set(String key, Object value) throws IOException {
-        String line = new StringBuilder(key).append(EQUALS).append(value.toString()).toString();
-        Collection<String> lines = Arrays.asList(line);
-        FileUtils.writeLines(file,ENCODING,lines);
+    void setProperty(String key, String value) {
+        properties.setProperty(key, value);
+    }
+
+    void save(String encoding) {
+        try (OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(propertiesFilePath, true), encoding)) {
+            properties.store(out, "Recorded properties");
+        } catch (IOException e) {
+            log.error("Can not store properties: {}", properties, e);
+        }
     }
 }

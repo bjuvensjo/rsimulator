@@ -1,15 +1,6 @@
 package com.github.bjuvensjo.rsimulator.core.config;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.TypeLiteral;
-import com.google.inject.matcher.Matchers;
-import com.google.inject.name.Names;
-import net.sf.ehcache.CacheManager;
-import com.github.bjuvensjo.rsimulator.core.Handler;
-import com.github.bjuvensjo.rsimulator.core.Simulator;
-import com.github.bjuvensjo.rsimulator.core.SimulatorCacheInterceptor;
-import com.github.bjuvensjo.rsimulator.core.SimulatorPropertiesInterceptor;
-import com.github.bjuvensjo.rsimulator.core.SimulatorScriptInterceptor;
+import com.github.bjuvensjo.rsimulator.core.*;
 import com.github.bjuvensjo.rsimulator.core.handler.regexp.JsonHandler;
 import com.github.bjuvensjo.rsimulator.core.handler.regexp.TxtHandler;
 import com.github.bjuvensjo.rsimulator.core.handler.regexp.XmlHandler;
@@ -17,12 +8,16 @@ import com.github.bjuvensjo.rsimulator.core.util.FileUtils;
 import com.github.bjuvensjo.rsimulator.core.util.FileUtilsCacheInterceptor;
 import com.github.bjuvensjo.rsimulator.core.util.Props;
 import com.github.bjuvensjo.rsimulator.core.util.PropsCacheInterceptor;
+import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
+import com.google.inject.matcher.Matchers;
+import com.google.inject.name.Names;
+import net.sf.ehcache.CacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
+import java.io.BufferedInputStream;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,19 +31,24 @@ public class CoreModule extends AbstractModule {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.google.inject.AbstractModule#configure()
      */
     @Override
     protected void configure() {
         // ***** Properties *****
+        java.util.Properties properties = new java.util.Properties();
         URL resource = getClass().getResource("/rsimulator.properties");
         if (resource == null) {
-            log.debug("No /rsimulator.properties resource exists. Configuring /rsimulator-default.properties");
-            resource = getClass().getResource("/rsimulator-default.properties");
+            properties.setProperty("simulatorCache", "false");
+        } else {
+            try (BufferedInputStream bis = new BufferedInputStream(resource.openStream())) {
+                properties.load(bis);
+            } catch (Exception e) {
+                log.error("Error reading properties from: {}", resource.getPath(), e);
+            }
         }
-        bind(Path.class).annotatedWith(Names.named("rsimulator-core-properties")).toInstance(
-                new File(resource.getFile()).toPath());        
+        bind(java.util.Properties.class).annotatedWith(Names.named("rsimulator-core-properties")).toInstance(properties);
 
         // ***** Handlers *****
         Map<String, Handler> map = new HashMap<String, Handler>();

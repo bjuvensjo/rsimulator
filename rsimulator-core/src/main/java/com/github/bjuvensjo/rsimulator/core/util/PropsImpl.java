@@ -24,7 +24,7 @@ public class PropsImpl implements Props {
     private Logger log = LoggerFactory.getLogger(PropsImpl.class);
     @Inject
     @Named("rsimulator-core-properties")
-    private Path propertyPath;
+    private Properties properties;
 
     @Cache
     public Optional<Properties> getProperties(Path path) {
@@ -41,6 +41,6 @@ public class PropsImpl implements Props {
     }
 
     public boolean isSimulatorCache() {
-        return getProperties(propertyPath).map(p -> "true".equals(p.getProperty(SIMULATOR_CACHE))).orElse(false);
+        return properties.getProperty(SIMULATOR_CACHE).equalsIgnoreCase("true");
     }
 }

@@ -1,6 +1,5 @@
 package com.github.bjuvensjo.rsimulator.recorder;
 
-
 import javax.servlet.ServletOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
@@ -11,33 +10,24 @@ import java.io.UnsupportedEncodingException;
  *
  * @author Anders Bälter
  */
-public class ByteArrayPrintWriter {
+class ByteArrayPrintWriter {
+    private ByteArrayOutputStream bos = new ByteArrayOutputStream();
+    private PrintWriter pw = new PrintWriter(bos);
+    private ServletOutputStream sos = new ByteArrayServletStream(bos);
 
-    private ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-    private PrintWriter pw = new PrintWriter(baos);
-
-    private ServletOutputStream sos = new ByteArrayServletStream(baos);
-
-    public PrintWriter getWriter() {
+    PrintWriter getWriter() {
         return pw;
     }
 
-    public ServletOutputStream getStream() {
+    ServletOutputStream getStream() {
         return sos;
     }
 
-    /**
-     * Get the byte array as a String
-     * @param encoding
-     * @return String
-     * @throws UnsupportedEncodingException
-     */
-    public String toString(String encoding) throws UnsupportedEncodingException {
-        return baos.toString(encoding);
+    String toString(String encoding) throws UnsupportedEncodingException {
+        return bos.toString(encoding);
     }
 
-    public byte[] getBytes() {
-        return baos.toByteArray();
+    byte[] getBytes() {
+        return bos.toByteArray();
     }
 }
