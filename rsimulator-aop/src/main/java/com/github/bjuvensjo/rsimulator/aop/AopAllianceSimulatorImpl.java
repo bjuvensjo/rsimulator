@@ -2,6 +2,8 @@ package com.github.bjuvensjo.rsimulator.aop;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 
 import org.aopalliance.intercept.MethodInvocation;
 import com.github.bjuvensjo.rsimulator.core.config.CoreModule;
@@ -34,7 +36,11 @@ public class AopAllianceSimulatorImpl implements AopAllianceSimulator {
      */
     public void setRootPath(Class<? extends Object> testClass) {
         String resource = new StringBuilder().append(testClass.getSimpleName()).append(".class").toString();
-        setRootPath(new File(testClass.getResource(resource).getPath()).getParentFile().getPath());
+        try {
+            setRootPath(new File(testClass.getResource(resource).toURI()).getParentFile().toPath().toString());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

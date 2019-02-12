@@ -1,11 +1,11 @@
 package com.github.bjuvensjo.rsimulator.core.handler.regexp;
 
-import com.google.inject.Inject;
 import com.github.bjuvensjo.rsimulator.core.Handler;
 import com.github.bjuvensjo.rsimulator.core.SimulatorResponse;
 import com.github.bjuvensjo.rsimulator.core.SimulatorResponseImpl;
 import com.github.bjuvensjo.rsimulator.core.util.FileUtils;
 import com.github.bjuvensjo.rsimulator.core.util.Props;
+import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

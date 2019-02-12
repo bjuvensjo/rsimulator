@@ -1,9 +1,9 @@
 package com.github.bjuvensjo.rsimulator.core.util;
 
+import com.github.bjuvensjo.rsimulator.core.config.Cache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import com.github.bjuvensjo.rsimulator.core.config.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +26,10 @@ public class PropsImpl implements Props {
     @Named("rsimulator-core-properties")
     private Properties properties;
 
+    public boolean isSimulatorCache() {
+        return properties.getProperty(SIMULATOR_CACHE).equalsIgnoreCase("true");
+    }
+
     @Cache
     public Optional<Properties> getProperties(Path path) {
         if (!Files.exists(path)) {
@@ -38,9 +42,5 @@ public class PropsImpl implements Props {
             log.error("Error reading properties from: {}", path.toAbsolutePath(), e);
         }
         return Optional.of(properties);
-    }
-
-    public boolean isSimulatorCache() {
-        return properties.getProperty(SIMULATOR_CACHE).equalsIgnoreCase("true");
     }
 }

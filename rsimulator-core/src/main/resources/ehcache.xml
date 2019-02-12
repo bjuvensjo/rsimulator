@@ -10,8 +10,8 @@
             diskPersistent="false"
             diskExpiryThreadIntervalSeconds="120"
             memoryStoreEvictionPolicy="LRU"
-            />
-	<cache name="SimulatorCache"
+    />
+    <cache name="SimulatorCache"
            maxElementsInMemory="2000"
            eternal="false"
            overflowToDisk="false"
@@ -19,8 +19,8 @@
            timeToLiveSeconds="600"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off"
-            />         
-	<cache name="FileUtilsCache"
+    />
+    <cache name="FileUtilsCache"
            maxElementsInMemory="2000"
            eternal="false"
            overflowToDisk="false"
@@ -28,8 +28,8 @@
            timeToLiveSeconds="600"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off"
-            />         
-	<cache name="PropsCache"
+    />
+    <cache name="PropsCache"
            maxElementsInMemory="2000"
            eternal="false"
            overflowToDisk="false"
@@ -37,5 +37,5 @@
            timeToLiveSeconds="600"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off"
-            />         
+    />
 </ehcache>

@@ -47,6 +47,6 @@ class ExampleIT extends Specification {
     }
 
     static {
-        System.setProperty("net.sf.ehcache.skipUpdateCheck", "true");
+        System.setProperty("net.sf.ehcache.skipUpdateCheck", "true")
     }
 }

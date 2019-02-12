@@ -1,5 +1,6 @@
 package com.github.bjuvensjo.rsimulator.core;
 
+import com.github.bjuvensjo.rsimulator.core.util.Props;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -7,7 +8,6 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import com.github.bjuvensjo.rsimulator.core.util.Props;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +36,7 @@ public class SimulatorCacheInterceptor implements MethodInterceptor {
         if (props.isSimulatorCache()) {
             if (invocation.getMethod().getName().equals("service")) {
                 Object[] arguments = invocation.getArguments();
-                String key = Arrays.stream(arguments).map(arg -> arg.toString()).collect(Collectors.joining());                        
+                String key = Arrays.stream(arguments).map(Object::toString).collect(Collectors.joining());
                 Element cacheElement = cache.get(key);
                 if (cacheElement != null) {
                     response = cacheElement.getObjectValue();

@@ -1,10 +1,14 @@
 package com.github.bjuvensjo.rsimulator.core;
 
+import com.github.bjuvensjo.rsimulator.core.config.CoreModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.Before;
 import org.junit.Test;
-import com.github.bjuvensjo.rsimulator.core.config.CoreModule;
+
+import java.io.File;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -23,9 +27,9 @@ public class Test3 {
     }
 
     @Test
-    public void test() {
-        String rootPath = getClass().getResource("/test3").getPath();
-        String rootRelativePath = "";
+    public void test() throws URISyntaxException {
+        String rootPath = Paths.get(getClass().getResource("/test3").toURI()).toString();
+        String rootRelativePath = File.separator;
         String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" "
                 + "xmlns:hel=\"http://www.github.com/bjuvensjo/rsimulator/SayHello/\"><soapenv:Header/><soapenv:Body>"
                 + "<hel:SayHelloRequest><from>Test3</from><to>Simulator</to><greeting>Hello</greeting>"

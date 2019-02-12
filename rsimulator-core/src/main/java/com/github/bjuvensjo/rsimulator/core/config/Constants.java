@@ -24,27 +24,27 @@ public final class Constants {
      * The EXCEPTION constant is used as key in the script vars.
      */
     public static final String EXCEPTION = "exception";
-    
+
     /**
-     *The SIMULATOR_RESPONSE_OPTIONAL constant is used as key in the script vars.
+     * The SIMULATOR_RESPONSE_OPTIONAL constant is used as key in the script vars.
      */
     public static final String SIMULATOR_RESPONSE_OPTIONAL = "simulatorResponseOptional";
 
     /**
-     *The SIMULATOR_REQUEST constant is used as key in the script vars.
+     * The SIMULATOR_REQUEST constant is used as key in the script vars.
      */
     public static final String SIMULATOR_REQUEST = "simulatorRequest";
 
     /**
-     *The ROOT_PATH constant is used as key in the script vars.
+     * The ROOT_PATH constant is used as key in the script vars.
      */
     public static final String ROOT_PATH = "rootPath";
 
     /**
-     *The ROOT_RELATIVE_PATH constant is used as key in the script vars.
+     * The ROOT_RELATIVE_PATH constant is used as key in the script vars.
      */
     public static final String ROOT_RELATIVE_PATH = "rootRelativePath";
-    
+
     private Constants() {
     }
 }

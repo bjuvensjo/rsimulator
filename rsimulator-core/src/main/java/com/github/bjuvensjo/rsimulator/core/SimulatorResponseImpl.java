@@ -28,20 +28,20 @@ public class SimulatorResponseImpl implements SimulatorResponse {
         this.matchingRequest = matchingRequest;
     }
 
-    public String getResponse() {
-        return response;
-    }
-
-    public void setResponse(String response) {
-        this.response = response;
-    }
-
     public Optional<Properties> getProperties() {
         return properties;
     }
 
     public void setProperties(Optional<Properties> properties) {
         this.properties = properties;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
     }
 
     public Path getMatchingRequest() {

@@ -1,10 +1,14 @@
 package com.github.bjuvensjo.rsimulator.core;
 
+import com.github.bjuvensjo.rsimulator.core.config.CoreModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.Before;
 import org.junit.Test;
-import com.github.bjuvensjo.rsimulator.core.config.CoreModule;
+
+import java.io.File;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,9 +27,9 @@ public class Test1 {
     }
 
     @Test
-    public void test() {
-        String rootPath = getClass().getResource("/").getPath();
-        String rootRelativePath = ".";
+    public void test() throws URISyntaxException {
+        String rootPath = Paths.get(getClass().getResource("/").toURI()).toString();
+        String rootRelativePath = File.separator;
         String request = "Hello Simulator, says Test1!";
         String contentType = "txt";
         SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType).get();

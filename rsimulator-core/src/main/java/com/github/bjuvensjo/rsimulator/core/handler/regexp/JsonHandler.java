@@ -26,42 +26,6 @@ public class JsonHandler extends AbstractHandler {
         mapper = new ObjectMapper();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected String escape(String request, boolean isCandidate) {
-        String result = request;
-        if (isCandidate && request != null && !"".equals(request)) {
-            try {
-                StringBuilder sb = new StringBuilder();
-                JsonNode rootNode = mapper.readValue(request, JsonNode.class);
-                escape(sb, rootNode, null);
-                result = sb.toString();
-            } catch (Exception e) {
-                log.error(null, e);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected String format(String request) {
-        String result = request;
-        if (request != null && !"".equals(request)) {
-            try {
-                JsonNode rootNode = mapper.readValue(request, JsonNode.class);
-                result = mapper.writeValueAsString(rootNode);
-            } catch (Exception e) {
-                log.error(null, e);
-            }
-        }
-        return result;
-    }
-
     private void escape(StringBuilder sb, JsonNode node, String name) {
         if (node.isArray()) {
             sb.append("\\[");
@@ -99,5 +63,41 @@ public class JsonHandler extends AbstractHandler {
     @Override
     protected String getExtension() {
         return EXTENSION;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String format(String request) {
+        String result = request;
+        if (request != null && !"".equals(request)) {
+            try {
+                JsonNode rootNode = mapper.readValue(request, JsonNode.class);
+                result = mapper.writeValueAsString(rootNode);
+            } catch (Exception e) {
+                log.error(null, e);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String escape(String request, boolean isCandidate) {
+        String result = request;
+        if (isCandidate && request != null && !"".equals(request)) {
+            try {
+                StringBuilder sb = new StringBuilder();
+                JsonNode rootNode = mapper.readValue(request, JsonNode.class);
+                escape(sb, rootNode, null);
+                result = sb.toString();
+            } catch (Exception e) {
+                log.error(null, e);
+            }
+        }
+        return result;
     }
 }

@@ -21,8 +21,8 @@ public class SimulatorPropertiesInterceptor implements MethodInterceptor {
         Optional<SimulatorResponse> simulatorResponseOptional = (Optional<SimulatorResponse>) invocation.proceed();
 
         simulatorResponseOptional
-                .flatMap(simulatorResponse -> simulatorResponse.getProperties())
-                .ifPresent(properties -> handleDelay(properties));
+                .flatMap(SimulatorResponse::getProperties)
+                .ifPresent(this::handleDelay);
 
         return simulatorResponseOptional;
     }

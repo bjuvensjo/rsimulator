@@ -44,10 +44,6 @@ public class SimulatorScriptInterceptor implements MethodInterceptor {
     private static final String GROOVY_PATTERN = com.github.bjuvensjo.rsimulator.core.config.Constants.REQUEST + ".*";
     private Logger log = LoggerFactory.getLogger(SimulatorScriptInterceptor.class);
 
-    private enum Scope {
-        GLOBAL_REQUEST, GLOBAL_RESPONSE, LOCAL_RESPONSE
-    }
-
     public Object invoke(MethodInvocation invocation) throws Throwable {
         log.debug("Arguments are {}", invocation.getArguments());
         Map<String, Object> vars = null;
@@ -56,9 +52,9 @@ public class SimulatorScriptInterceptor implements MethodInterceptor {
         if (varsArray.length > 0) {
             vars = (Map<String, Object>) varsArray[0];
         }
-        
+
         if (vars == null) {
-            vars = new HashMap();
+            vars = new HashMap<>();
         }
 
         vars.put(ROOT_PATH, invocation.getArguments()[ROOT_PATH_INDEX]);
@@ -125,10 +121,14 @@ public class SimulatorScriptInterceptor implements MethodInterceptor {
                 gse.run(script, binding);
                 log.debug("Applied script {} of type: {}, and updated vars are: {}", new Object[]{file, type, vars});
             } else {
-                log.debug("When applying script of type {}, script path {} is not an existing file", type, root);
+                log.debug("When applying script of type {}, script {} is not an existing file", type, file.getPath());
             }
         } catch (Exception e) {
             log.error("Script error.", e);
         }
+    }
+
+    private enum Scope {
+        GLOBAL_REQUEST, GLOBAL_RESPONSE, LOCAL_RESPONSE
     }
 }

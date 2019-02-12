@@ -1,11 +1,11 @@
 package com.github.bjuvensjo.rsimulator.core;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 import com.github.bjuvensjo.rsimulator.core.config.Cache;
 import com.github.bjuvensjo.rsimulator.core.config.Properties;
 import com.github.bjuvensjo.rsimulator.core.config.Script;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +29,7 @@ public class SimulatorImpl implements Simulator {
     @Cache
     @Script
     public Optional<SimulatorResponse> service(String rootPath, String rootRelativePath, String request, String contentType, Map<String, Object>... vars) {
-        log.info("rootPath: {}, rootRelativePath: {}, request: {}, contentType: {}", new Object[]{rootPath, rootRelativePath, request, contentType});
+        log.info("rootPath: {}, rootRelativePath: {}, request: {}, contentType: {}", rootPath, rootRelativePath, request, contentType);
 
         Optional<SimulatorResponse> simulatorResponse = handlers.get(contentType).findMatch(rootPath, rootRelativePath, request);
 
@@ -37,9 +37,7 @@ public class SimulatorImpl implements Simulator {
 
         if (!simulatorResponse.isPresent()) {
             String message = "No simulatorResponse found!";
-            log.warn("{}, rootPath: {}, rootRelativePath: {}, request: {}, contentType: {}", new Object[]{
-                    message, rootPath, rootRelativePath, request, contentType
-            });
+            log.warn("{}, rootPath: {}, rootRelativePath: {}, request: {}, contentType: {}", message, rootPath, rootRelativePath, request, contentType);
         }
 
         return simulatorResponse;

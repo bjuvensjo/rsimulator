@@ -1,10 +1,10 @@
 package com.github.bjuvensjo.rsimulator.core.util;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import com.github.bjuvensjo.rsimulator.core.config.CoreModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,12 +12,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import com.github.bjuvensjo.rsimulator.core.config.CoreModule;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import static org.junit.Assert.*;
 
 public class FileUtilsTest {
     private FileUtils fileUtils;
@@ -38,7 +33,7 @@ public class FileUtilsTest {
         List<Path> txtRequests = fileUtils.findRequests(new File(getClass().getResource("/").getPath()).toPath(), "txt");
         assertTrue("txtRequests", txtRequests.size() > 0);
         for (Path path : txtRequests) {
-            assertTrue("txtFile",  path.toString().endsWith("Request.txt"));
+            assertTrue("txtFile", path.toString().endsWith("Request.txt"));
         }
     }
 

@@ -1,13 +1,12 @@
 package com.github.bjuvensjo.rsimulator.core.util;
 
-import com.google.inject.Singleton;
 import com.github.bjuvensjo.rsimulator.core.config.Cache;
+import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
@@ -33,7 +32,7 @@ public class FileUtilsImpl implements FileUtils {
         try (Stream<Path> stream = Files.walk(path)) {
             Predicate<Path> predicate = p -> Files.isRegularFile(p) && p.toFile().getName().endsWith(SUFFIX_PREFIX.concat(extension));
             requests = stream.filter(predicate).collect(Collectors.toList());
-            Collections.sort(requests, Comparator.comparing(Path::getNameCount).thenComparing(Path::compareTo)); // Do not want depth first as given by Files.walk
+            requests.sort(Comparator.comparing(Path::getNameCount).thenComparing(Path::compareTo)); // Do not want depth first as given by Files.walk
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

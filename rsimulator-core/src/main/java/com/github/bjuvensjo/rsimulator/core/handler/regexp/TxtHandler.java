@@ -16,8 +16,8 @@ public class TxtHandler extends AbstractHandler {
      * {@inheritDoc}
      */
     @Override
-    protected String escape(String request, boolean isCandidate) {
-        return request;
+    protected String getExtension() {
+        return EXTENSION;
     }
 
     /**
@@ -32,7 +32,7 @@ public class TxtHandler extends AbstractHandler {
      * {@inheritDoc}
      */
     @Override
-    protected String getExtension() {
-        return EXTENSION;
+    protected String escape(String request, boolean isCandidate) {
+        return request;
     }
 }
