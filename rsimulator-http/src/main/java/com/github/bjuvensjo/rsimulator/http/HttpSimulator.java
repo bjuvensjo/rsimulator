@@ -1,16 +1,15 @@
 package com.github.bjuvensjo.rsimulator.http;
 
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.name.Named;
-import org.apache.commons.lang.StringUtils;
 import com.github.bjuvensjo.rsimulator.core.Simulator;
 import com.github.bjuvensjo.rsimulator.core.SimulatorResponse;
 import com.github.bjuvensjo.rsimulator.core.config.CoreModule;
 import com.github.bjuvensjo.rsimulator.http.config.Constants;
 import com.github.bjuvensjo.rsimulator.http.config.GlobalConfig;
 import com.github.bjuvensjo.rsimulator.http.config.HttpModule;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.name.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,12 +91,12 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         handle(request, response);
     }
 
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         handle(request, response);
     }
 
@@ -154,7 +153,7 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
 
     private String getRequestRootPath(HttpServletRequest request) {
         Object rootPath = request.getAttribute(Constants.ROOT_PATH);
-        if (rootPath instanceof String && !StringUtils.isBlank((String) rootPath)) {
+        if (rootPath instanceof String && !"".equals(rootPath)) {
             return (String) rootPath;
         }
         return GlobalConfig.rootPath;
@@ -171,7 +170,7 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
     private String getSimulatorRequest(HttpServletRequest request, String charsetName) throws IOException {
         String simulatorRequest = readBody(new BufferedInputStream(request.getInputStream()), charsetName);
         if (!"".equals(simulatorRequest)) {
-             return simulatorRequest;   
+            return simulatorRequest;
         }
         return copyQueryString(request);
     }
@@ -229,7 +228,6 @@ public class HttpSimulator extends javax.servlet.http.HttpServlet {
         }
         return responseContentType;
     }
-
 
     private String copyQueryString(HttpServletRequest request) {
         return request.getQueryString() == null ? "" : request.getQueryString();

@@ -25,7 +25,7 @@ public class JsonHandler extends AbstractHandler {
         super();
         mapper = new ObjectMapper();
     }
-
+    
     private void escape(StringBuilder sb, JsonNode node, String name) {
         if (node.isArray()) {
             sb.append("\\[");
@@ -49,11 +49,12 @@ public class JsonHandler extends AbstractHandler {
                 }
                 n++;
                 Entry<String, JsonNode> field = fields.next();
+                sb.append("\"").append(field.getKey()).append("\":");
                 escape(sb, field.getValue(), field.getKey());
             }
             sb.append("\\}");
         } else {
-            sb.append("\"").append(name).append("\":").append(node.toString());
+            sb.append(node.toString());
         }
     }
 
@@ -85,8 +86,7 @@ public class JsonHandler extends AbstractHandler {
     /**
      * {@inheritDoc}
      */
-    @Override
-    protected String escape(String request, boolean isCandidate) {
+    public String escape(String request, boolean isCandidate) {
         String result = request;
         if (isCandidate && request != null && !"".equals(request)) {
             try {

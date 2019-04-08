@@ -16,6 +16,10 @@ public class DirectComponent extends DefaultComponent {
         this.rootPath = rootPath;
     }
 
+    public void setRootPath(String rootPath) {
+        this.rootPath = rootPath;
+    }
+
     @Override
     protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) {
         return new DirectProcessorEndpoint(remaining, this.getCamelContext(), rootPath);

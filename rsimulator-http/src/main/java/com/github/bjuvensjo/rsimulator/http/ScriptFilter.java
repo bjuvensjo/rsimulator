@@ -99,7 +99,7 @@ public class ScriptFilter implements Filter {
                 gse.run(script, binding);
                 log.debug("Applied script {} of type: {}, and updated vars are: {}", new Object[]{file, type, vars});
             } else {
-                log.debug("When applying script of type {}, script path {} is not an existing file", type, root);
+                log.debug("When applying script of type {}, script {} is not an existing file", type, file.getPath());
             }
         } catch (Exception e) {
             log.error("Script error.", e);
