@@ -9,7 +9,7 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 class DirectProcessorTest extends Specification {
-    DirectProcessor directProcessor = new DirectProcessor('endpointUri', 'rootPath')
+    DirectProcessor directProcessor = new DirectProcessor('endpointUri', new DirectComponentConfig('rootPath'))
     Exchange exchange = new DefaultExchange(new DefaultCamelContext())
     Simulator simulator = Mock()
 

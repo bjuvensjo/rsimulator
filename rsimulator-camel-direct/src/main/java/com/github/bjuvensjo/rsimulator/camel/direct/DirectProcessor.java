@@ -22,15 +22,15 @@ public class DirectProcessor implements Processor {
     private static final String DEFAULT = "default";
     Map<String, String> accepts;
     String endpointUri;
-    String rootPath;
+    DirectComponentConfig directComponentConfig;
     @Inject
     Simulator simulator;
     Map<String, String> simulatorContentTypes;
 
 
-    DirectProcessor(String endpointUri, String rootPath) {
+    DirectProcessor(String endpointUri, DirectComponentConfig directComponentConfig) {
         this.endpointUri = endpointUri;
-        this.rootPath = rootPath;
+        this.directComponentConfig = directComponentConfig;
         Injector injector = Guice.createInjector(new CoreModule());
         injector.injectMembers(this);
 
@@ -54,7 +54,7 @@ public class DirectProcessor implements Processor {
         String rootRelativePath = exchange.getIn().getHeader(Exchange.HTTP_URI) != null ? exchange.getIn().getHeader(Exchange.HTTP_URI, String.class).replaceFirst(".*//[^/]+", "") : endpointUri.replaceFirst("[^/]+", "");
 
         Optional<SimulatorResponse> simulatorResponse = simulator.service(
-                rootPath,
+                directComponentConfig.getRootPath(),
                 rootRelativePath,
                 exchange.getIn().getBody(String.class),
                 getSimulatorContentType(exchange),

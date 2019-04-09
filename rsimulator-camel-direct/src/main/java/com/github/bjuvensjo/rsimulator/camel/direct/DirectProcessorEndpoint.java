@@ -5,15 +5,15 @@ import org.apache.camel.Processor;
 import org.apache.camel.impl.ProcessorEndpoint;
 
 public class DirectProcessorEndpoint extends ProcessorEndpoint {
-    private String rootPath;
+    private DirectComponentConfig directComponentConfig;
 
-    DirectProcessorEndpoint(String endpointUri, CamelContext camelContext, String rootPath) {
+    DirectProcessorEndpoint(String endpointUri, CamelContext camelContext, DirectComponentConfig directComponentConfig) {
         super(endpointUri, camelContext, null);
-        this.rootPath = rootPath;
+        this.directComponentConfig = directComponentConfig;
     }
 
     @Override
     protected Processor createProcessor() {
-        return new DirectProcessor(this.getEndpointUri(), rootPath);
+        return new DirectProcessor(this.getEndpointUri(), directComponentConfig);
     }
 }

@@ -4,6 +4,7 @@ import groovy.json.JsonOutput
 import groovy.xml.XmlUtil
 import org.apache.camel.Exchange
 import org.apache.camel.builder.RouteBuilder
+import spock.lang.Shared
 import spock.lang.Unroll
 
 class DirectComponentTest extends TestSupport {
@@ -11,9 +12,12 @@ class DirectComponentTest extends TestSupport {
     static String XML = 'application/xml'
     static String JSON = 'application/json'
     static String NOT_SUPPORTED = 'NOT_SUPPORTED'
+    @Shared
+    DirectComponent directComponent
 
     def setupSpec() {
-        init([http: new DirectComponent()])
+        directComponent = new DirectComponent()
+        init([http: directComponent])
 
         context.addRoutes(new RouteBuilder() {
             void configure() {
@@ -62,4 +66,22 @@ class DirectComponentTest extends TestSupport {
         NOT_SUPPORTED | 'request'                   | 400          | "contentType not supported"
         JSON          | 'Will not be found'         | 404          | '"Not Found"'
     }
+
+    @Unroll("config #type, #request, #responseCode, #rootPath, #expected")
+    def 'config'() {
+        when:
+        directComponent.setRootPath(rootPath)
+        Exchange responseExchange = template.send("direct:$type", createExchangeWithBody(request))
+        String responseBody = responseExchange.getOut().getBody(String.class)
+
+        then:
+        responseExchange.getOut().getHeader(Exchange.HTTP_RESPONSE_CODE) == responseCode
+        responseBody == expected
+
+        where:
+        type | request | responseCode | rootPath                          | expected
+        TEXT | 'Hello' | 200          | './src/test/resources/config/bar' | 'Hello from bar!'
+        TEXT | 'Hello' | 200          | './src/test/resources/config/foo' | 'Hello from foo!'
+    }
+
 }
