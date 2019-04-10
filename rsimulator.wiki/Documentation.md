@@ -1,7 +1,0 @@
-* [[rsimulator-aop]]
-* [[rsimulator-core]]
-* [[rsimulator-example-unittest]]
-* [[rsimulator-example-webapp]]
-* [[rsimulator-http]]
-* [[rsimulator-pom-modules]]
-* [[rsimulator-pom-parent]]
