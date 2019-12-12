@@ -42,6 +42,9 @@ public class XmlHandler extends AbstractHandler {
             Document doc = new SAXBuilder().build(bis);
             bis.close();
             Format format = Format.getCompactFormat();
+            // Required for .* to generate match on empty element
+            // <tag>.*</tag> == <tag></tag>
+            format.setExpandEmptyElements(true);
             // To not have the ? in the declaration interpreted as regular expressions.
             format.setOmitDeclaration(true);
             XMLOutputter out = new XMLOutputter(format);
