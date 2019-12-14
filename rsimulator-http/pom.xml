@@ -9,7 +9,7 @@
     <parent>
         <groupId>com.github.bjuvensjo</groupId>
         <artifactId>rsimulator-pom-parent</artifactId>
-        <version>2.1.8</version>
+        <version>3.0.0-SNAPSHOT</version>
         <relativePath>../rsimulator-pom-parent/pom.xml</relativePath>
     </parent>
     <properties>
@@ -21,56 +21,39 @@
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <configuration>
-                    <scanIntervalSeconds>0</scanIntervalSeconds>
-                    <webAppConfig>
-                        <descriptor>${basedir}/src/test/resources/web.xml</descriptor>                        
+<!--                    <scan>0</scan>-->
+                    <webApp>
                         <contextPath>/</contextPath>
-                    </webAppConfig>
-                    <webAppSourceDirectory>${basedir}/src/test/resources</webAppSourceDirectory>
-                    <systemProperties>
-                        <systemProperty>
-                            <name>jetty.port</name>
-                            <value>${jetty.port}</value>
-                        </systemProperty>
-                        <systemProperty>
-                            <name>rootPath</name>
-                            <value>${basedir}/src/test/resources</value>
-                        </systemProperty>
-                        <systemProperty>
-                            <name>useRootRelativePath</name>
-                            <value>true</value>
-                        </systemProperty>
-                    </systemProperties>
+                        <resourceBases>
+                            <resourceBase>${project.basedir}/src/test/resources</resourceBase>
+                        </resourceBases>
+                    </webApp>
                     <stopKey>foo</stopKey>
                     <stopPort>9999</stopPort>
+                    <systemProperties>
+                        <rootPath>${project.basedir}/src/test/resources</rootPath>
+                        <useRootRelativePath>true</useRootRelativePath>
+                        <jetty.http.port>${jetty.port}</jetty.http.port>
+                    </systemProperties>
+                    <supportedPackagings>jar</supportedPackagings>
                 </configuration>
-                <!--<executions>-->
-                <!--<execution>-->
-                <!--<id>start-jetty</id>-->
-                <!--<phase>pre-integration-test</phase>-->
-                <!--<goals>-->
-                <!--<goal>run</goal>-->
-                <!--</goals>-->
-                <!--<configuration>-->
-                <!--<daemon>true</daemon>-->
-                <!--</configuration>-->
-                <!--</execution>-->
-                <!--<execution>-->
-                <!--<id>stop-jetty</id>-->
-                <!--<phase>post-integration-test</phase>-->
-                <!--<goals>-->
-                <!--<goal>stop</goal>-->
-                <!--</goals>-->
-                <!--</execution>-->
-                <!--</executions>-->
-            </plugin>
-            <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <configuration>
-                    <systemPropertyVariables>
-                        <jetty.port>${jetty.port}</jetty.port>
-                    </systemPropertyVariables>
-                </configuration>
+                <executions>
+                    <execution>
+                        <id>start-jetty</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop-jetty</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -84,12 +67,16 @@
             <artifactId>guice</artifactId>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-servlet_2.5_spec</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.bjuvensjo</groupId>
@@ -107,12 +94,6 @@
             <organization>GitHub</organization>
             <organizationUrl>https://github.com/bjuvensjo</organizationUrl>
         </developer>
-        <developer>
-            <name>Anders Bälter</name>
-            <email>abaelter@gmail.com</email>
-            <organization>GitHub</organization>
-            <organizationUrl>https://github.com/baelter</organizationUrl>
-        </developer>
     </developers>
     <scm>
         <connection>scm:git@github.com:bjuvensjo/rsimulator.git</connection>
@@ -124,5 +105,5 @@
             <name>MIT License</name>
             <url>http://www.opensource.org/licenses/mit-license.php</url>
         </license>
-    </licenses>            
+    </licenses>
 </project>

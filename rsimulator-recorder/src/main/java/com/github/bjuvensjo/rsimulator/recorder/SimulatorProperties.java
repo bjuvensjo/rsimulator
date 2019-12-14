@@ -10,14 +10,11 @@ import java.util.Properties;
 
 /**
  * Helps creating properties while recording
- *
- * @author Anders Bälter
- * @author Magnus Bjuvensjö
  */
 class SimulatorProperties {
-    private Logger log = LoggerFactory.getLogger(SimulatorProperties.class);
-    private Properties properties;
-    private String propertiesFilePath;
+    private final Logger log = LoggerFactory.getLogger(SimulatorProperties.class);
+    private final Properties properties;
+    private final String propertiesFilePath;
 
     /**
      * Create a new property file for the simulator

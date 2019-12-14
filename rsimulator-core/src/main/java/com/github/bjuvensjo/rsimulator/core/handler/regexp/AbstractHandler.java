@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -22,12 +23,11 @@ import static com.github.bjuvensjo.rsimulator.core.config.Constants.RESPONSE;
 /**
  * AbstractHandler implements what is common for regular expression handlers.
  *
- * @author Magnus Bjuvensjö
  * @see Handler
  */
 public abstract class AbstractHandler implements Handler {
     private static final String PROPERTIES_PATTERN = REQUEST + ".*";
-    private Logger log = LoggerFactory.getLogger(AbstractHandler.class);
+    private final Logger log = LoggerFactory.getLogger(AbstractHandler.class);
     @Inject
     private FileUtils fileUtils;
     @Inject
@@ -47,13 +47,14 @@ public abstract class AbstractHandler implements Handler {
                         String response = getResponse(candidatePath, matcher);
                         Optional<Properties> properties = getProperties(candidatePath);
                         simulatorResponse = new SimulatorResponseImpl(response, properties, candidatePath);
+                        simulatorResponse.setMatchingRequest(candidatePath);
                     }
-                    return Optional.ofNullable(simulatorResponse);
+                    return simulatorResponse;
                 })
-                .filter(simulatorResponse -> simulatorResponse.isPresent())
-                .findFirst()
-                .get();
+                .filter(Objects::nonNull)
+                .findFirst();
 
+        log.debug("result: {}", result);
         return result;
     }
 

@@ -9,9 +9,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created by ei4577 on 05/03/14.
- */
 @Singleton
 public class RequestReader {
     private static final Logger log = LoggerFactory.getLogger(RequestReader.class);
@@ -57,8 +54,8 @@ public class RequestReader {
     }
 
     static class Request {
-        private String header;
-        private String body;
+        private final String header;
+        private final String body;
 
         Request(String header, String body) {
             this.header = header;

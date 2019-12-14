@@ -1,1 +1,3 @@
-<request><string>Hello from (com.github.bjuvensjo.rsimulator.aop.Guice.*)</string></request>
+<request>
+    <string>Hello from (com.github.bjuvensjo.rsimulator.aop.Guice.*)</string>
+</request>

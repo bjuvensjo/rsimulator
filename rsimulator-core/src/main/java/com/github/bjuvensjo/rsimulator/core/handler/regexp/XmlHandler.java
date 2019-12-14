@@ -14,13 +14,12 @@ import java.io.ByteArrayOutputStream;
 /**
  * XmlHandler is a regular expression handler for xml (.xml).
  *
- * @author Magnus Bjuvensjö
  * @see AbstractHandler
  */
 @Singleton
 public class XmlHandler extends AbstractHandler {
     private static final String EXTENSION = "xml";
-    private Logger log = LoggerFactory.getLogger(XmlHandler.class);
+    private final Logger log = LoggerFactory.getLogger(XmlHandler.class);
 
     /**
      * {@inheritDoc}
@@ -49,7 +48,7 @@ public class XmlHandler extends AbstractHandler {
             format.setOmitDeclaration(true);
             XMLOutputter out = new XMLOutputter(format);
             out.output(doc, bos);
-            result = new String(bos.toByteArray());
+            result = bos.toString();
             bos.close();
         } catch (Exception e) {
             log.error(null, e);

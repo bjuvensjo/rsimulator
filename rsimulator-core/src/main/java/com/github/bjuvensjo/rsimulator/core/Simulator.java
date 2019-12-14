@@ -7,8 +7,6 @@ import java.util.Optional;
 
 /**
  * The Simulator encapsulates the simulation logic.
- *
- * @author Magnus Bjuvensjö
  */
 @ImplementedBy(SimulatorImpl.class)
 public interface Simulator {

@@ -1,21 +1,19 @@
 package com.github.bjuvensjo.rsimulator.socket;
 
+import com.github.bjuvensjo.rsimulator.socket.config.SocketModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Named;
-import static org.apache.commons.lang.StringUtils.*;
-import org.junit.Before;
-import org.junit.Test;
-import com.github.bjuvensjo.rsimulator.socket.config.SocketModule;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.apache.commons.lang.StringUtils.leftPad;
+import static org.apache.commons.lang.StringUtils.rightPad;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Created by ei4577 on 05/03/14.
- */
 public class RequestReaderTest {
 
     @Inject
@@ -37,7 +35,7 @@ public class RequestReaderTest {
     @Inject
     private RequestReader requestReader;
 
-    @Before
+    @BeforeEach
     public void init() {
         Injector injector = Guice.createInjector(new SocketModule());
         injector.injectMembers(this);

@@ -1,34 +1,34 @@
 package com.github.bjuvensjo.rsimulator.socket;
 
+import com.github.bjuvensjo.rsimulator.socket.config.GlobalConfig;
+import com.github.bjuvensjo.rsimulator.socket.config.SocketModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Named;
-import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
-import com.github.bjuvensjo.rsimulator.socket.config.GlobalConfig;
-import com.github.bjuvensjo.rsimulator.socket.config.SocketModule;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
-/**
- * Created by ei4577 on 04/03/14.
- */
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class SocketSimulatorIT {
 
     @Inject
     @Named("encoding")
     private String encoding;
 
-    @Before
+    @BeforeEach
     public void init() {
         Injector injector = Guice.createInjector(new SocketModule());
         injector.injectMembers(this);
     }
 
+    @Disabled
     @Test
     public void test() {
         String header = "    00061234                                    ";

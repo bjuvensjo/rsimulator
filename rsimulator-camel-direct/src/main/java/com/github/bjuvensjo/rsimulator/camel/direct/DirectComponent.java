@@ -1,12 +1,12 @@
 package com.github.bjuvensjo.rsimulator.camel.direct;
 
 import org.apache.camel.Endpoint;
-import org.apache.camel.impl.DefaultComponent;
+import org.apache.camel.support.DefaultComponent;
 
 import java.util.Map;
 
 public class DirectComponent extends DefaultComponent {
-    private DirectComponentConfig directComponentConfig;
+    private final DirectComponentConfig directComponentConfig;
 
     public DirectComponent() {
         this("./src/test/resources");
@@ -27,6 +27,6 @@ public class DirectComponent extends DefaultComponent {
 
     @Override
     protected void validateParameters(String uri, Map<String, Object> parameters, String optionPrefix) {
-        
+
     }
 }

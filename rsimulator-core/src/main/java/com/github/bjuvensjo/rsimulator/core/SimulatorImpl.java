@@ -14,12 +14,10 @@ import java.util.Optional;
 
 /**
  * SimulatorImpl implements {@link Simulator}.
- *
- * @author Magnus Bjuvensjö
  */
 @Singleton
 public class SimulatorImpl implements Simulator {
-    private Logger log = LoggerFactory.getLogger(SimulatorImpl.class);
+    private final Logger log = LoggerFactory.getLogger(SimulatorImpl.class);
 
     @Inject
     @Named("handlers")
@@ -35,7 +33,7 @@ public class SimulatorImpl implements Simulator {
 
         log.info("simulatorResponse: {}", simulatorResponse);
 
-        if (!simulatorResponse.isPresent()) {
+        if (simulatorResponse.isEmpty()) {
             String message = "No simulatorResponse found!";
             log.warn("{}, rootPath: {}, rootRelativePath: {}, request: {}, contentType: {}", message, rootPath, rootRelativePath, request, contentType);
         }

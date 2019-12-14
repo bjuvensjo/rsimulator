@@ -6,14 +6,12 @@ import com.google.inject.name.Names;
 
 /**
  * JmsModule holds Guice configurations.
- *
- * @author Magnus Bjuvensjö
  */
 public class JmsModule extends AbstractModule {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.google.inject.AbstractModule#configure()
      */
     @Override

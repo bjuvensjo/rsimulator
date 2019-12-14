@@ -1,15 +1,15 @@
 package com.github.bjuvensjo.rsimulator.recorder;
 
-import javax.servlet.ServletOutputStream;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.WriteListener;
+
 import java.io.ByteArrayOutputStream;
 
 /**
  * A ServletOutputStream which writes to a ByteArrayOutputStream
- *
- * @author Anders Bälter
  */
 public class ByteArrayServletStream extends ServletOutputStream {
-    private ByteArrayOutputStream out;
+    private final ByteArrayOutputStream out;
 
     ByteArrayServletStream(ByteArrayOutputStream out) {
         this.out = out;
@@ -18,5 +18,15 @@ public class ByteArrayServletStream extends ServletOutputStream {
     @Override
     public void write(int param) {
         out.write(param);
+    }
+
+    @Override
+    public boolean isReady() {
+        return true;
+    }
+
+    @Override
+    public void setWriteListener(WriteListener writeListener) {
+        throw new UnsupportedOperationException();
     }
 }

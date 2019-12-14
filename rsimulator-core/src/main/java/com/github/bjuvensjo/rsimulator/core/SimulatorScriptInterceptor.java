@@ -42,15 +42,15 @@ public class SimulatorScriptInterceptor implements MethodInterceptor {
     private static final int CONTENT_TYPE_INDEX = 3;
     private static final int VARS_INDEX = 4;
     private static final String GROOVY_PATTERN = com.github.bjuvensjo.rsimulator.core.config.Constants.REQUEST + ".*";
-    private Logger log = LoggerFactory.getLogger(SimulatorScriptInterceptor.class);
+    private final Logger log = LoggerFactory.getLogger(SimulatorScriptInterceptor.class);
 
     public Object invoke(MethodInvocation invocation) throws Throwable {
         log.debug("Arguments are {}", invocation.getArguments());
         Map<String, Object> vars = null;
 
-        Map[] varsArray = (Map[]) invocation.getArguments()[VARS_INDEX];
+        Map<String, Object>[] varsArray = (Map<String, Object>[]) invocation.getArguments()[VARS_INDEX];
         if (varsArray.length > 0) {
-            vars = (Map<String, Object>) varsArray[0];
+            vars = varsArray[0];
         }
 
         if (vars == null) {
@@ -113,13 +113,13 @@ public class SimulatorScriptInterceptor implements MethodInterceptor {
             }
             File file = new File(String.join(File.separator, root, script));
             if (file.exists()) {
-                log.debug("Applying script {} of type: {}, with vars: {}", new Object[]{file, type, vars});
+                log.debug("Applying script {} of type: {}, with vars: {}", file, type, vars);
                 String[] roots = new String[]{root};
                 GroovyScriptEngine gse = new GroovyScriptEngine(roots);
                 Binding binding = new Binding();
                 binding.setVariable("vars", vars);
                 gse.run(script, binding);
-                log.debug("Applied script {} of type: {}, and updated vars are: {}", new Object[]{file, type, vars});
+                log.debug("Applied script {} of type: {}, and updated vars are: {}", file, type, vars);
             } else {
                 log.debug("When applying script of type {}, script {} is not an existing file", type, file.getPath());
             }

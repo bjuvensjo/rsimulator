@@ -15,7 +15,7 @@ import java.util.Properties;
 @Singleton
 public class SimulatorPropertiesInterceptor implements MethodInterceptor {
     private static final String DELAY = "delay";
-    private Logger log = LoggerFactory.getLogger(SimulatorPropertiesInterceptor.class);
+    private final Logger log = LoggerFactory.getLogger(SimulatorPropertiesInterceptor.class);
 
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Optional<SimulatorResponse> simulatorResponseOptional = (Optional<SimulatorResponse>) invocation.proceed();

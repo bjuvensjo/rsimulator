@@ -1,11 +1,11 @@
 package com.github.bjuvensjo.rsimulator.socket;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 import com.github.bjuvensjo.rsimulator.core.Simulator;
 import com.github.bjuvensjo.rsimulator.core.SimulatorResponse;
 import com.github.bjuvensjo.rsimulator.socket.config.GlobalConfig;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,8 +17,6 @@ import java.util.Optional;
 
 /**
  * Manager
- *
- * @author Magnus Bjuvensjö
  */
 @Singleton
 public class Manager {
@@ -44,7 +42,7 @@ public class Manager {
 
     class Worker implements Runnable {
         private final Logger log = LoggerFactory.getLogger(Worker.class);
-        private Socket s;
+        private final Socket s;
 
         public Worker(Socket s) throws IOException {
             this.s = s;

@@ -23,11 +23,9 @@ import java.util.Map;
 
 /**
  * CoreModule holds Guice configurations.
- *
- * @author Magnus Bjuvensjö
  */
 public class CoreModule extends AbstractModule {
-    private Logger log = LoggerFactory.getLogger(CoreModule.class);
+    private final Logger log = LoggerFactory.getLogger(CoreModule.class);
 
     /*
      * (non-Javadoc)
@@ -51,7 +49,7 @@ public class CoreModule extends AbstractModule {
         bind(java.util.Properties.class).annotatedWith(Names.named("rsimulator-core-properties")).toInstance(properties);
 
         // ***** Handlers *****
-        Map<String, Handler> map = new HashMap<String, Handler>();
+        Map<String, Handler> map = new HashMap<>();
         JsonHandler jsonHandler = new JsonHandler();
         requestInjection(jsonHandler);
         TxtHandler txtHandler = new TxtHandler();

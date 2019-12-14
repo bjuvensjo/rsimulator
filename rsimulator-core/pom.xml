@@ -8,7 +8,7 @@
     <parent>
         <groupId>com.github.bjuvensjo</groupId>
         <artifactId>rsimulator-pom-parent</artifactId>
-        <version>2.1.8</version>
+        <version>3.0.0-SNAPSHOT</version>
         <relativePath>../rsimulator-pom-parent/pom.xml</relativePath>
     </parent>
     <dependencies>
@@ -21,16 +21,12 @@
             <artifactId>guice</artifactId>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
+            <artifactId>groovy</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jdom</groupId>
@@ -44,6 +40,28 @@
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-core</artifactId>
+        </dependency>
+        <dependency> <!-- enables mocking of classes (in addition to interfaces) -->
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+        </dependency>
+        <dependency> <!-- enables mocking of classes without default constructor (together with CGLIB) -->
+            <groupId>org.objenesis</groupId>
+            <artifactId>objenesis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-json</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-xml</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <developers>
         <developer>
@@ -51,12 +69,6 @@
             <email>bjuvensjo@gmail.com</email>
             <organization>GitHub</organization>
             <organizationUrl>https://github.com/bjuvensjo</organizationUrl>
-        </developer>
-        <developer>
-            <name>Anders Bälter</name>
-            <email>abaelter@gmail.com</email>
-            <organization>GitHub</organization>
-            <organizationUrl>https://github.com/baelter</organizationUrl>
         </developer>
     </developers>
     <scm>

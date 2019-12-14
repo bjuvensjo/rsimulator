@@ -15,7 +15,7 @@ class DirectComponentTest extends TestSupport {
     @Shared
     DirectComponent directComponent
 
-    def setupSpec() {
+    def 'setupSpec'() {
         directComponent = new DirectComponent()
         init([http: directComponent])
 
@@ -23,8 +23,8 @@ class DirectComponentTest extends TestSupport {
             void configure() {
                 [TEXT, XML, JSON, NOT_SUPPORTED].each {
                     from("direct:$it")
-                            .setHeader('Content-Type', simple("$it; charset=utf-8"))
-                            .to("http://localhost:8888/$it")
+                        .setHeader('Content-Type', simple("$it; charset=utf-8"))
+                        .to("http://localhost:8888/$it")
                 }
             }
         })

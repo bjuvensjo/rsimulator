@@ -27,8 +27,8 @@ import java.util.logging.Logger;
  */
 public class RSimulatorConduit extends AbstractConduit {
     private static final Logger LOG = LogUtils.getL7dLogger(RSimulatorConduit.class);
-    private Simulator simulator;
-    private Bus bus;
+    private final Simulator simulator;
+    private final Bus bus;
     private final String rootPath;
 
     RSimulatorConduit(EndpointInfo endpointInfo, Simulator simulator, Bus bus, String rootPath) {
@@ -56,23 +56,22 @@ public class RSimulatorConduit extends AbstractConduit {
         return Boolean.TRUE.equals(message.get("org.apache.cxf.message.inbound"));
     }
 
-    private Message createResponseMessage(Message message) throws IOException {
-        Message answer = new MessageImpl();
-        OutputStream os = message.getContent(OutputStream.class);
-        String encoding = getEncoding(message);
+    private Message createResponseMessage(Message requestMessage) throws IOException {
+        Message responseMessage = new MessageImpl();
+        OutputStream os = requestMessage.getContent(OutputStream.class);
+        String encoding = getEncoding(requestMessage);
         String request = toString((CachedOutputStream) os, encoding);
-        Optional<SimulatorResponse> response = findResponse(getPath(message), request);
+        Optional<SimulatorResponse> response = findResponse(getPath(requestMessage), request);
         if (response.isPresent()) {
-            answer.setContent(InputStream.class, toInputStream(response.get().getResponse(), encoding));
+            responseMessage.setContent(InputStream.class, toInputStream(response.get().getResponse(), encoding));
             Optional<Properties> properties = response.get().getProperties();
-            Integer responseCode = 200;
+            int responseCode = 200;
             if (properties != null && properties.isPresent() && properties.get().containsKey("responseCode")) {
-                responseCode = Integer.valueOf((String) properties.get().get("responseCode"));
+                responseCode = Integer.parseInt((String) properties.get().get("responseCode"));
             }
-            answer.put(Message.RESPONSE_CODE, responseCode);
-            updateMessageExchange(message, answer);
+            updateMessageExchange(requestMessage, responseMessage, responseCode);
         }
-        return answer;
+        return responseMessage;
     }
 
     private String getEncoding(Message message) {
@@ -97,11 +96,14 @@ public class RSimulatorConduit extends AbstractConduit {
         return address.substring(address.indexOf('/', address.indexOf("//") + 2));
     }
 
-    private void updateMessageExchange(Message message, Message inMessage) {
-        Exchange exchange = message.getExchange();
-        exchange.setInMessage(inMessage);
-        exchange.put(Service.class, message.getExchange().getService());
+    private void updateMessageExchange(Message requestMessage, Message responseMessage, Integer responseCode) {
+        Exchange exchange = requestMessage.getExchange();
+        exchange.put(Message.RESPONSE_CODE, responseCode);
+        exchange.put(Service.class, exchange.getService());
         exchange.put(Bus.class, bus);
+        exchange.setInMessage(responseMessage);
+        responseMessage.setExchange(exchange);
+        responseMessage.put(Message.RESPONSE_CODE, responseCode);
     }
 
     @Override

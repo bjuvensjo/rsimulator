@@ -3,14 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.bjuvensjo</groupId>
     <artifactId>rsimulator-example-pom-modules</artifactId>    
-    <version>2.1.8</version>
+    <version>3.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>${project.artifactId} module</description>
     <url>https://github.com/bjuvensjo/rsimulator/wiki</url>
     
     <modules>
-        <module>../rsimulator-example-unittest</module>
         <module>../rsimulator-example-webapp</module>
         <module>../rsimulator-example-proxy-recorder-webapp</module>
     </modules>
@@ -20,12 +19,6 @@
             <email>bjuvensjo@gmail.com</email>
             <organization>GitHub</organization>
             <organizationUrl>https://github.com/bjuvensjo</organizationUrl>
-        </developer>
-        <developer>
-            <name>Anders Bälter</name>
-            <email>abaelter@gmail.com</email>
-            <organization>GitHub</organization>
-            <organizationUrl>https://github.com/baelter</organizationUrl>
         </developer>
     </developers>
     <scm>

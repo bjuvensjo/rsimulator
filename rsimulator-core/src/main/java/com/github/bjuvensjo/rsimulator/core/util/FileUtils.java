@@ -7,8 +7,6 @@ import java.util.List;
 
 /**
  * FileUtils provides file utilities.
- *
- * @author Magnus Bjuvensjö
  */
 @ImplementedBy(FileUtilsImpl.class)
 public interface FileUtils {

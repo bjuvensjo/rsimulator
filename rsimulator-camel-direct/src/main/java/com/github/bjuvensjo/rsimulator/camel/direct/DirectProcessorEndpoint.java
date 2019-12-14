@@ -2,7 +2,7 @@ package com.github.bjuvensjo.rsimulator.camel.direct;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Processor;
-import org.apache.camel.impl.ProcessorEndpoint;
+import org.apache.camel.support.ProcessorEndpoint;
 
 public class DirectProcessorEndpoint extends ProcessorEndpoint {
     private DirectComponentConfig directComponentConfig;

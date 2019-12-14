@@ -60,7 +60,7 @@ public class DirectProcessor implements Processor {
                 getSimulatorContentType(exchange),
                 vars);
 
-        if (!simulatorResponse.isPresent()) {
+        if (simulatorResponse.isEmpty()) {
             throw new IllegalStateException("No response present in rsimulator!");
         }
         Optional<Properties> properties = simulatorResponse.get().getProperties();
@@ -68,7 +68,7 @@ public class DirectProcessor implements Processor {
         if (properties != null && properties.isPresent()) {
             String responseCode = properties.get().getProperty("responseCode");
             if (responseCode != null) {
-                status = Integer.valueOf(responseCode);
+                status = Integer.parseInt(responseCode);
             }
         }
         exchange.getOut().setHeader(Exchange.HTTP_RESPONSE_CODE, status);
@@ -90,9 +90,9 @@ public class DirectProcessor implements Processor {
             Matcher m = ACCEPT_PATTERN.matcher(accept);
             if (m.find()) {
                 String[] split = m.group(1).split(" *, *");
-                for (int i = 0; i < split.length; i++) {
-                    if (accepts.containsKey(split[i])) {
-                        return accepts.get(split[i]);
+                for (String s : split) {
+                    if (accepts.containsKey(s)) {
+                        return accepts.get(s);
                     }
                 }
             }

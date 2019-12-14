@@ -1,15 +1,13 @@
 package com.github.bjuvensjo.rsimulator.recorder;
 
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
+
 import java.io.*;
 
 /**
  * A HttpServletRequestWrapper which buffers data to a byte array
- *
- * @author Anders Bälter
- * @author Magnus Bjuvensjö
  */
 public class RecorderServletRequestWrapper extends HttpServletRequestWrapper {
     private byte[] buffer;

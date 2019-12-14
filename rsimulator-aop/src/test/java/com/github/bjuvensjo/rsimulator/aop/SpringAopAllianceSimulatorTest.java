@@ -1,19 +1,19 @@
 package com.github.bjuvensjo.rsimulator.aop;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.File;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration
 public class SpringAopAllianceSimulatorTest {
     @Autowired
@@ -32,7 +32,7 @@ public class SpringAopAllianceSimulatorTest {
 
     @Test
     public void testWithRootRelativePath() throws URISyntaxException {
-        String rootPath = Paths.get(getClass().getResource("/").toURI()).toString() + File.separator;
+        String rootPath = Paths.get(getClass().getResource("/").toURI()) + File.separator;
         aopAllianceSimulator.setRootPath(rootPath);
         aopAllianceSimulator.setUseRootRelativePath(true);
         String msg = foo.sayHello("Hi from " + getClass().getName());

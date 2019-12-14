@@ -7,8 +7,6 @@ import java.util.StringJoiner;
 
 /**
  * SimulatorResponseImpl implements {@link SimulatorResponse}.
- *
- * @author Magnus Bjuvensjö
  */
 public class SimulatorResponseImpl implements SimulatorResponse {
     private String response;

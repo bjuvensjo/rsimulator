@@ -1,24 +1,34 @@
 package com.github.bjuvensjo.rsimulator.http.config;
 
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Paths;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class HttpSimulatorConfigIT {
     private static final int BUFFER_SIZE = 500;
     private static final int READ_TIMEOUT = 12000;
     private static final String ENCODING = "UTF-8";
     private static final String PORT = System.getProperty("jetty.port", "25001");
-    
+    private String rootPath;
+
+    @BeforeEach
+    public void init() throws URISyntaxException {
+        String resource = "/txt-examples";
+        rootPath = Paths.get(getClass().getResource(resource).toURI()).toString().replace(resource, "");
+    }
+
     @Test
-    public void testConfigClassOfQextendsObjectString() {
+    public void testConfigClassOfExtendsObjectString() {
         try {
             HttpSimulatorConfig.config(getClass(), "http://localhost:" + PORT + "/foo/bar");
             call();
@@ -30,16 +40,13 @@ public class HttpSimulatorConfigIT {
     @Test
     public void testConfigStringBoolean() {
         try {
-            String rootPath = null;
-            
-            rootPath = new File(getClass().getResource("/").getPath()).getPath();
             HttpSimulatorConfig.config(rootPath, false, "http://localhost:" + PORT);
             call();
             HttpSimulatorConfig.config(rootPath, true, "http://localhost:" + PORT);
             call();
 
-            String resource = new StringBuilder().append(getClass().getSimpleName()).append(".class").toString();            
-            rootPath = new File(getClass().getResource(resource).getPath()).getParentFile().getPath();            
+            String resource = getClass().getSimpleName() + ".class";
+            rootPath = new File(getClass().getResource(resource).getPath()).getParentFile().getPath();
             HttpSimulatorConfig.config(rootPath, false, "http://localhost:" + PORT);
             call();
         } catch (IOException e) {
@@ -50,7 +57,6 @@ public class HttpSimulatorConfigIT {
     @Test
     public void testConfigStringBooleanString() {
         try {
-            String rootPath = new File(getClass().getResource("/").getPath()).getPath();
             HttpSimulatorConfig.config(rootPath, false, "http://localhost:" + PORT + "/qwerty");
             call();
         } catch (IOException e) {
@@ -60,22 +66,22 @@ public class HttpSimulatorConfigIT {
 
     @Test
     public void call() throws IOException {
-        HttpURLConnection con = getConnection("POST", "http://localhost:" + PORT + "/com/github/bjuvensjo/rsimulator", "text/plain");
+        HttpURLConnection con = getConnection("http://localhost:" + PORT + "/com/github/bjuvensjo/rsimulator");
         try {
             con.getOutputStream().write("Hello".getBytes(ENCODING));
             String response = read(con.getInputStream());
-            assertEquals("World", response);            
+            assertEquals("World", response);
         } finally {
             con.disconnect();
         }
     }
-    
-    private HttpURLConnection getConnection(String method, String url, String contentType) {
+
+    private HttpURLConnection getConnection(String url) {
         HttpURLConnection con = null;
         try {
             con = (HttpURLConnection) new URL(url).openConnection();
-            con.setRequestMethod(method);
-            con.setRequestProperty("Content-Type", contentType);
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "text/plain");
             con.setDoOutput(true);
             con.setDoInput(true);
             con.setReadTimeout(READ_TIMEOUT);
@@ -94,5 +100,4 @@ public class HttpSimulatorConfigIT {
         }
         return sb.toString();
     }
-
 }

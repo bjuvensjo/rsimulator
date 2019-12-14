@@ -1,5 +1,6 @@
 import com.github.bjuvensjo.rsimulator.core.SimulatorResponse
-import javax.servlet.http.HttpServletResponse
+
+import jakarta.servlet.http.HttpServletResponse
 
 def SimulatorResponse simulatorResponse = vars.get("simulatorResponse")
 def Properties properties = simulatorResponse.getProperties().orElse(null);

@@ -5,8 +5,7 @@
 With SNAPSHOT versions:
 
     mvn clean install deploy 
-    
-    
+
 ## Release
 
 With fixed versions:

@@ -7,29 +7,29 @@ import spock.lang.Specification
 
 class RSimulatorTransportFactoryTest extends Specification {
     static {
-        System.setProperty("net.sf.ehcache.skipUpdateCheck", "true");
+        System.setProperty('net.sf.ehcache.skipUpdateCheck', 'true')
     }
 
-    def "should create a transport factory with minimal config"() {
+    def 'should create a transport factory with minimal config'() {
         when:
-        RSimulatorTransportFactory factory = new RSimulatorTransportFactory("/")
+        RSimulatorTransportFactory factory = new RSimulatorTransportFactory('/')
         then:
         factory.transportIds.size() == 4
         factory.uriPrefixes.size() == 1
-        factory.uriPrefixes.contains("http://") == true
+        factory.uriPrefixes.contains('http://')
         and:
         factory.getConduit(Mock(EndpointInfo.class), Mock(Bus.class)) != null
         factory.getConduit(Mock(EndpointInfo.class), Mock(EndpointReferenceType.class), Mock(Bus.class)) != null
     }
 
-    def "should create a transport factory with specific config"() {
+    def 'should create a transport factory with specific config'() {
         when:
-        RSimulatorTransportFactory factory = new RSimulatorTransportFactory("/", Arrays.asList("jms://", "rs://", "https://"))
+        RSimulatorTransportFactory factory = new RSimulatorTransportFactory('/', Arrays.asList('jms://', 'rs://', 'https://'))
         then:
         factory.transportIds.size() == 4
         factory.uriPrefixes.size() == 3
-        ["https://", "jms://", "rs://"].each {
-            factory.uriPrefixes.contains(it) == true
+        ['https://', 'jms://', 'rs://'].each {
+            factory.uriPrefixes.contains(it)
         }
         and:
         factory.getConduit(Mock(EndpointInfo.class), Mock(Bus.class)) != null

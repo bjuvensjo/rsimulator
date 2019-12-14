@@ -1,20 +1,18 @@
 package com.github.bjuvensjo.rsimulator.recorder;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
 /**
  * A HttpServletResponseWrapper which gets its ServletOutputStream from a ByteArrayPrintWriter
- *
- * @author Anders Bälter
- * @author Magnus Bjuvensjö
  */
 public class RecorderServletResponseWrapper extends HttpServletResponseWrapper {
-    private ByteArrayPrintWriter pw = new ByteArrayPrintWriter();
+    private final ByteArrayPrintWriter pw = new ByteArrayPrintWriter();
     private int httpStatus;
 
     RecorderServletResponseWrapper(HttpServletResponse response) {
@@ -43,7 +41,7 @@ public class RecorderServletResponseWrapper extends HttpServletResponseWrapper {
         super.sendError(sc);
     }
 
-    int getStatus() {
+    public int getStatus() {
         return httpStatus;
     }
 

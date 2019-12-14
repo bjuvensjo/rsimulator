@@ -14,7 +14,6 @@ import org.apache.cxf.transport.http.HTTPTransportFactory;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,11 +24,10 @@ import java.util.Set;
  * The purpose is to be able to use the simulator easily and efficient without the requirement of using the http-protocol.
  */
 public class RSimulatorTransportFactory extends AbstractTransportFactory implements ConduitInitiator {
-    @Inject
-    private Simulator simulator;
-
     private final Set<String> uriPrefixes;
     private final String rootPath;
+    @Inject
+    private Simulator simulator;
 
     /**
      * Minimal constructor that registers itself as a factory for the "http://"-protocol.
@@ -51,7 +49,7 @@ public class RSimulatorTransportFactory extends AbstractTransportFactory impleme
         Injector injector = Guice.createInjector(new CoreModule());
         injector.injectMembers(this);
         this.rootPath = rootPath;
-        this.uriPrefixes = Collections.unmodifiableSet(new HashSet<>(protocols));
+        this.uriPrefixes = Set.copyOf(protocols);
     }
 
     @Override

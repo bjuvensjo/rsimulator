@@ -1,5 +1,12 @@
 package com.github.bjuvensjo.rsimulator.proxy;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,27 +16,17 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
-
 /**
  * The URIMapper supports regular expression mappings configured in the resource /URIMapper.txt.
- *
- * @author Magnus Bjuvensjö
  */
 @Singleton
 public class URIMapper {
-    private Logger log = LoggerFactory.getLogger(URIMapper.class);
-    private List<Mapping> mappings;
+    private final Logger log = LoggerFactory.getLogger(URIMapper.class);
+    private final List<Mapping> mappings;
 
     @Inject
     public URIMapper(@Named("uri-mappings") File mappingsFile) throws IOException {
-        mappings = new ArrayList<Mapping>();
+        mappings = new ArrayList<>();
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader(mappingsFile));

@@ -1,17 +1,12 @@
 package com.github.bjuvensjo.rsimulator.core;
 
-import com.google.inject.ImplementedBy;
-
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.Properties;
 
 /**
  * SimulatorResponse is returned by {@link Simulator}.
- *
- * @author Magnus Bjuvensjö
  */
-@ImplementedBy(SimulatorResponseImpl.class)
 public interface SimulatorResponse {
 
     /**

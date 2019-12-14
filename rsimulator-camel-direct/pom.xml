@@ -8,10 +8,10 @@
     <parent>
         <groupId>com.github.bjuvensjo</groupId>
         <artifactId>rsimulator-pom-parent</artifactId>
-        <version>2.1.8</version>
+        <version>3.0.0-SNAPSHOT</version>
         <relativePath>../rsimulator-pom-parent/pom.xml</relativePath>
     </parent>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.apache.camel</groupId>
@@ -23,7 +23,17 @@
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
+            <artifactId>groovy</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-json</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-xml</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -64,5 +74,5 @@
             <name>MIT License</name>
             <url>http://www.opensource.org/licenses/mit-license.php</url>
         </license>
-    </licenses> 
+    </licenses>
 </project>

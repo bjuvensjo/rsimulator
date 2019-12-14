@@ -15,13 +15,11 @@ import java.util.Properties;
 
 /**
  * PropsImpl implements {@link Props}.
- *
- * @author Magnus Bjuvensjö
  */
 @Singleton
 public class PropsImpl implements Props {
     private static final String SIMULATOR_CACHE = "simulatorCache";
-    private Logger log = LoggerFactory.getLogger(PropsImpl.class);
+    private final Logger log = LoggerFactory.getLogger(PropsImpl.class);
     @Inject
     @Named("rsimulator-core-properties")
     private Properties properties;
@@ -33,7 +31,7 @@ public class PropsImpl implements Props {
     @Cache
     public Optional<Properties> getProperties(Path path) {
         if (!Files.exists(path)) {
-            return Optional.ofNullable(null);
+            return Optional.empty();
         }
         Properties properties = new Properties();
         try (BufferedInputStream bis = new BufferedInputStream(Files.newInputStream(path))) {

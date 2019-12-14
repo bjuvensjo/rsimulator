@@ -2,7 +2,7 @@ package com.github.bjuvensjo.rsimulator.camel.direct
 
 import org.apache.camel.*
 import org.apache.camel.impl.DefaultCamelContext
-import org.apache.camel.impl.DefaultExchange
+import org.apache.camel.support.DefaultExchange
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -16,7 +16,7 @@ class TestSupport extends Specification {
     def init(Map components = [:]) {
         context = new DefaultCamelContext()
         components.each { k, v ->
-            setComponent(k, v)
+            setComponent(k as String, v as Component)
         }
         context.start()
         template = context.createProducerTemplate()
@@ -27,7 +27,7 @@ class TestSupport extends Specification {
             context.removeComponent(name)
         }
 
-        context.addComponent(name, component);
+        context.addComponent(name, component)
     }
 
     def createExchangeWithBody(Object body, ExchangePattern exchangePattern = ExchangePattern.InOut) {

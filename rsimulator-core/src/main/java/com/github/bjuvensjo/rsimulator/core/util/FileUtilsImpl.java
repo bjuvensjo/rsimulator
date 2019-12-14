@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
@@ -17,14 +18,12 @@ import static com.github.bjuvensjo.rsimulator.core.config.Constants.REQUEST;
 
 /**
  * FileUtilsImpl implements {@link FileUtils}.
- *
- * @author Magnus Bjuvensjö
  */
 @Singleton
 public class FileUtilsImpl implements FileUtils {
     private static final String ENCODING = "UTF-8";
     private static final String SUFFIX_PREFIX = REQUEST.concat(".");
-    private Logger log = LoggerFactory.getLogger(FileUtilsImpl.class);
+    private final Logger log = LoggerFactory.getLogger(FileUtilsImpl.class);
 
     public List<Path> findRequests(Path path, String extension) {
         List<Path> requests;
@@ -34,7 +33,8 @@ public class FileUtilsImpl implements FileUtils {
             requests = stream.filter(predicate).collect(Collectors.toList());
             requests.sort(Comparator.comparing(Path::getNameCount).thenComparing(Path::compareTo)); // Do not want depth first as given by Files.walk
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.error("Cannot find requests.", e);
+            return Collections.emptyList();
         }
 
         log.debug("Requests: {}", requests);

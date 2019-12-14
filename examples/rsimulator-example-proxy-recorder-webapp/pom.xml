@@ -9,7 +9,7 @@
     <parent>
         <groupId>com.github.bjuvensjo</groupId>
         <artifactId>rsimulator-pom-parent</artifactId>
-        <version>2.1.8</version>
+        <version>3.0.0-SNAPSHOT</version>
     </parent>
     <properties>
         <maven.javadoc.skip>true</maven.javadoc.skip>
@@ -20,17 +20,16 @@
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <configuration>
-                    <scanIntervalSeconds>0</scanIntervalSeconds>
-                    <webAppConfig>
+                    <!--<scan>0</scan>-->
+                    <webApp>
                         <contextPath>/</contextPath>
-                    </webAppConfig>
+                    </webApp>
                     <stopKey>foo</stopKey>
                     <stopPort>9999</stopPort>
                     <systemProperties>
-                        <systemProperty>
-                            <name>jetty.port</name>
-                            <value>8081</value>
-                        </systemProperty>
+                        <rootPath>${basedir}/src/main/webapp/utv</rootPath>
+                        <useRootRelativePath>true</useRootRelativePath>
+                        <jetty.http.port>8080</jetty.http.port>
                     </systemProperties>
                 </configuration>
             </plugin>
@@ -52,12 +51,6 @@
             <email>bjuvensjo@gmail.com</email>
             <organization>GitHub</organization>
             <organizationUrl>https://github.com/bjuvensjo</organizationUrl>
-        </developer>
-        <developer>
-            <name>Anders Bälter</name>
-            <email>abaelter@gmail.com</email>
-            <organization>GitHub</organization>
-            <organizationUrl>https://github.com/baelter</organizationUrl>
         </developer>
     </developers>
     <scm>

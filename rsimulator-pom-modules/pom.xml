@@ -2,8 +2,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.bjuvensjo</groupId>
-    <artifactId>rsimulator-pom-modules</artifactId>    
-    <version>2.1.8</version>
+    <artifactId>rsimulator-pom-modules</artifactId>
+    <version>3.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>${project.artifactId} module</description>
@@ -12,7 +12,7 @@
     <properties>
         <gpg.executable>gpg2</gpg.executable>
         <gpg.passphrase>rsimulator</gpg.passphrase>
-    </properties>    
+    </properties>
     <modules>
         <module>../rsimulator-pom-parent</module>
         <module>../rsimulator-aop</module>
@@ -30,7 +30,7 @@
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.6</version>
+                <version>1.6.8</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
@@ -51,7 +51,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>            
+            </plugin>
         </plugins>
     </build>
     <distributionManagement>
@@ -71,12 +71,6 @@
             <organization>GitHub</organization>
             <organizationUrl>https://github.com/bjuvensjo</organizationUrl>
         </developer>
-        <developer>
-            <name>Anders Bälter</name>
-            <email>abaelter@gmail.com</email>
-            <organization>GitHub</organization>
-            <organizationUrl>https://github.com/baelter</organizationUrl>
-        </developer>
     </developers>
     <scm>
         <connection>scm:git@github.com:bjuvensjo/rsimulator.git</connection>
@@ -88,5 +82,5 @@
             <name>MIT License</name>
             <url>http://www.opensource.org/licenses/mit-license.php</url>
         </license>
-    </licenses>            
+    </licenses>
 </project>

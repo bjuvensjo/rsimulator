@@ -1,1 +1,3 @@
-<request><string>Give me an exception</string></request>
+<request>
+    <string>Give me an exception</string>
+</request>

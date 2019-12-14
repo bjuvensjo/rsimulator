@@ -1,11 +1,11 @@
 package com.github.bjuvensjo.rsimulator.socket;
 
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.github.bjuvensjo.rsimulator.core.config.CoreModule;
 import com.github.bjuvensjo.rsimulator.socket.config.GlobalConfig;
 import com.github.bjuvensjo.rsimulator.socket.config.SocketModule;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,8 +15,6 @@ import java.net.Socket;
 
 /**
  * SocketSimulator.
- *
- * @author Magnus Bjuvensjö
  */
 public class SocketSimulator {
     private static final Logger log = LoggerFactory.getLogger(SocketSimulator.class);

@@ -5,30 +5,25 @@ import com.github.bjuvensjo.rsimulator.http.config.Constants;
 import com.github.bjuvensjo.rsimulator.http.config.GlobalConfig;
 import groovy.lang.Binding;
 import groovy.util.GroovyScriptEngine;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-/**
- * @author Anders Bälter
- */
+@WebFilter(urlPatterns = {"/*"})
 public class ScriptFilter implements Filter {
     private static final String GROOVY_PATTERN = com.github.bjuvensjo.rsimulator.core.config.Constants.REQUEST + ".*";
 
-    private Logger log = LoggerFactory.getLogger(ScriptFilter.class);
+    private final Logger log = LoggerFactory.getLogger(ScriptFilter.class);
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
     }
 
     @Override
@@ -36,7 +31,7 @@ public class ScriptFilter implements Filter {
         log.debug("doFilter");
         if (shouldApplyFilter(request)) {
             log.debug("ApplyingScripts");
-            Map<String, Object> vars = new HashMap<String, Object>();
+            Map<String, Object> vars = new HashMap<>();
             vars.put(Constants.SERVLET_REQUEST, request);
             vars.put(Constants.SERVLET_RESPONSE, response);
             vars.put(Constants.ROOT_PATH, GlobalConfig.rootPath);
@@ -53,10 +48,6 @@ public class ScriptFilter implements Filter {
         } else {
             chain.doFilter(request, response);
         }
-    }
-
-    @Override
-    public void destroy() {
     }
 
     private boolean shouldApplyFilter(ServletRequest request) {
@@ -89,15 +80,15 @@ public class ScriptFilter implements Filter {
                 default:
                     break;
             }
-            File file = new File(new StringBuilder().append(root).append(File.separator).append(script).toString());
+            File file = new File(root + File.separator + script);
             if (file.exists()) {
-                log.debug("Applying script {} of type: {}, with vars: {}", new Object[]{file, type, vars});
+                log.debug("Applying script {} of type: {}, with vars: {}", file, type, vars);
                 String[] roots = new String[]{root};
                 GroovyScriptEngine gse = new GroovyScriptEngine(roots);
                 Binding binding = new Binding();
                 binding.setVariable("vars", vars);
                 gse.run(script, binding);
-                log.debug("Applied script {} of type: {}, and updated vars are: {}", new Object[]{file, type, vars});
+                log.debug("Applied script {} of type: {}, and updated vars are: {}", file, type, vars);
             } else {
                 log.debug("When applying script of type {}, script {} is not an existing file", type, file.getPath());
             }
@@ -106,7 +97,7 @@ public class ScriptFilter implements Filter {
         }
     }
 
-    private static enum Scope {
+    private enum Scope {
         GLOBAL_REQUEST, GLOBAL_RESPONSE, LOCAL_RESPONSE
     }
 }

@@ -1,4 +1,4 @@
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 def HttpServletRequest request = vars.get("servletRequest")
 def user = request.getHeader("user")

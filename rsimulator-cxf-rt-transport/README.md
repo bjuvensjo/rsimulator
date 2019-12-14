@@ -1,6 +1,7 @@
 # rsimulator-cxf-rt-transport
 
-Custom transport for cxf that enables a cxf client to invoke the rsimulator by reference and hence avoiding the usage of a port.
+Custom transport for cxf that enables a cxf client to invoke the rsimulator by reference and hence avoiding the usage of
+a port.
 
 ## Usage
 
@@ -16,5 +17,7 @@ Custom transport for cxf that enables a cxf client to invoke the rsimulator by r
         // overwrite all existing ones
         extension.registerConduitInitiator(it, rSimulatorTransportFactory)
     }
-    
-After this setup it is possible to call the web service normally and just provided the protocol for which the RSimulator has been configured. In the case above http:// should be used. See `com.github.bjuvensjo.rsimulator.cxf.transport.ExampleIT.groovy` for a complete example.
+
+After this setup it is possible to call the web service normally and just provided the protocol for which the RSimulator
+has been configured. In the case above http:// should be used.
+See `com.github.bjuvensjo.rsimulator.cxf.transport.ExampleIT.groovy` for a complete example.

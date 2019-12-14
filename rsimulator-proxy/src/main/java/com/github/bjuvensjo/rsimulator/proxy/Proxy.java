@@ -1,31 +1,29 @@
 package com.github.bjuvensjo.rsimulator.proxy;
 
 import com.github.bjuvensjo.rsimulator.proxy.config.ProxyModule;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
  * The Proxy servlet proxies as {@link URIMapper} is configured.
- * 
- * @author Magnus Bjuvensjö
- * @author Anders Bälter
  */
+@WebServlet(urlPatterns = "/*")
 public class Proxy extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private Logger log = LoggerFactory.getLogger(Proxy.class);
+    private final Logger log = LoggerFactory.getLogger(Proxy.class);
     private static final int READ_TIMEOUT = 12000;
     @Inject
     private URIMapper uriMapper;
@@ -52,8 +50,7 @@ public class Proxy extends HttpServlet {
      * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
      */
     @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            IOException {
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
             HttpURLConnection connection = getConnection(request.getMethod(), getMappedURL(request));
             requestHandler.handle(request, connection);
@@ -63,7 +60,7 @@ public class Proxy extends HttpServlet {
             throw new ServletException(e);
         }
     }
-    
+
     private String getMappedURL(HttpServletRequest request) {
         String uriToMap = getURIToMap(request);
         String mappedURL = uriMapper.map(uriToMap);
@@ -80,14 +77,13 @@ public class Proxy extends HttpServlet {
         log.debug("contextPath: {}", contextPath);
         log.debug("requestURI: {}", requestURI);
         log.debug("queryString: {}", queryString);
-        
+
         StringBuilder uri = new StringBuilder(requestURI.substring(request.getContextPath().length() + 1));
         if (queryString != null) {
             uri.append("?").append(queryString);
         }
 
-        String uriToMap = uri.toString();
-        return uriToMap;
+        return uri.toString();
     }
 
     private HttpURLConnection getConnection(String method, String url) throws IOException {

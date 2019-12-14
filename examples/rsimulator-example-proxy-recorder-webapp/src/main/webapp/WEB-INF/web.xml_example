@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         id="WebApp_ID" version="2.5">
+  <!-- 
+  A web.xml is only needed if a mapping other than below is wanted.
+  The below is set as annotations in Proxy and Recorder. 
+  -->
+  <display-name>rsimulator-example-proxy-recorder-webapp</display-name>
+    <servlet>
+        <description>The Proxy Servlet</description>
+        <display-name>Proxy</display-name>
+        <servlet-name>Proxy</servlet-name>
+        <servlet-class>com.github.bjuvensjo.rsimulator.proxy.Proxy</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Proxy</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+    <filter>
+        <filter-name>Recorder</filter-name>
+        <filter-class>com.github.bjuvensjo.rsimulator.recorder.Recorder</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Recorder</filter-name>
+        <servlet-name>Proxy</servlet-name>
+    </filter-mapping>
+</web-app>

@@ -1,1 +1,9 @@
 For rsimulator documentation, see javadoc and wiki.
+
+## 3.0.0 release notes
+
+* Built with Java 11
+* All dependencies bumped to latest releases
+* Removed support for AspectJ from rsimulator-aop due to Java 11 issues
+
+

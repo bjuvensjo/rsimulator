@@ -16,14 +16,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * SimulatorCacheInterceptor is an interceptor that caches invokations of
+ * SimulatorCacheInterceptor is an interceptor that caches invocations of
  * {@link Simulator#service(String, String, String, String, Map...)}.
- *
- * @author Magnus Bjuvensjö
  */
 @Singleton
 public class SimulatorCacheInterceptor implements MethodInterceptor {
-    private Logger log = LoggerFactory.getLogger(SimulatorCacheInterceptor.class);
+    private final Logger log = LoggerFactory.getLogger(SimulatorCacheInterceptor.class);
     @Inject
     @Named("SimulatorCache")
     private Cache cache;
@@ -36,12 +34,13 @@ public class SimulatorCacheInterceptor implements MethodInterceptor {
         if (props.isSimulatorCache()) {
             if (invocation.getMethod().getName().equals("service")) {
                 Object[] arguments = invocation.getArguments();
-                String key = Arrays.stream(arguments).map(Object::toString).collect(Collectors.joining());
+                // Exclude vars from key
+                String key = Arrays.stream(Arrays.copyOf(arguments, arguments.length - 1)).sequential().map(Object::toString).collect(Collectors.joining());
                 Element cacheElement = cache.get(key);
                 if (cacheElement != null) {
                     response = cacheElement.getObjectValue();
                     if (response != null) {
-                        log.debug("{} returns from cache: {}", new Object[]{invocation.getMethod(), response});
+                        log.debug("{} returns from cache: {}", invocation.getMethod(), response);
                         return response;
                     }
                 }
@@ -52,7 +51,7 @@ public class SimulatorCacheInterceptor implements MethodInterceptor {
         } else {
             response = invocation.proceed();
         }
-        log.debug("{} returns not from cache: {}", new Object[]{invocation.getMethod(), response});
+        log.debug("{} returns not from cache: {}", invocation.getMethod(), response);
         return response;
     }
 }

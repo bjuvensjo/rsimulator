@@ -4,7 +4,7 @@ import com.github.bjuvensjo.rsimulator.core.Simulator
 import com.github.bjuvensjo.rsimulator.core.SimulatorResponseImpl
 import org.apache.camel.Exchange
 import org.apache.camel.impl.DefaultCamelContext
-import org.apache.camel.impl.DefaultExchange
+import org.apache.camel.support.DefaultExchange
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -13,7 +13,7 @@ class DirectProcessorTest extends Specification {
     Exchange exchange = new DefaultExchange(new DefaultCamelContext())
     Simulator simulator = Mock()
 
-    def setup() {
+    def 'setup'() {
         directProcessor.simulator = simulator
         exchange.getIn().setBody('request')
     }
@@ -24,7 +24,7 @@ class DirectProcessorTest extends Specification {
         directProcessor.process(exchange)
 
         then:
-        exchange.getOut().getBody() == 'response'
+        exchange.getMessage().getBody() == 'response'
     }
 
     def 'process thrown'() {
@@ -35,7 +35,6 @@ class DirectProcessorTest extends Specification {
         then:
         thrown(Exception.class)
     }
-
 
     @Unroll("getSimulatorContentType #contentType, #accept, #expected")
     def 'getSimulatorContentType'() {

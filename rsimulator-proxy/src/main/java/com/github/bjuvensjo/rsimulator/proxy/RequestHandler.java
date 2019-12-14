@@ -1,33 +1,27 @@
 package com.github.bjuvensjo.rsimulator.proxy;
 
+import com.google.inject.Singleton;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Singleton;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.util.Enumeration;
 
-/**
- * @author Anders Bälter
- * @author Magnus Bjuvensjö
- */
 @Singleton
 public class RequestHandler {
-    private Logger log = LoggerFactory.getLogger(RequestHandler.class);
+    private final Logger log = LoggerFactory.getLogger(RequestHandler.class);
 
     public void handle(HttpServletRequest request, HttpURLConnection connection) throws IOException {
         copyRequestHeaders(request, connection);
         copyRequest(request, connection);
     }
-    
+
     private void copyRequestHeaders(HttpServletRequest request, HttpURLConnection connection) {
-        @SuppressWarnings("unchecked")
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();

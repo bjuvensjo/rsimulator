@@ -11,7 +11,7 @@
     <parent>
         <groupId>com.github.bjuvensjo</groupId>
         <artifactId>rsimulator-pom-parent</artifactId>
-        <version>2.1.8</version>
+        <version>3.0.0-SNAPSHOT</version>
         <relativePath>../rsimulator-pom-parent/pom.xml</relativePath>
     </parent>
 
@@ -20,7 +20,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <!--<phase>test</phase>-->
@@ -52,8 +52,8 @@
             <artifactId>guice</artifactId>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
@@ -79,18 +79,12 @@
             <organization>GitHub</organization>
             <organizationUrl>https://github.com/bjuvensjo</organizationUrl>
         </developer>
-        <developer>
-            <name>Anders Bälter</name>
-            <email>abaelter@gmail.com</email>
-            <organization>GitHub</organization>
-            <organizationUrl>https://github.com/baelter</organizationUrl>
-        </developer>
     </developers>
     <scm>
         <connection>scm:git@github.com:bjuvensjo/rsimulator.git</connection>
         <developerConnection>scm:git@github.com:bjuvensjo/rsimulator.git</developerConnection>
         <url>git@github.com:bjuvensjo/rsimulator.git</url>
-    </scm>    
+    </scm>
     <licenses>
         <license>
             <name>MIT License</name>

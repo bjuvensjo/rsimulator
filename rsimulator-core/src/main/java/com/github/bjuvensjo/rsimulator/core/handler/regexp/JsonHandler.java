@@ -12,21 +12,20 @@ import java.util.Map.Entry;
 /**
  * JsonHandler is a regular expression handler for json (.json).
  *
- * @author Magnus Bjuvensjö
  * @see AbstractHandler
  */
 @Singleton
 public class JsonHandler extends AbstractHandler {
     private static final String EXTENSION = "json";
-    private Logger log = LoggerFactory.getLogger(JsonHandler.class);
-    private ObjectMapper mapper;
+    private final Logger log = LoggerFactory.getLogger(JsonHandler.class);
+    private final ObjectMapper mapper;
 
     public JsonHandler() {
         super();
         mapper = new ObjectMapper();
     }
-    
-    private void escape(StringBuilder sb, JsonNode node, String name) {
+
+    private void escape(StringBuilder sb, JsonNode node) {
         if (node.isArray()) {
             sb.append("\\[");
             Iterator<JsonNode> iterator = node.iterator();
@@ -36,7 +35,7 @@ public class JsonHandler extends AbstractHandler {
                     sb.append(",");
                 }
                 n++;
-                escape(sb, iterator.next(), null);
+                escape(sb, iterator.next());
             }
             sb.append("\\]");
         } else if (node.isObject()) {
@@ -50,11 +49,11 @@ public class JsonHandler extends AbstractHandler {
                 n++;
                 Entry<String, JsonNode> field = fields.next();
                 sb.append("\"").append(field.getKey()).append("\":");
-                escape(sb, field.getValue(), field.getKey());
+                escape(sb, field.getValue());
             }
             sb.append("\\}");
         } else {
-            sb.append(node.toString());
+            sb.append(node);
         }
     }
 
@@ -92,7 +91,7 @@ public class JsonHandler extends AbstractHandler {
             try {
                 StringBuilder sb = new StringBuilder();
                 JsonNode rootNode = mapper.readValue(request, JsonNode.class);
-                escape(sb, rootNode, null);
+                escape(sb, rootNode);
                 result = sb.toString();
             } catch (Exception e) {
                 log.error(null, e);

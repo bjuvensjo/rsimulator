@@ -1,41 +1,36 @@
 package com.github.bjuvensjo.rsimulator.http;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import com.github.bjuvensjo.rsimulator.http.config.HttpSimulatorConfig;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * @author Anders Bälter
- */
+
 public class ScriptFilterIT {
     private static final int BUFFER_SIZE = 500;
     private static final int READ_TIMEOUT = 12000;
     private static final String ENCODING = "UTF-8";
     private static final String PORT = System.getProperty("jetty.port", "25001");
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        String rootPath = new File(getClass().getResource("/").getPath()).getPath();
+        String resource = "/txt-examples";
+        String rootPath = Paths.get(getClass().getResource(resource).toURI()).toString().replace(resource, "");
         HttpSimulatorConfig.config(rootPath, true, "http://localhost:" + PORT);
     }
 
-    @After
-    public void tearDown() throws Exception {
-
-    }
-
     @Test
-    public void testGlobalServletRequestScript() throws Exception {
-        HttpURLConnection con = getConnection("GET", "http://localhost:" + PORT, "application/json");
+    public void testGlobalServletRequestScript() {
+        HttpURLConnection con = getConnection("http://localhost:" + PORT, "application/json");
         try {
             con.setRequestProperty("user", "specific_user");
             String response = read(con.getInputStream());
@@ -48,10 +43,12 @@ public class ScriptFilterIT {
     }
 
     @Test
-    public void testGlobalServletResponseScript() throws Exception {
-        HttpURLConnection con = getConnection("GET", "http://localhost:" + PORT + "/properties", "text/plain");
+    public void testGlobalServletResponseScript() {
+        HttpURLConnection con = getConnection("http://localhost:" + PORT + "/properties", "text/plain");
         try {
             con.getOutputStream().write("test".getBytes(ENCODING));
+            Map<String, List<String>> headerFields = con.getHeaderFields();
+            System.out.println(headerFields);
             assertEquals("1000", con.getHeaderField("Error-Code"));
             assertEquals("Could not service request", con.getHeaderField("Error-Message"));
         } catch (Exception e) {
@@ -61,12 +58,11 @@ public class ScriptFilterIT {
         }
     }
 
-    private HttpURLConnection getConnection(String method, String url,
-                                            String contentType) {
+    private HttpURLConnection getConnection(String url, String contentType) {
         HttpURLConnection con = null;
         try {
             con = (HttpURLConnection) new URL(url).openConnection();
-            con.setRequestMethod(method);
+            con.setRequestMethod("GET");
             con.setRequestProperty("Content-Type", contentType);
             con.setDoOutput(true);
             con.setDoInput(true);

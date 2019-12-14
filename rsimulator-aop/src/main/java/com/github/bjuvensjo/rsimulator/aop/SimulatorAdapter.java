@@ -1,10 +1,10 @@
 package com.github.bjuvensjo.rsimulator.aop;
 
+import com.github.bjuvensjo.rsimulator.core.Simulator;
+import com.github.bjuvensjo.rsimulator.core.SimulatorResponse;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.thoughtworks.xstream.XStream;
-import com.github.bjuvensjo.rsimulator.core.Simulator;
-import com.github.bjuvensjo.rsimulator.core.SimulatorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,8 +12,6 @@ import java.util.Optional;
 
 /**
  * The SimulatorAdapter is used to simulate java interface method invocations by means of AOP.
- *
- * @author Magnus Bjuvensjö
  */
 @Singleton
 class SimulatorAdapter {
@@ -24,7 +22,7 @@ class SimulatorAdapter {
     private static final int RESPONSE_BEGIN_LENGTH = RESPONSE_BEGIN.length();
     private static final String RESPONSE_END = "</response>";
     private static final String XML_VERSION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    private Logger log = LoggerFactory.getLogger(SimulatorAdapter.class);
+    private final Logger log = LoggerFactory.getLogger(SimulatorAdapter.class);
     @Inject
     private Simulator simulator;
 
@@ -41,12 +39,17 @@ class SimulatorAdapter {
      */
     public Object service(String declaringClassCanonicalName, String methodName, Object[] arguments, String rootPath, boolean useRootRelativePath)
             throws Exception {
-        log.debug("declaringClassCanonicalName: {}, methodName: {}, arguments: {}, rootPath: {}, useRootRelativePath: {}",
-                new Object[]{declaringClassCanonicalName, methodName, arguments, rootPath, useRootRelativePath});
+        String[] split = declaringClassCanonicalName.split("\\.");
+        int lastIndex = split.length - 1;
+        split[lastIndex] = Character.toLowerCase(split[lastIndex].charAt(0)) + split[lastIndex].substring(1);
+        String declaringClassCanonicalNameUnCapitalized = String.join(".", split);
 
-        String rootRelativePath = useRootRelativePath ? getRootRelativePath(declaringClassCanonicalName, methodName) : "";
+        log.debug("declaringClassCanonicalNameUnCapitalized: {}, methodName: {}, arguments: {}, rootPath: {}, useRootRelativePath: {}",
+                declaringClassCanonicalNameUnCapitalized, methodName, arguments, rootPath, useRootRelativePath);
+
+        String rootRelativePath = useRootRelativePath ? getRootRelativePath(declaringClassCanonicalNameUnCapitalized, methodName) : "";
         String simulatorRequest = createRequest(arguments);
-        
+
         Optional<SimulatorResponse> simulatorResponseOptional = simulator.service(rootPath, rootRelativePath, simulatorRequest, CONTENT_TYPE);
         SimulatorResponse simulatorResponse = simulatorResponseOptional.get();
 
@@ -87,7 +90,6 @@ class SimulatorAdapter {
     }
 
     private String getRootRelativePath(String declaringClassCanonicalName, String methodName) {
-        return new StringBuilder().append(declaringClassCanonicalName.replace('.', '/')).append("/").append(methodName)
-                .toString();
+        return declaringClassCanonicalName.replace('.', '/') + "Class/" + methodName;
     }
 }

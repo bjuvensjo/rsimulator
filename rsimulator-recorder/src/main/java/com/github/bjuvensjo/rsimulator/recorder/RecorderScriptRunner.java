@@ -10,15 +10,12 @@ import java.util.Map;
 
 /**
  * RecorderScriptRunner
- *
- * @author Anders Bälter
- * @author Magnus Bjuvensjö
  */
 class RecorderScriptRunner {
     private static final String GLOBAL_REQUEST = "RecorderRequest.groovy";
     private static final String GLOBAL_RESPONSE = "RecorderResponse.groovy";
-    private Logger log = LoggerFactory.getLogger(RecorderScriptRunner.class);
-    private Config config;
+    private final Logger log = LoggerFactory.getLogger(RecorderScriptRunner.class);
+    private final Config config;
 
     RecorderScriptRunner(Config config) {
         this.config = config;
@@ -36,12 +33,12 @@ class RecorderScriptRunner {
         try {
             File file = new File(basePath + File.separator + script);
             if (file.exists()) {
-                log.debug("Applying script {} with vars: {}", new Object[]{file, vars});
+                log.debug("Applying script {} with vars: {}", file, vars);
                 GroovyScriptEngine gse = new GroovyScriptEngine(new String[]{basePath});
                 Binding binding = new Binding();
                 binding.setVariable("vars", vars);
                 gse.run(script, binding);
-                log.debug("Applied script {} and updated vars are: {}", new Object[]{file, vars});
+                log.debug("Applied script {} and updated vars are: {}", file, vars);
             } else {
                 log.debug("When applying script path {} is not an existing file", basePath);
             }

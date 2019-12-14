@@ -9,20 +9,17 @@ import java.util.Properties;
 
 /**
  * Recorder property handler
- *
- * @author Anders Bälter
- * @author Magnus Bjuvensjö
  */
 class Config {
     static final String BASE_DIRECTORY = "recorder.directory";
     private static final String RECORDER_IS_ON = "recorder.record";
-    private Logger log = LoggerFactory.getLogger(Recorder.class);
-    private Properties properties = new Properties();
+    private final Properties properties = new Properties();
 
     Config() {
         try (InputStream in = Config.class.getResourceAsStream("/recorder.properties")) {
             properties.load(in);
         } catch (IOException e) {
+            Logger log = LoggerFactory.getLogger(Config.class);
             log.error("Could not load recorder properties", e);
         }
     }

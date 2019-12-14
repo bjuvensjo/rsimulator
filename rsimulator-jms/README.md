@@ -3,6 +3,7 @@
 ## Example
 
 ### Java
+
 Implement a class
 
     package com.acompany;
@@ -41,6 +42,7 @@ Implement a class
     }
 
 ### Spring
+
 Create a Spring configuration
 
     <?xml version="1.0" encoding="UTF-8"?>
@@ -73,6 +75,7 @@ Create a Spring configuration
     </beans>
 
 ### Maven
+
 Create a Maven configuration
 
     <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

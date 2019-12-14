@@ -1,22 +1,20 @@
 package com.github.bjuvensjo.rsimulator.jms;
 
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.model.RouteDefinition;
 import com.github.bjuvensjo.rsimulator.core.Simulator;
 import com.github.bjuvensjo.rsimulator.core.SimulatorResponse;
 import com.github.bjuvensjo.rsimulator.core.config.CoreModule;
 import com.github.bjuvensjo.rsimulator.jms.config.GlobalConfig;
 import com.github.bjuvensjo.rsimulator.jms.config.JmsModule;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.RouteDefinition;
 
 import java.util.Optional;
 
 /**
  * JmsSimulator.
- *
- * @author Magnus Bjuvensjö
  */
 public class JmsSimulator extends RouteBuilder {
     private static final String className = JmsSimulator.class.getName();
@@ -28,7 +26,7 @@ public class JmsSimulator extends RouteBuilder {
     private Encoder encoder;
     private int concurrentConsumers;
     private int maxConcurrentConsumers;
-    private int receiveTimeout;    
+    private int receiveTimeout;
 
     @Inject
     private Simulator simulator;
@@ -39,17 +37,15 @@ public class JmsSimulator extends RouteBuilder {
     }
 
     @Override
-    public void configure() throws Exception {
-        RouteDefinition definition = from(new StringBuilder()
-                .append(jms)
-                .append(":queue:").append(queue)
-                .append("?replyTo=").append(replyTo)
-                .append("&useMessageIDAsCorrelationID=true")
-                .append("&concurrentConsumers=").append(concurrentConsumers)
-                .append("&maxConcurrentConsumers=").append(maxConcurrentConsumers)
-                .append("&receiveTimeout=").append(receiveTimeout)
-                .toString());
-        
+    public void configure() {
+        RouteDefinition definition = from(jms +
+                ":queue:" + queue +
+                "?replyTo=" + replyTo +
+                "&useMessageIDAsCorrelationID=true" +
+                "&concurrentConsumers=" + concurrentConsumers +
+                "&maxConcurrentConsumers=" + maxConcurrentConsumers +
+                "&receiveTimeout=" + receiveTimeout);
+
         definition.to("log:" + className + "?showAll=true&multiline=true");
 
         if (decoder != null) {
@@ -59,7 +55,7 @@ public class JmsSimulator extends RouteBuilder {
         definition.process(exchange -> {
             String request = exchange.getIn().getBody(String.class);
             Optional<SimulatorResponse> simulatorResponseOptional = simulator.service(GlobalConfig.rootPath, "", request, simulatorContentType);
-            String responseBody = simulatorResponseOptional.map(SimulatorResponse::getResponse).orElse("No simulatorResponse found!");                
+            String responseBody = simulatorResponseOptional.map(SimulatorResponse::getResponse).orElse("No simulatorResponse found!");
             exchange.getIn().setBody(responseBody);
         });
 
