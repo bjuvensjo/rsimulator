@@ -13,11 +13,11 @@ import java.nio.file.Paths;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Test8.
+ * Test9.
  *
  * @author Magnus Bjuvensjö
  */
-public class Test8 {
+public class Test9 {
     private Simulator simulator;
 
     @Before
@@ -28,9 +28,9 @@ public class Test8 {
 
     @Test
     public void test() throws URISyntaxException {
-        String rootPath = Paths.get(getClass().getResource("/test8").toURI()).toString();
+        String rootPath = Paths.get(getClass().getResource("/test9").toURI()).toString();
         String rootRelativePath = File.separator;
-        String request = "query=1234&another='dododo'";
+        String request = "";
         String contentType = "json";
         SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType).get();
         assertEquals("{\"result\":\"ok\"}", simulatorResponse.getResponse());
