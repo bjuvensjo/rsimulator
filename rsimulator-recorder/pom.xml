@@ -10,7 +10,7 @@
     <parent>
         <groupId>com.github.bjuvensjo</groupId>
         <artifactId>rsimulator-pom-parent</artifactId>
-        <version>3.0.0</version>
+        <version>3.0.1-SNAPSHOT</version>
         <relativePath>../rsimulator-pom-parent/pom.xml</relativePath>
     </parent>
     <dependencies>
