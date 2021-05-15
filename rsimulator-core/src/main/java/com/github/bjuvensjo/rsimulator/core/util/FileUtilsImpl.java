@@ -10,7 +10,6 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,19 +25,17 @@ public class FileUtilsImpl implements FileUtils {
     private final Logger log = LoggerFactory.getLogger(FileUtilsImpl.class);
 
     public List<Path> findRequests(Path path, String extension) {
-        List<Path> requests;
-
         try (Stream<Path> stream = Files.walk(path)) {
-            Predicate<Path> predicate = p -> Files.isRegularFile(p) && p.toFile().getName().endsWith(SUFFIX_PREFIX.concat(extension));
-            requests = stream.filter(predicate).collect(Collectors.toList());
-            requests.sort(Comparator.comparing(Path::getNameCount).thenComparing(Path::compareTo)); // Do not want depth first as given by Files.walk
+            List<Path> requests = stream
+                    .filter(p -> Files.isRegularFile(p) && p.toFile().getName().endsWith(SUFFIX_PREFIX.concat(extension)))
+                    .sorted(Comparator.comparing(Path::getNameCount).thenComparing(Path::compareTo)) // Do not want depth first as given by Files.walk
+                    .collect(Collectors.toList());
+            log.debug("Requests: {}", requests);
+            return requests;
         } catch (Exception e) {
-            log.error("Cannot find requests.", e);
+            log.warn("Cannot find requests.", e);
             return Collections.emptyList();
         }
-
-        log.debug("Requests: {}", requests);
-        return requests;
     }
 
     @Cache

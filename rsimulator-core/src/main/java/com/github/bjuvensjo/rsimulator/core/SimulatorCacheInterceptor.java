@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -24,34 +25,38 @@ public class SimulatorCacheInterceptor implements MethodInterceptor {
     private final Logger log = LoggerFactory.getLogger(SimulatorCacheInterceptor.class);
     @Inject
     @Named("SimulatorCache")
-    private Cache cache;
+    Cache cache;
     @Inject
-    private Props props;
+    Props props;
 
     public Object invoke(MethodInvocation invocation) throws Throwable {
         log.debug("SimulatorCache is {}", props.isSimulatorCache());
-        Object response = null;
         if (props.isSimulatorCache()) {
             if (invocation.getMethod().getName().equals("service")) {
                 Object[] arguments = invocation.getArguments();
                 // Exclude vars from key
                 String key = Arrays.stream(Arrays.copyOf(arguments, arguments.length - 1)).sequential().map(Object::toString).collect(Collectors.joining());
-                Element cacheElement = cache.get(key);
-                if (cacheElement != null) {
-                    response = cacheElement.getObjectValue();
-                    if (response != null) {
-                        log.debug("{} returns from cache: {}", invocation.getMethod(), response);
-                        return response;
-                    }
-                }
-                response = invocation.proceed();
-                cacheElement = new Element(key, response);
-                cache.put(cacheElement);
+                return Optional.ofNullable(cache.get(key))
+                        .map(ce -> {
+                            Object response = ce.getObjectValue();
+                            log.debug("{}, cache is on and returns from cache: {}", invocation.getMethod().getName(), response);
+                            return response;
+                        })
+                        .orElseGet(() -> {
+                            try {
+                                Object response = invocation.proceed();
+                                Element element = new Element(key, response);
+                                cache.put(element);
+                                log.debug("{}, cache is on and has put in cache and returns: {}", invocation.getMethod().getName(), response);
+                                return response;
+                            } catch (Throwable throwable) {
+                                throw new RuntimeException(throwable);
+                            }
+                        });
             }
-        } else {
-            response = invocation.proceed();
         }
-        log.debug("{} returns not from cache: {}", invocation.getMethod(), response);
+        Object response = invocation.proceed();
+        log.debug("{}, cache is off and returns: {}", invocation.getMethod().getName(), response);
         return response;
     }
 }

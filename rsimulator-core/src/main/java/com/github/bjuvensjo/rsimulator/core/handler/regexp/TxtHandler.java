@@ -9,27 +9,17 @@ import com.google.inject.Singleton;
  */
 @Singleton
 public class TxtHandler extends AbstractHandler {
-    private static final String EXTENSION = "txt";
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String getExtension() {
-        return EXTENSION;
+        return "txt";
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String format(String request) {
         return request;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected String escape(String request, boolean isCandidate) {
         return request;

@@ -15,9 +15,16 @@ public interface Props {
     /**
      * Returns true if Simulator cache is on, otherwise false.
      *
-     * @return true if Simulator cache is on, otherwise false.
+     * @return true if Simulator cache is on, otherwise false
      */
     boolean isSimulatorCache();
+
+    /**
+     * Returns true if xml namespaces should be ignored, otherwise false.
+     *
+     * @return true if xml namespaces should be ignored, otherwise false
+     */
+    public boolean ignoreXmlNamespaces();
 
     /**
      * Returns the properties read from the specified path.

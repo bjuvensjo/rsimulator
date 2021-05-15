@@ -29,7 +29,8 @@ public class SimulatorAdapterTest {
         String declaringClassCanonicalName = Foo.class.getCanonicalName();
         String methodName = "sayHello";
         Object[] arguments = new String[]{"Hello from " + getClass().getName()};
-        String rootPath = Paths.get(getClass().getResource("/").toURI()) + File.separator;
+        String resource = "/rsimulator.properties";
+        String rootPath = Paths.get(getClass().getResource(resource).toURI()).toString().replace(resource, "") + File.separator;
 
         try {
             String msg = (String) simulatorAdapter.service(declaringClassCanonicalName, methodName, arguments, rootPath, true);

@@ -32,7 +32,8 @@ public class SpringAopAllianceSimulatorTest {
 
     @Test
     public void testWithRootRelativePath() throws URISyntaxException {
-        String rootPath = Paths.get(getClass().getResource("/").toURI()) + File.separator;
+        String resource = "/rsimulator.properties";
+        String rootPath = Paths.get(getClass().getResource(resource).toURI()).toString().replace(resource, "") + File.separator;
         aopAllianceSimulator.setRootPath(rootPath);
         aopAllianceSimulator.setUseRootRelativePath(true);
         String msg = foo.sayHello("Hi from " + getClass().getName());

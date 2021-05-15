@@ -18,14 +18,16 @@ import java.util.Properties;
  */
 @Singleton
 public class PropsImpl implements Props {
-    private static final String SIMULATOR_CACHE = "simulatorCache";
     private final Logger log = LoggerFactory.getLogger(PropsImpl.class);
+    private final Properties properties;
+
     @Inject
-    @Named("rsimulator-core-properties")
-    private Properties properties;
+    public PropsImpl(@Named("rsimulator-core-properties") Properties properties) {
+        this.properties = properties;
+    }
 
     public boolean isSimulatorCache() {
-        return properties.getProperty(SIMULATOR_CACHE).equalsIgnoreCase("true");
+        return properties.getProperty("simulatorCache").equalsIgnoreCase("true");
     }
 
     @Cache
@@ -40,5 +42,9 @@ public class PropsImpl implements Props {
             log.error("Error reading properties from: {}", path.toAbsolutePath(), e);
         }
         return Optional.of(properties);
+    }
+
+    public boolean ignoreXmlNamespaces() {
+        return properties.getProperty("ignoreXmlNamespaces").equalsIgnoreCase("true");
     }
 }

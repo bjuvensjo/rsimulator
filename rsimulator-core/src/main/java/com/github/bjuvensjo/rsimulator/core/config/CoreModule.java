@@ -9,8 +9,10 @@ import com.github.bjuvensjo.rsimulator.core.util.FileUtilsCacheInterceptor;
 import com.github.bjuvensjo.rsimulator.core.util.Props;
 import com.github.bjuvensjo.rsimulator.core.util.PropsCacheInterceptor;
 import com.google.inject.AbstractModule;
-import com.google.inject.TypeLiteral;
+import com.google.inject.Provides;
 import com.google.inject.matcher.Matchers;
+import com.google.inject.multibindings.MapBinder;
+import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import net.sf.ehcache.CacheManager;
 import org.slf4j.Logger;
@@ -18,27 +20,23 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedInputStream;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 /**
  * CoreModule holds Guice configurations.
  */
 public class CoreModule extends AbstractModule {
     private final Logger log = LoggerFactory.getLogger(CoreModule.class);
+    private static final CacheManager cacheManager = CacheManager.create();
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.google.inject.AbstractModule#configure()
-     */
-    @Override
-    protected void configure() {
-        // ***** Properties *****
+    @Provides
+    @Named("rsimulator-core-properties")
+    java.util.Properties provideProperties() {
         java.util.Properties properties = new java.util.Properties();
         URL resource = getClass().getResource("/rsimulator.properties");
         if (resource == null) {
             properties.setProperty("simulatorCache", "false");
+            properties.setProperty("ignoreXmlNamespaces", "false");
         } else {
             try (BufferedInputStream bis = new BufferedInputStream(resource.openStream())) {
                 properties.load(bis);
@@ -46,32 +44,20 @@ public class CoreModule extends AbstractModule {
                 log.error("Error reading properties from: {}", resource.getPath(), e);
             }
         }
-        bind(java.util.Properties.class).annotatedWith(Names.named("rsimulator-core-properties")).toInstance(properties);
+        return properties;
+    }
 
-        // ***** Handlers *****
-        Map<String, Handler> map = new HashMap<>();
-        JsonHandler jsonHandler = new JsonHandler();
-        requestInjection(jsonHandler);
-        TxtHandler txtHandler = new TxtHandler();
-        requestInjection(txtHandler);
-        XmlHandler xmlHandler = new XmlHandler();
-        requestInjection(xmlHandler);
-        map.put("json", jsonHandler);
-        map.put("txt", txtHandler);
-        map.put("xml", xmlHandler);
-
-        bind(new TypeLiteral<Map<String, Handler>>() {
-        }).annotatedWith(Names.named("handlers")).toInstance(map);
+    @Override
+    protected void configure() {
+        MapBinder<String, Handler> map = MapBinder.newMapBinder(binder(), String.class, Handler.class);
+        map.addBinding("json").to(JsonHandler.class);
+        map.addBinding("txt").to(TxtHandler.class);
+        map.addBinding("xml").to(XmlHandler.class);
 
         // ***** Interceptors for cache and script *****
-        CacheManager.create();
+        Arrays.asList("SimulatorCache", "FileUtilsCache", "PropsCache").forEach(name ->
+                bind(net.sf.ehcache.Cache.class).annotatedWith(Names.named(name)).toInstance(cacheManager.getCache(name)));
 
-        bind(net.sf.ehcache.Cache.class).annotatedWith(Names.named("SimulatorCache")).toInstance(
-                CacheManager.create().getCache("SimulatorCache"));
-        bind(net.sf.ehcache.Cache.class).annotatedWith(Names.named("FileUtilsCache")).toInstance(
-                CacheManager.create().getCache("FileUtilsCache"));
-        bind(net.sf.ehcache.Cache.class).annotatedWith(Names.named("PropsCache")).toInstance(
-                CacheManager.create().getCache("PropsCache"));
 
         SimulatorPropertiesInterceptor simulatorPropertiesInterceptor = new SimulatorPropertiesInterceptor();
         SimulatorCacheInterceptor simulatorCacheInterceptor = new SimulatorCacheInterceptor();

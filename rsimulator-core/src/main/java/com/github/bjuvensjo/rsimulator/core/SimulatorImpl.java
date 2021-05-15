@@ -5,7 +5,6 @@ import com.github.bjuvensjo.rsimulator.core.config.Properties;
 import com.github.bjuvensjo.rsimulator.core.config.Script;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,10 +17,12 @@ import java.util.Optional;
 @Singleton
 public class SimulatorImpl implements Simulator {
     private final Logger log = LoggerFactory.getLogger(SimulatorImpl.class);
+    private final Map<String, Handler> handlers;
 
     @Inject
-    @Named("handlers")
-    private Map<String, Handler> handlers;
+    public SimulatorImpl(Map<String, Handler> handlers) {
+        this.handlers = handlers;
+    }
 
     @Properties
     @Cache

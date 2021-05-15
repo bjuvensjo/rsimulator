@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -29,29 +28,21 @@ public abstract class AbstractHandler implements Handler {
     private static final String PROPERTIES_PATTERN = REQUEST + ".*";
     private final Logger log = LoggerFactory.getLogger(AbstractHandler.class);
     @Inject
-    private FileUtils fileUtils;
+    protected FileUtils fileUtils;
     @Inject
-    private Props props;
+    protected Props props;
 
     public Optional<SimulatorResponse> findMatch(String rootPath, String rootRelativePath, String request) {
         String path = rootPath.concat(rootRelativePath);
         log.debug("path: {}", path);
-
         Optional<SimulatorResponse> result = fileUtils.findRequests(Paths.get(path), getExtension())
                 .stream()
-                .map(candidatePath -> {
-                    SimulatorResponse simulatorResponse = null;
-                    String candidateRequest = fileUtils.read(candidatePath);
-                    Matcher matcher = getMatcher(request, candidateRequest);
-                    if (matcher.matches()) {
-                        String response = getResponse(candidatePath, matcher);
-                        Optional<Properties> properties = getProperties(candidatePath);
-                        simulatorResponse = new SimulatorResponseImpl(response, properties, candidatePath);
-                        simulatorResponse.setMatchingRequest(candidatePath);
-                    }
-                    return simulatorResponse;
-                })
-                .filter(Objects::nonNull)
+                .map(candidatePath -> Optional.of(fileUtils.read(candidatePath))
+                        .map(candidateRequest -> getMatcher(request, candidateRequest))
+                        .filter(Matcher::matches)
+                        .map(matcher -> getResponse(candidatePath, matcher))
+                        .map(response -> (SimulatorResponse) new SimulatorResponseImpl(response, getProperties(candidatePath), candidatePath)))
+                .flatMap(Optional::stream)
                 .findFirst();
 
         log.debug("result: {}", result);
@@ -82,31 +73,43 @@ public abstract class AbstractHandler implements Handler {
      */
     protected abstract String escape(String request, boolean isCandidate);
 
-    private Matcher getMatcher(String request, String candidate) {
-        String formattedRequest = format(request);
-        String formattedCandidate = format(candidate);
-        String escapedRequest = escape(formattedRequest, false);
-        String escapedCandidate = escape(formattedCandidate, true);
-        Pattern p = Pattern.compile(escapedCandidate);
-        return p.matcher(escapedRequest);
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    Matcher getMatcher(String request, String candidate) {
+        return Optional.of(candidate)
+                .map(this::format)
+                .map(formattedCandidate -> escape(formattedCandidate, true))
+                .map(Pattern::compile)
+                .map(p -> p.matcher(escape(format(request), false)))
+                .get();
     }
 
-    private String getResponse(Path candidatePath, Matcher matcher) {
-        String name = candidatePath.getFileName().toString().replaceFirst(REQUEST, RESPONSE);
-        Path responsePath = candidatePath.resolveSibling(name);
-        String response = fileUtils.read(responsePath);
-        for (int j = 1; j <= matcher.groupCount(); j++) {
-            response = response.replaceAll("[$]+[{]+" + j + "[}]+", matcher.group(j));
-        }
-        log.debug("Response: [{}, {}]", response, responsePath);
-        return response;
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    String getResponse(Path candidatePath, Matcher matcher) {
+        String result = Optional.of(candidatePath)
+                .map(Path::getFileName)
+                .map(Path::toString)
+                .map(s -> s.replaceFirst(REQUEST, RESPONSE))
+                .map(candidatePath::resolveSibling)
+                .map(responsePath -> fileUtils.read(responsePath))
+                .map(response -> {
+                    for (int j = 1; j <= matcher.groupCount(); j++) {
+                        response = response.replaceAll("[$]+[{]+" + j + "[}]+", matcher.group(j));
+                    }
+                    return response;
+                })
+                .get();
+        log.debug("Response: [{}]", result);
+        return result;
     }
 
-    private Optional<Properties> getProperties(Path candidatePath) {
-        String name = candidatePath.getFileName().toString().replaceFirst(PROPERTIES_PATTERN, ".properties");
-        Path propertiesPath = candidatePath.resolveSibling(name);
-        Optional<Properties> properties = props.getProperties(propertiesPath);
-        log.debug("Properties: [{}, {}]", properties, propertiesPath);
-        return properties;
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    Optional<Properties> getProperties(Path candidatePath) {
+        return Optional.of(candidatePath)
+                .map(Path::getFileName)
+                .map(Path::toString)
+                .map(s -> s.replaceFirst(PROPERTIES_PATTERN, ".properties"))
+                .map(candidatePath::resolveSibling)
+                .map(props::getProperties)
+                .get();
     }
 }

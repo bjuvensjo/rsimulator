@@ -14,7 +14,7 @@ import java.util.Properties;
  */
 @Singleton
 public class SimulatorPropertiesInterceptor implements MethodInterceptor {
-    private static final String DELAY = "delay";
+    static final String DELAY = "delay";
     private final Logger log = LoggerFactory.getLogger(SimulatorPropertiesInterceptor.class);
 
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -27,15 +27,19 @@ public class SimulatorPropertiesInterceptor implements MethodInterceptor {
         return simulatorResponseOptional;
     }
 
-    private void handleDelay(Properties properties) {
+    void handleDelay(Properties properties) {
         String delay = properties.getProperty(DELAY);
         if (delay != null) {
             log.debug("Delaying response {} ms.", delay);
-            try {
-                Thread.sleep(Long.parseLong(delay));
-            } catch (Exception e) {
-                log.error(null, e);
-            }
+            doDelay(delay);
+        }
+    }
+
+    void doDelay(String delay) {
+        try {
+            Thread.sleep(Long.parseLong(delay));
+        } catch (InterruptedException e) {
+            log.error(null, e);
         }
     }
 }

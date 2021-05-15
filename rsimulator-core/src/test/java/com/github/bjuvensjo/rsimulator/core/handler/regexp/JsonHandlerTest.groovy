@@ -17,6 +17,17 @@ class JsonHandlerTest extends Specification {
     }
 
     @Unroll
+    def 'format #request'(String request, String expected) {
+        expect:
+        jsonHandler.format(request) == expected
+        where:
+        request                                                                      | expected
+        null                                                                         | null
+        ""                                                                           | ""
+        '{"responseControl": \n{"profile":\n    {"profileType": "ANONYMOUS_USER"}}}' | '{"responseControl":{"profile":{"profileType":"ANONYMOUS_USER"}}}'
+    }
+
+    @Unroll
     def 'escape #candidate'(String candidate, String expected) {
         when:
         String actual = jsonHandler.escape(candidate, true)
@@ -24,7 +35,9 @@ class JsonHandlerTest extends Specification {
         actual == expected
         where:
         expected                                                                       | candidate
-        'hello'                                                                        | 'hello'
+        null                                                                           | null
+        ""                                                                             | ""
+        '"hello"'                                                                      | '"hello"'
         '\\{"responseControl":\\{"profile":\\{"profileType":"ANONYMOUS_USER"\\}\\}\\}' | '{"responseControl": {"profile": {"profileType": "ANONYMOUS_USER"}}}'
         '\\["Ford","BMW","Fiat"\\]'                                                    | '[ "Ford", "BMW", "Fiat" ]'
         '\\[\\{"id":".*","name":"Privatkon[a-z]{2}","balance":34251.15766987801\\}\\]' | '[{"id":".*","name":"Privatkon[a-z]{2}","balance":34251.15766987801}]'

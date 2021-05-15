@@ -3,13 +3,11 @@
     <defaultCache
             maxElementsInMemory="10"
             eternal="false"
+            overflowToDisk="false"
             timeToIdleSeconds="120"
             timeToLiveSeconds="120"
-            overflowToDisk="false"
-            maxElementsOnDisk="10000000"
-            diskPersistent="false"
-            diskExpiryThreadIntervalSeconds="120"
-            memoryStoreEvictionPolicy="LRU"
+            memoryStoreEvictionPolicy="LFU"
+            transactionalMode="off"
     />
     <cache name="SimulatorCache"
            maxElementsInMemory="2000"
