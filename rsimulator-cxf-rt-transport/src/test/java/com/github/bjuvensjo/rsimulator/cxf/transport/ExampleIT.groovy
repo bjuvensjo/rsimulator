@@ -1,5 +1,6 @@
 package com.github.bjuvensjo.rsimulator.cxf.transport
 
+import com.github.bjuvensjo.rsimulator.test.spock.ResourcePath
 import org.apache.cxf.Bus
 import org.apache.cxf.BusFactory
 import org.apache.cxf.endpoint.Client
@@ -15,10 +16,12 @@ import java.nio.file.Path
 import java.nio.file.Paths
 
 class ExampleIT extends Specification {
+    @ResourcePath(rootOnly = true)
+    String resourcePath
     
     def 'setup'() {
         Bus bus = BusFactory.getThreadDefaultBus()
-        RSimulatorTransportFactory rSimulatorTransportFactory = new RSimulatorTransportFactory(getRootPath())
+        RSimulatorTransportFactory rSimulatorTransportFactory = new RSimulatorTransportFactory(resourcePath)
         ConduitInitiatorManager extension = bus.getExtension(ConduitInitiatorManager.class)
         HTTPTransportFactory.DEFAULT_NAMESPACES.each {
             extension.registerConduitInitiator(it, rSimulatorTransportFactory)
@@ -37,12 +40,6 @@ class ExampleIT extends Specification {
         reply == "RSimulator world!"
         and:
         client.getResponseContext().get(Message.RESPONSE_CODE) == 201
-    }
-
-    static String getRootPath() {
-        URL url = ExampleIT.class.getResource('/helloWorld')
-        Path p = Paths.get(url.toURI())
-        p.toFile().absolutePath + File.separator + '..'
     }
 
     @WebService

@@ -22,6 +22,10 @@
             <artifactId>rsimulator-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.github.bjuvensjo</groupId>
+            <artifactId>rsimulator-test</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy</artifactId>
             <scope>test</scope>

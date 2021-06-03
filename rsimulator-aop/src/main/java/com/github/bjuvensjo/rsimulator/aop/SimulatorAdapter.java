@@ -35,17 +35,20 @@ class SimulatorAdapter {
      * @param rootPath                    the root path in which to (recursively) find simulator test data
      * @param useRootRelativePath         true if the declaringClassCanonicalName and methodName should be used as an relative path extension of rootPath, otherwise false
      * @return some simulation response
-     * @throws Exception
+     * @throws Exception if something goes wrong
      */
+    @SuppressWarnings("unchecked")
     public Object service(String declaringClassCanonicalName, String methodName, Object[] arguments, String rootPath, boolean useRootRelativePath)
             throws Exception {
         String rootRelativePath = useRootRelativePath ? getRootRelativePath(declaringClassCanonicalName, methodName) : "";
         String simulatorRequest = createRequest(arguments);
 
         Optional<SimulatorResponse> simulatorResponseOptional = simulator.service(rootPath, rootRelativePath, simulatorRequest, CONTENT_TYPE);
-        SimulatorResponse simulatorResponse = simulatorResponseOptional.get();
 
-        Object response = createResponse(simulatorResponse.getResponse());
+        Object response = simulatorResponseOptional
+                .map(sr -> createResponse(sr.getResponse()))
+                .orElse(null);
+
         if (response instanceof Throwable) {
             throw (Exception) response;
         }
