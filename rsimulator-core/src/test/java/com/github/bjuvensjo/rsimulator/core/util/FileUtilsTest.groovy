@@ -1,6 +1,7 @@
 package com.github.bjuvensjo.rsimulator.core.util
 
 import com.github.bjuvensjo.rsimulator.core.config.CoreModule
+import com.github.bjuvensjo.rsimulator.test.spock.ResourcePath
 import com.google.inject.Guice
 import com.google.inject.Injector
 import spock.lang.Shared
@@ -9,11 +10,11 @@ import spock.lang.Unroll
 
 import java.nio.file.Path
 
-import static com.github.bjuvensjo.rsimulator.core.TestUtil.getRootPath
-
 class FileUtilsTest extends Specification {
     @Shared
     FileUtils fileUtils
+    @ResourcePath(rootOnly = true)
+    String resourcePath
 
     def 'setupSpec'() {
         Injector injector = Guice.createInjector(new CoreModule())
@@ -23,7 +24,7 @@ class FileUtilsTest extends Specification {
     @Unroll
     def 'find #ending requests'(String ending, boolean expected) {
         when:
-        String rootPath = getRootPath('/test1') + File.separator + '..'
+        String rootPath = resourcePath + 'test1' + File.separator + '..'
         List<Path> xmlRequests = fileUtils.findRequests(new File(rootPath).toPath(), ending)
         def correctEndings = xmlRequests.size() > 0 && xmlRequests.inject(true) { mem, p -> mem && p.toString().endsWith('Request.' + ending) }
         then:

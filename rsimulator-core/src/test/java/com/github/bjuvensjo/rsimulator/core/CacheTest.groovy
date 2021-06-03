@@ -1,16 +1,17 @@
 package com.github.bjuvensjo.rsimulator.core
 
 import com.github.bjuvensjo.rsimulator.core.config.CoreModule
+import com.github.bjuvensjo.rsimulator.test.spock.ResourcePath
 import com.google.inject.Guice
 import com.google.inject.Injector
 import spock.lang.Shared
 import spock.lang.Specification
 
-import static com.github.bjuvensjo.rsimulator.core.TestUtil.getRootPath
-
 class CacheTest extends Specification {
     @Shared
     Simulator simulator
+    @ResourcePath(rootOnly = true)
+    String resourcePath
 
     def 'setupSpec'() {
         Injector injector = Guice.createInjector(new CoreModule())
@@ -18,7 +19,7 @@ class CacheTest extends Specification {
     }
 
     def 'find second in cache'() {
-        String rootPath = getRootPath('/test1')
+        String rootPath = resourcePath + 'test1'
         String rootRelativePath = File.separator
         String request = 'Hello Simulator, says Test1!'
         when:

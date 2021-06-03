@@ -53,6 +53,7 @@ public class DirectProcessor implements Processor {
 
         String rootRelativePath = exchange.getIn().getHeader(Exchange.HTTP_URI) != null ? exchange.getIn().getHeader(Exchange.HTTP_URI, String.class).replaceFirst(".*//[^/]+", "") : endpointUri.replaceFirst("[^/]+", "");
 
+        @SuppressWarnings("unchecked")
         Optional<SimulatorResponse> simulatorResponse = simulator.service(
                 directComponentConfig.getRootPath(),
                 rootRelativePath,

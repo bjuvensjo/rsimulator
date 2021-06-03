@@ -1,16 +1,17 @@
 package com.github.bjuvensjo.rsimulator.core
 
 import com.github.bjuvensjo.rsimulator.core.config.CoreModule
+import com.github.bjuvensjo.rsimulator.test.spock.ResourcePath
 import com.google.inject.Guice
 import com.google.inject.Injector
 import spock.lang.Shared
 import spock.lang.Specification
 
-import static com.github.bjuvensjo.rsimulator.core.TestUtil.getRootPath
-
 class TestNotFound extends Specification {
     @Shared
     Simulator simulator
+    @ResourcePath(rootOnly = true)
+    String resourcePath
     String rootRelativePath = File.separator
     String request = 'XXX'
     String contentType = 'txt'
@@ -22,7 +23,7 @@ class TestNotFound extends Specification {
 
     def 'no matching request'() {
         when:
-        String rootPath = getRootPath('/test1')
+        String rootPath = resourcePath + 'test1'
         Optional<SimulatorResponse> simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType)
         then:
         simulatorResponse.isEmpty()
@@ -30,7 +31,7 @@ class TestNotFound extends Specification {
 
     def 'no candidate request'() {
         when:
-        String rootPath = getRootPath('/test3')
+        String rootPath = resourcePath + 'test3'
         Optional<SimulatorResponse> simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType)
         then:
         simulatorResponse.isEmpty()
@@ -38,7 +39,7 @@ class TestNotFound extends Specification {
 
     def 'non existing root path'() {
         when:
-        String rootPath = getRootPath('/test3') + '/notFound'
+        String rootPath = resourcePath + 'test8/notFound'
         Optional<SimulatorResponse> simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType)
         then:
         simulatorResponse.isEmpty()

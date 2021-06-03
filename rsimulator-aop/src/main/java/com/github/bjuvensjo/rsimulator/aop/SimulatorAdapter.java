@@ -39,15 +39,7 @@ class SimulatorAdapter {
      */
     public Object service(String declaringClassCanonicalName, String methodName, Object[] arguments, String rootPath, boolean useRootRelativePath)
             throws Exception {
-        String[] split = declaringClassCanonicalName.split("\\.");
-        int lastIndex = split.length - 1;
-        split[lastIndex] = Character.toLowerCase(split[lastIndex].charAt(0)) + split[lastIndex].substring(1);
-        String declaringClassCanonicalNameUnCapitalized = String.join(".", split);
-
-        log.debug("declaringClassCanonicalNameUnCapitalized: {}, methodName: {}, arguments: {}, rootPath: {}, useRootRelativePath: {}",
-                declaringClassCanonicalNameUnCapitalized, methodName, arguments, rootPath, useRootRelativePath);
-
-        String rootRelativePath = useRootRelativePath ? getRootRelativePath(declaringClassCanonicalNameUnCapitalized, methodName) : "";
+        String rootRelativePath = useRootRelativePath ? getRootRelativePath(declaringClassCanonicalName, methodName) : "";
         String simulatorRequest = createRequest(arguments);
 
         Optional<SimulatorResponse> simulatorResponseOptional = simulator.service(rootPath, rootRelativePath, simulatorRequest, CONTENT_TYPE);

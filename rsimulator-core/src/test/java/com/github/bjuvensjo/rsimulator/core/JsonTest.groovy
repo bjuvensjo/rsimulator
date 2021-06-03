@@ -1,16 +1,18 @@
 package com.github.bjuvensjo.rsimulator.core
 
 import com.github.bjuvensjo.rsimulator.core.config.CoreModule
+import com.github.bjuvensjo.rsimulator.test.spock.ResourcePath
 import com.google.inject.Guice
 import com.google.inject.Injector
 import spock.lang.Shared
 import spock.lang.Specification
 
-import static com.github.bjuvensjo.rsimulator.core.TestUtil.getRootPath
 
 class JsonTest extends Specification {
     @Shared
     Simulator simulator
+    @ResourcePath(rootOnly = true)
+    String resourcePath
 
     def 'setupSpec'() {
         Injector injector = Guice.createInjector(new CoreModule())
@@ -19,7 +21,7 @@ class JsonTest extends Specification {
 
     def 'body'() {
         when:
-        String rootPath = getRootPath('/test7')
+        String rootPath = resourcePath + 'test7'
         String rootRelativePath = File.separator
         String request = '''[
                   {
@@ -57,7 +59,7 @@ class JsonTest extends Specification {
 
     def 'query'() {
         when:
-        String rootPath = getRootPath('/test8')
+        String rootPath = resourcePath + 'test8'
         String rootRelativePath = File.separator
         String request = "query=1234&another='dododo'"
         String contentType = 'json'
@@ -69,7 +71,7 @@ class JsonTest extends Specification {
 
     def 'empty request'() {
         when:
-        String rootPath = getRootPath('/test9')
+        String rootPath = resourcePath + 'test9'
         String rootRelativePath = File.separator
         String request = ""
         String contentType = 'json'

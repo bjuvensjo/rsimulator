@@ -40,20 +40,20 @@ class AbstractHandlerTest extends Specification {
             getFileName() >> {
                 Paths.get('ARequest.txt')
             }
-            resolveSibling(_) >> {
+            resolveSibling(_ as String) >> {
                 Paths.get('AResponse.txt')
             }
         }
         FileUtils fileUtils = Mock() {
-            read(_) >> {
+            read(_ as Path) >> {
                 'response ${1} ${2}!'
             }
         }
         abstractHandler.fileUtils = fileUtils
-        Matcher matcher = abstractHandler.getMatcher('request Hello World', 'request (.*) (.*)')
+        Matcher matcher = abstractHandler.getMatcher('request Hello World', 'request (.*) (.*)').get()
         matcher.matches()
         when:
-        String response = abstractHandler.getResponse(candidatePath, matcher)
+        String response = abstractHandler.getResponse(candidatePath, matcher).get()
         then:
         response == 'response Hello World!'
     }
@@ -61,7 +61,7 @@ class AbstractHandlerTest extends Specification {
     @Unroll
     def 'get #path properties'(String path, boolean expected) {
         Props props = Mock() {
-            getProperties(_) >> {
+            getProperties(Paths.get(path)) >> {
                 expected ? Optional.of(new Properties()) : Optional.empty()
             }
         }

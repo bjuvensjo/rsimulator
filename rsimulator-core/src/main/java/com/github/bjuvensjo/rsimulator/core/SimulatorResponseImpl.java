@@ -10,7 +10,7 @@ import java.util.StringJoiner;
  */
 public class SimulatorResponseImpl implements SimulatorResponse {
     private String response;
-    private Optional<Properties> properties;
+    private Properties properties;
     private Path matchingRequest;
 
     /**
@@ -20,18 +20,18 @@ public class SimulatorResponseImpl implements SimulatorResponse {
      * @param properties      the optional properties
      * @param matchingRequest the matching request
      */
-    public SimulatorResponseImpl(String response, Optional<Properties> properties, Path matchingRequest) {
+    public SimulatorResponseImpl(String response, Properties properties, Path matchingRequest) {
         this.response = response;
         this.properties = properties;
         this.matchingRequest = matchingRequest;
     }
 
     public Optional<Properties> getProperties() {
-        return properties;
+        return Optional.ofNullable(properties);
     }
 
     public void setProperties(Optional<Properties> properties) {
-        this.properties = properties;
+        this.properties = properties.orElse(null);
     }
 
     public String getResponse() {

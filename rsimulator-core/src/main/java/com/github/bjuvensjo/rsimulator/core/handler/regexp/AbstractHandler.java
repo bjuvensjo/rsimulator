@@ -38,13 +38,12 @@ public abstract class AbstractHandler implements Handler {
         Optional<SimulatorResponse> result = fileUtils.findRequests(Paths.get(path), getExtension())
                 .stream()
                 .map(candidatePath -> Optional.of(fileUtils.read(candidatePath))
-                        .map(candidateRequest -> getMatcher(request, candidateRequest))
+                        .flatMap(candidateRequest -> getMatcher(request, candidateRequest))
                         .filter(Matcher::matches)
                         .map(matcher -> getResponse(candidatePath, matcher))
-                        .map(response -> (SimulatorResponse) new SimulatorResponseImpl(response, getProperties(candidatePath), candidatePath)))
+                        .map(response -> (SimulatorResponse) new SimulatorResponseImpl(response.orElse(""), getProperties(candidatePath).orElse(null), candidatePath)))
                 .flatMap(Optional::stream)
                 .findFirst();
-
         log.debug("result: {}", result);
         return result;
     }
@@ -73,19 +72,16 @@ public abstract class AbstractHandler implements Handler {
      */
     protected abstract String escape(String request, boolean isCandidate);
 
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
-    Matcher getMatcher(String request, String candidate) {
+    Optional<Matcher> getMatcher(String request, String candidate) {
         return Optional.of(candidate)
                 .map(this::format)
                 .map(formattedCandidate -> escape(formattedCandidate, true))
                 .map(Pattern::compile)
-                .map(p -> p.matcher(escape(format(request), false)))
-                .get();
+                .map(p -> p.matcher(escape(format(request), false)));
     }
 
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
-    String getResponse(Path candidatePath, Matcher matcher) {
-        String result = Optional.of(candidatePath)
+    Optional<String> getResponse(Path candidatePath, Matcher matcher) {
+        Optional<String> result = Optional.of(candidatePath)
                 .map(Path::getFileName)
                 .map(Path::toString)
                 .map(s -> s.replaceFirst(REQUEST, RESPONSE))
@@ -96,20 +92,17 @@ public abstract class AbstractHandler implements Handler {
                         response = response.replaceAll("[$]+[{]+" + j + "[}]+", matcher.group(j));
                     }
                     return response;
-                })
-                .get();
+                });
         log.debug("Response: [{}]", result);
         return result;
     }
 
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     Optional<Properties> getProperties(Path candidatePath) {
         return Optional.of(candidatePath)
                 .map(Path::getFileName)
                 .map(Path::toString)
                 .map(s -> s.replaceFirst(PROPERTIES_PATTERN, ".properties"))
                 .map(candidatePath::resolveSibling)
-                .map(props::getProperties)
-                .get();
+                .flatMap(props::getProperties);
     }
 }

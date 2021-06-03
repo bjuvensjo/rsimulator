@@ -1,6 +1,7 @@
 package com.github.bjuvensjo.rsimulator.core
 
 import com.github.bjuvensjo.rsimulator.core.config.CoreModule
+import com.github.bjuvensjo.rsimulator.test.spock.ResourcePath
 import com.google.inject.Guice
 import com.google.inject.Injector
 import groovy.xml.XmlSlurper
@@ -8,11 +9,11 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static com.github.bjuvensjo.rsimulator.core.TestUtil.getRootPath
-
 class XmlTest extends Specification {
     @Shared
     Simulator simulator
+    @ResourcePath(rootOnly = true)
+    String resourcePath
 
     def 'setupSpec'() {
         Injector injector = Guice.createInjector(new CoreModule())
@@ -22,7 +23,7 @@ class XmlTest extends Specification {
     @Unroll
     def 'matches'() {
         when:
-        String rootPath = getRootPath('/test3')
+        String rootPath = resourcePath + 'test3'
         String rootRelativePath = File.separator
         String request = '''
             <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hel="http://www.github.com/bjuvensjo/rsimulator/SayHello/">

@@ -24,6 +24,7 @@
         <module>../rsimulator-proxy</module>
         <module>../rsimulator-recorder</module>
         <module>../rsimulator-socket</module>
+        <module>../rsimulator-test</module>
     </modules>
     <build>
         <plugins>
