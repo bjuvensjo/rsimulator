@@ -9,8 +9,10 @@ import org.junit.Test;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Test1.
@@ -38,5 +40,15 @@ public class Test1 {
         // to test cache
         simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType).get();
         assertEquals("Hello Test1, says Simulator!", simulatorResponse.getResponse());
+    }
+
+    @Test
+    public void missingMockTest() throws URISyntaxException {
+        String rootPath = Paths.get(getClass().getResource("/").toURI()).toString();
+        String rootRelativePath = File.separator;
+        String request = "missing!";
+        String contentType = "txt";
+        Optional<SimulatorResponse> maybeSimulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType);
+        assertFalse(maybeSimulatorResponse.isPresent());
     }
 }

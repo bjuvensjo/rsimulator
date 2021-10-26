@@ -11,10 +11,13 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static com.github.bjuvensjo.rsimulator.core.config.Constants.REQUEST;
 import static com.github.bjuvensjo.rsimulator.core.config.Constants.RESPONSE;
@@ -37,7 +40,9 @@ public abstract class AbstractHandler implements Handler {
         String path = rootPath.concat(rootRelativePath);
         log.debug("path: {}", path);
 
-        Optional<SimulatorResponse> result = fileUtils.findRequests(Paths.get(path), getExtension())
+        List<Path> simulatorRequestPaths = fileUtils.findRequests(Paths.get(path), getExtension());
+
+        Optional<SimulatorResponse> result = simulatorRequestPaths
                 .stream()
                 .map(candidatePath -> {
                     SimulatorResponse simulatorResponse = null;
@@ -48,11 +53,14 @@ public abstract class AbstractHandler implements Handler {
                         Optional<Properties> properties = getProperties(candidatePath);
                         simulatorResponse = new SimulatorResponseImpl(response, properties, candidatePath);
                     }
-                    return Optional.ofNullable(simulatorResponse);
+                    return simulatorResponse;
                 })
-                .filter(simulatorResponse -> simulatorResponse.isPresent())
-                .findFirst()
-                .get();
+                .filter(simulatorResponse -> simulatorResponse != null)
+                .findFirst();
+
+        if (!result.isPresent()) {
+            log.info("Request paths considered: {}", simulatorRequestPaths.toString());
+        }
 
         return result;
     }
