@@ -40,17 +40,4 @@ public class Test3 {
         assertNotNull(simulatorResponse.getResponse());
     }
 
-    @Test
-    public void missingTest() throws URISyntaxException {
-        String rootPath = Paths.get(getClass().getResource("/test3").toURI()).toString();
-        String rootRelativePath = File.separator;
-        String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" "
-                + "xmlns:hel=\"http://www.github.com/bjuvensjo/rsimulator/SayHello/\"><soapenv:Header/><soapenv:Body>"
-                + "<hel:SayHelloRequest><from>Test3</from><to>Simulator</to><greeting>Hello</greeting><extra></extra>"
-                + "</hel:SayHelloRequest></soapenv:Body></soapenv:Envelope>";
-        String contentType = "xml";
-        SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType).get();
-        assertNotNull(simulatorResponse);
-        assertNotNull(simulatorResponse.getResponse());
-    }
 }
