@@ -1,6 +1,7 @@
 package com.github.bjuvensjo.rsimulator.core.config;
 
 import com.github.bjuvensjo.rsimulator.core.*;
+import com.github.bjuvensjo.rsimulator.core.handler.parser.xml.XmlParseHandler;
 import com.github.bjuvensjo.rsimulator.core.handler.regexp.JsonHandler;
 import com.github.bjuvensjo.rsimulator.core.handler.regexp.TxtHandler;
 import com.github.bjuvensjo.rsimulator.core.handler.regexp.XmlHandler;
@@ -56,11 +57,14 @@ public class CoreModule extends AbstractModule {
         requestInjection(jsonHandler);
         TxtHandler txtHandler = new TxtHandler();
         requestInjection(txtHandler);
-        XmlHandler xmlHandler = new XmlHandler();
-        requestInjection(xmlHandler);
+        XmlParseHandler xmlParseHandler = new XmlParseHandler();
+        requestInjection(xmlParseHandler);
+//        XmlHandler xmlHandler = new XmlHandler();
+//        requestInjection(xmlHandler);
         map.put("json", jsonHandler);
         map.put("txt", txtHandler);
-        map.put("xml", xmlHandler);
+        map.put("xml", xmlParseHandler);
+//        map.put("xml", xmlHandler);
 
         bind(new TypeLiteral<Map<String, Handler>>() {
         }).annotatedWith(Names.named("handlers")).toInstance(map);

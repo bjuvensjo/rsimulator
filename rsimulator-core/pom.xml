@@ -33,6 +33,22 @@
             <artifactId>groovy-all</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.clojure</groupId>
+            <artifactId>clojure</artifactId>
+            <version>1.10.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.clojure</groupId>
+            <artifactId>data.xml</artifactId>
+            <version>0.2.0-alpha6</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.clojure</groupId>
+                    <artifactId>clojure</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>org.jdom</groupId>
             <artifactId>jdom</artifactId>
         </dependency>
@@ -45,6 +61,16 @@
             <artifactId>jackson-mapper-asl</artifactId>
         </dependency>
     </dependencies>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/clojure</directory>
+            </resource>
+            <resource>
+                <directory>src/test/clojure</directory>
+            </resource>
+        </resources>
+    </build>
     <developers>
         <developer>
             <name>Magnus Bjuvensjö</name>

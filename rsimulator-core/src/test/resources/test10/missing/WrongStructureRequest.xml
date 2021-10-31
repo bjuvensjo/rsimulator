@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hel="http://www.github.com/bjuvensjo/rsimulator/SayHello/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <hel:SayHelloRequest>
+         <from>(.*)</from>
+         <to>(.*)</to>
+         <greeting>.*</greeting>
+      </hel:SayHelloRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
