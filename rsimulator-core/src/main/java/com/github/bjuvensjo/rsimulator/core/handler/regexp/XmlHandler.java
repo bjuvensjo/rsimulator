@@ -14,7 +14,6 @@ import java.io.ByteArrayOutputStream;
 /**
  * XmlHandler is a regular expression handler for xml (.xml).
  *
- * @author Magnus Bjuvensjö
  * @see AbstractHandler
  */
 public class XmlHandler extends AbstractHandler {

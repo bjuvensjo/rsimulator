@@ -18,10 +18,7 @@ import java.util.stream.Collectors;
 /**
  * SimulatorCacheInterceptor is an interceptor that caches invokations of
  * {@link Simulator#service(String, String, String, String, Map...)}.
- *
- * @author Magnus Bjuvensjö
  */
-@Singleton
 public class SimulatorCacheInterceptor implements MethodInterceptor {
     private Logger log = LoggerFactory.getLogger(SimulatorCacheInterceptor.class);
     @Inject

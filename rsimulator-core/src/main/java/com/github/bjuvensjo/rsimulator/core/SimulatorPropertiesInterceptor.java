@@ -12,7 +12,6 @@ import java.util.Properties;
 /**
  * SimulatorPropertiesInterceptor is an interceptor that handles Properties if set on a {@link SimulatorResponse}.
  */
-@Singleton
 public class SimulatorPropertiesInterceptor implements MethodInterceptor {
     private static final String DELAY = "delay";
     private Logger log = LoggerFactory.getLogger(SimulatorPropertiesInterceptor.class);

@@ -34,7 +34,6 @@ import static com.github.bjuvensjo.rsimulator.core.config.Constants.*;
  * can be used to communicate arbitrary objects between the Groovy scripts. If a script sets a SimulatorResponse in the
  * vars map, this SimulatorResponse is directly returned.
  */
-@Singleton
 public class SimulatorScriptInterceptor implements MethodInterceptor {
     private static final int ROOT_PATH_INDEX = 0;
     private static final int ROOT_RELATIVE_PATH_INDEX = 1;

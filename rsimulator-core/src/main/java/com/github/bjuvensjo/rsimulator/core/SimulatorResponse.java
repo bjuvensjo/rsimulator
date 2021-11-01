@@ -8,8 +8,6 @@ import java.util.Properties;
 
 /**
  * SimulatorResponse is returned by {@link Simulator}.
- *
- * @author Magnus Bjuvensjö
  */
 @ImplementedBy(SimulatorResponseImpl.class)
 public interface SimulatorResponse {

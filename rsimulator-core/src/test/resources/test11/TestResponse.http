@@ -1,0 +1,243 @@
+HTTP/1.1 200 OK
+Date: Tue, 02 Nov 2021 09:08:24 GMT
+Server: Nexus/3.29.2-02 (OSS)
+X-Content-Type-Options: nosniff
+Content-Type: application/json
+Content-Length: 11789
+
+{
+  "items": [
+    {
+      "downloadUrl": "http://10.252.224.240:8081/repository/PESCPOC/com/foo/external.hazelcast.cache/1.0.0-SNAPSHOT/external.hazelcast.cache-1.0.0-SNAPSHOT.pom",
+      "path": "com/foo/external.hazelcast.cache/1.0.0-SNAPSHOT/external.hazelcast.cache-1.0.0-SNAPSHOT.pom",
+      "id": "UEVTQ1BPQzpjNzU0NTU3OWE3YTE1MzkwZGU0Y2VjNDRjODY5ODZmNw",
+      "repository": "PESCPOC",
+      "format": "maven2",
+      "checksum": {
+        "sha1": "99bc0c862c74932874f8fb89f1ba03b5a9291253",
+        "sha512": "18b5ef94a876d7a45853304202336d46e5fdfa6fa6a54fe09936d3793bb7035669c36af21a37a49c7ad431efd470bb545242428965bba5ea31166afd0524cb0e",
+        "sha256": "5ff2d8dd0150de0cc6e63614c5a91ecc6cdd961ab92fb308f303a5414cbf78dd",
+        "md5": "0def9e5f24fba1f38991bca58e3a363f"
+      },
+      "contentType": "application/xml",
+      "lastModified": "2021-02-16T09:26:57.316+00:00",
+      "blobCreated": "2021-02-16T09:26:57.316+00:00",
+      "lastDownloaded": null,
+      "maven2": {
+        "extension": "pom",
+        "groupId": "com.foo",
+        "artifactId": "external.hazelcast.cache",
+        "version": "1.0.0-SNAPSHOT"
+      }
+    },
+    {
+      "downloadUrl": "http://10.252.224.240:8081/repository/PESCPOC/com/foo/service/business.system.security.createsession.v2_0/2.0.0-FEATURE.PESCPOC-SNAPSHOT/business.system.security.createsession.v2_0-2.0.0-FEATURE.PESCPOC-SNAPSHOT-sources.jar",
+      "path": "com/foo/service/business.system.security.createsession.v2_0/2.0.0-FEATURE.PESCPOC-SNAPSHOT/business.system.security.createsession.v2_0-2.0.0-FEATURE.PESCPOC-SNAPSHOT-sources.jar",
+      "id": "UEVTQ1BPQzpjNzU0NTU3OWE3YTE1MzkwZWRmZTgzZDJjOWNkMjdhYg",
+      "repository": "PESCPOC",
+      "format": "maven2",
+      "checksum": {
+        "sha1": "b9d11aa7518495fb2f602733017f2f282d4d624c",
+        "sha512": "58241c197ba8f2e7c0deb746dc160eae9877d3a4d541b23d64dd8ccbd7d6fde90c9fd17d31352e4a60ccaf01e905977827bb198cc85ab7a0d068be10c05b15bc",
+        "sha256": "02a6914517a2b278bd59c155a89571d8f957bf5f1dbbead9e2af2095dd0e6f05",
+        "md5": "8a1c0c6c952b4ba4bba476b54b023e28"
+      },
+      "contentType": "application/java-archive",
+      "lastModified": "2021-02-16T09:27:12.630+00:00",
+      "blobCreated": "2021-02-16T09:27:12.630+00:00",
+      "lastDownloaded": null,
+      "maven2": {
+        "extension": "jar",
+        "groupId": "com.foo.service",
+        "classifier": "sources",
+        "artifactId": "business.system.security.createsession.v2_0",
+        "version": "2.0.0-FEATURE.PESCPOC-SNAPSHOT"
+      }
+    },
+    {
+      "downloadUrl": "http://10.252.224.240:8081/repository/PESCPOC/com/foo/service/cd.jenkins.lib/1.0.0-SNAPSHOT/cd.jenkins.lib-1.0.0-SNAPSHOT.jar",
+      "path": "com/foo/service/cd.jenkins.lib/1.0.0-SNAPSHOT/cd.jenkins.lib-1.0.0-SNAPSHOT.jar",
+      "id": "UEVTQ1BPQzpjNzU0NTU3OWE3YTE1MzkwNzZiNDlkZjU5MjYyMTNiMg",
+      "repository": "PESCPOC",
+      "format": "maven2",
+      "checksum": {
+        "sha1": "a1ecadc95e3c62bc50b4b54e3608af792eeec066",
+        "sha512": "6a2e776d49aece2ba081cecf4c23c0a214210722d12612e261209efc30e8f4006004ebe64c4b4d95d7d7f540355b38beb9e98e600306eda521bf566a52623eae",
+        "sha256": "c1b41124b874bd759d0acd3b52e01359d49de23523c8c966e7797ae57ace5815",
+        "md5": "94217fa7593b12135868fbdb713a16dc"
+      },
+      "contentType": "application/java-archive",
+      "lastModified": "2021-02-16T09:27:13.809+00:00",
+      "blobCreated": "2021-02-16T09:27:13.809+00:00",
+      "lastDownloaded": null,
+      "maven2": {
+        "extension": "jar",
+        "groupId": "com.foo.service",
+        "artifactId": "cd.jenkins.lib",
+        "version": "1.0.0-SNAPSHOT"
+      }
+    },
+    {
+      "downloadUrl": "http://10.252.224.240:8081/repository/PESCPOC/com/foo/service/common.logging/4.0.4-FEATURE.PESCPOC-SNAPSHOT/common.logging-4.0.4-FEATURE.PESCPOC-SNAPSHOT.jar",
+      "path": "com/foo/service/common.logging/4.0.4-FEATURE.PESCPOC-SNAPSHOT/common.logging-4.0.4-FEATURE.PESCPOC-SNAPSHOT.jar",
+      "id": "UEVTQ1BPQzpjNzU0NTU3OWE3YTE1MzkwODIxYmE1MTA1MGIwNDUyZA",
+      "repository": "PESCPOC",
+      "format": "maven2",
+      "checksum": {
+        "sha1": "e9d59106a9eddbf436612b18fe0fa3dda515222e",
+        "sha512": "a738315e32548c6a5dac4698a766dc3fd13d0d6d5d8a41ae6026ad1b15f878f24c7073ef3a74d3778be8a1b4e862d93afbd50991bb658b0b5a2a29949443ab21",
+        "sha256": "e93d1d22d298494392134d80324e3edbfa3314857e6dbaeeff5b6bad34e2dbe5",
+        "md5": "91ba75ab6158267c7965af08422a242c"
+      },
+      "contentType": "application/java-archive",
+      "lastModified": "2021-02-16T09:27:15.273+00:00",
+      "blobCreated": "2021-02-16T09:27:15.273+00:00",
+      "lastDownloaded": null,
+      "maven2": {
+        "extension": "jar",
+        "groupId": "com.foo.service",
+        "artifactId": "common.logging",
+        "version": "4.0.4-FEATURE.PESCPOC-SNAPSHOT"
+      }
+    },
+    {
+      "downloadUrl": "http://10.252.224.240:8081/repository/PESCPOC/com/foo/service/common.permission.resolver/1.6.0-FEATURE.PESCPOC-SNAPSHOT/common.permission.resolver-1.6.0-FEATURE.PESCPOC-SNAPSHOT.jar",
+      "path": "com/foo/service/common.permission.resolver/1.6.0-FEATURE.PESCPOC-SNAPSHOT/common.permission.resolver-1.6.0-FEATURE.PESCPOC-SNAPSHOT.jar",
+      "id": "UEVTQ1BPQzpjNzU0NTU3OWE3YTE1MzkwNGY1MzI3ODQ1YjkxY2UwNw",
+      "repository": "PESCPOC",
+      "format": "maven2",
+      "checksum": {
+        "sha1": "fd0ea91e9b93116e1049ebf765b42fd2d1d92f53",
+        "sha512": "aae181535b2672def3f2d3aec1ea0c4e0afa7a4258334802370cb0d01d618de124d93c4bea300fb0f7732f563341a37dff60d66fee8c51f7f17d437ca88fce6c",
+        "sha256": "688df33ee3478021816ba3e36dbd2d6847be369d2ded55fb50bea4dac80048e4",
+        "md5": "18ba31cf61a8aa16577f4380040045ff"
+      },
+      "contentType": "application/java-archive",
+      "lastModified": "2021-02-16T09:27:16.337+00:00",
+      "blobCreated": "2021-02-16T09:27:16.337+00:00",
+      "lastDownloaded": null,
+      "maven2": {
+        "extension": "jar",
+        "groupId": "com.foo.service",
+        "artifactId": "common.permission.resolver",
+        "version": "1.6.0-FEATURE.PESCPOC-SNAPSHOT"
+      }
+    },
+    {
+      "downloadUrl": "http://10.252.224.240:8081/repository/PESCPOC/com/foo/service/common.security/1.2.15-FEATURE.PESCPOC-SNAPSHOT/common.security-1.2.15-FEATURE.PESCPOC-SNAPSHOT.jar",
+      "path": "com/foo/service/common.security/1.2.15-FEATURE.PESCPOC-SNAPSHOT/common.security-1.2.15-FEATURE.PESCPOC-SNAPSHOT.jar",
+      "id": "UEVTQ1BPQzpjNzU0NTU3OWE3YTE1MzkwMGI4YWRhMzM1NjJiZDM4OA",
+      "repository": "PESCPOC",
+      "format": "maven2",
+      "checksum": {
+        "sha1": "13fe4bbe491f374e57353904600298fe4312b013",
+        "sha512": "aa9022515fd67fd7b265430e0395e744a8a8ab3ac6d5d64d2d146f84e5b99ab3fe8d961beaf14c778f791f6731adc53ffec2ec3fc40bc9bd2a21c9d6c6c27061",
+        "sha256": "df7e5ab18350d2a0f97bddf13d02276841a8ac7d60400fd0d7e384b897423bc5",
+        "md5": "d5f556a075f00845676107dc1ec43541"
+      },
+      "contentType": "application/java-archive",
+      "lastModified": "2021-02-16T09:27:17.939+00:00",
+      "blobCreated": "2021-02-16T09:27:17.939+00:00",
+      "lastDownloaded": null,
+      "maven2": {
+        "extension": "jar",
+        "groupId": "com.foo.service",
+        "artifactId": "common.security",
+        "version": "1.2.15-FEATURE.PESCPOC-SNAPSHOT"
+      }
+    },
+    {
+      "downloadUrl": "http://10.252.224.240:8081/repository/PESCPOC/com/foo/service/common.security/1.2.15-SNAPSHOT/common.security-1.2.15-SNAPSHOT.jar",
+      "path": "com/foo/service/common.security/1.2.15-SNAPSHOT/common.security-1.2.15-SNAPSHOT.jar",
+      "id": "UEVTQ1BPQzpjNzU0NTU3OWE3YTE1MzkwZTg3ODM2ZDUwN2Y3MDk2Mg",
+      "repository": "PESCPOC",
+      "format": "maven2",
+      "checksum": {
+        "sha1": "963e08f13ef06efafabe5c7b79791bc3f17fb963",
+        "sha512": "5e826023fed6717cd1882b46a711b1dfd96683f724018f745f1d13261e8f8f6baef502f10d16933d83b02361b0502179dd3d93469a5690302e102c95b817c53d",
+        "sha256": "2f1b677e8e3159d5df798ba039a8b9a79ac8c8705f116c6f53d38e04934ca9f1",
+        "md5": "26afe371edd6db0886ebfda7b02da718"
+      },
+      "contentType": "application/java-archive",
+      "lastModified": "2021-02-16T09:27:19.717+00:00",
+      "blobCreated": "2021-02-16T09:27:19.717+00:00",
+      "lastDownloaded": null,
+      "maven2": {
+        "extension": "jar",
+        "groupId": "com.foo.service",
+        "artifactId": "common.security",
+        "version": "1.2.15-SNAPSHOT"
+      }
+    },
+    {
+      "downloadUrl": "http://10.252.224.240:8081/repository/PESCPOC/com/foo/service/common.security/1.2.20-FEATURE.PESCPOC-SNAPSHOT/common.security-1.2.20-FEATURE.PESCPOC-SNAPSHOT.jar",
+      "path": "com/foo/service/common.security/1.2.20-FEATURE.PESCPOC-SNAPSHOT/common.security-1.2.20-FEATURE.PESCPOC-SNAPSHOT.jar",
+      "id": "UEVTQ1BPQzpjNzU0NTU3OWE3YTE1MzkwNWRmOWM2YTAzMDMxNTBkNw",
+      "repository": "PESCPOC",
+      "format": "maven2",
+      "checksum": {
+        "sha1": "0341735c6696b1265e233bd4cbe5043b1d147ea4",
+        "sha512": "740097294970b056403211c2186982d234c520a40135d313bc5672cbdd3140f1680c098aa95d4c3a29501ab657318183d16eb1437c292081cc4b14412e90bea9",
+        "sha256": "2c323c64adc05d4799a284865c99499fce6a5b29353879e653a3aa90a6b47abb",
+        "md5": "5a957420026cd6265728014da1e44949"
+      },
+      "contentType": "application/java-archive",
+      "lastModified": "2021-02-16T09:27:21.478+00:00",
+      "blobCreated": "2021-02-16T09:27:21.478+00:00",
+      "lastDownloaded": null,
+      "maven2": {
+        "extension": "jar",
+        "groupId": "com.foo.service",
+        "artifactId": "common.security",
+        "version": "1.2.20-FEATURE.PESCPOC-SNAPSHOT"
+      }
+    },
+    {
+      "downloadUrl": "http://10.252.224.240:8081/repository/PESCPOC/com/foo/service/common.security/1.2.21-FEATURE.PESCPOC-SNAPSHOT/common.security-1.2.21-FEATURE.PESCPOC-SNAPSHOT.jar",
+      "path": "com/foo/service/common.security/1.2.21-FEATURE.PESCPOC-SNAPSHOT/common.security-1.2.21-FEATURE.PESCPOC-SNAPSHOT.jar",
+      "id": "UEVTQ1BPQzpjNzU0NTU3OWE3YTE1MzkwZjNiOWQ5NzNiNDZhYzQzZg",
+      "repository": "PESCPOC",
+      "format": "maven2",
+      "checksum": {
+        "sha1": "7afaa1c5dd861214045b642ad5acbdfc9440f9f3",
+        "sha512": "a7ecbae0bf5ed1599bcdf9d5b2d903076103617a538d94d1076e5fe04e10d38c9b97e2ed2be7ef64f846cf35d5b31e73b7304f46ead71e24708521bb62e93821",
+        "sha256": "a97e5cd2971bea109811881a10f9e783022a5bc36f54a882c77d0dbcbcbe0158",
+        "md5": "6e33fdc27c6ef9079c0cb2afda41925c"
+      },
+      "contentType": "application/java-archive",
+      "lastModified": "2021-02-16T09:27:23.203+00:00",
+      "blobCreated": "2021-02-16T09:27:23.203+00:00",
+      "lastDownloaded": null,
+      "maven2": {
+        "extension": "jar",
+        "groupId": "com.foo.service",
+        "artifactId": "common.security",
+        "version": "1.2.21-FEATURE.PESCPOC-SNAPSHOT"
+      }
+    },
+    {
+      "downloadUrl": "http://10.252.224.240:8081/repository/PESCPOC/com/foo/service/common.usersession/2.0.1-FEATURE.PESCPOC-SNAPSHOT/common.usersession-2.0.1-FEATURE.PESCPOC-SNAPSHOT.pom",
+      "path": "com/foo/service/common.usersession/2.0.1-FEATURE.PESCPOC-SNAPSHOT/common.usersession-2.0.1-FEATURE.PESCPOC-SNAPSHOT.pom",
+      "id": "UEVTQ1BPQzpjNzU0NTU3OWE3YTE1MzkwYjg5YTZiNTg4M2U4Mjc0OA",
+      "repository": "PESCPOC",
+      "format": "maven2",
+      "checksum": {
+        "sha1": "fe1ac16346b35fdc0b00c4f773b9184502f6daa6",
+        "sha512": "07a2a3cca1d89e0a71700c1286a147d10592bf9a10acef8c5d3076f1d9ee36a01741ae2558f83c349df2f687804f8ef37468b01460d7175595f6e313dad43af8",
+        "sha256": "6e217159538efe54adf8e67bcc774b4bca5376fad98eb5a2435dbced2645b8fb",
+        "md5": "bda342bef21bf02a478941900eed4956"
+      },
+      "contentType": "application/xml",
+      "lastModified": "2021-02-16T09:27:24.311+00:00",
+      "blobCreated": "2021-02-16T09:27:24.311+00:00",
+      "lastDownloaded": null,
+      "maven2": {
+        "extension": "pom",
+        "groupId": "com.foo.service",
+        "artifactId": "common.usersession",
+        "version": "2.0.1-FEATURE.PESCPOC-SNAPSHOT"
+      }
+    }
+  ],
+  "continuationToken": "c7545579a7a15390b89a6b5883e82748"
+}

@@ -15,10 +15,7 @@ import java.util.Properties;
 
 /**
  * PropsImpl implements {@link Props}.
- *
- * @author Magnus Bjuvensjö
  */
-@Singleton
 public class PropsImpl implements Props {
     private static final String SIMULATOR_CACHE = "simulatorCache";
     private Logger log = LoggerFactory.getLogger(PropsImpl.class);

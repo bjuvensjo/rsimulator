@@ -13,11 +13,6 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-/**
- * Test10.
- *
- * @author Magnus Bjuvensjö
- */
 public class Test10 {
     private Simulator simulator;
 
@@ -29,7 +24,7 @@ public class Test10 {
 
     private String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" "
             + "xmlns:hel=\"http://www.github.com/bjuvensjo/rsimulator/SayHello/\"><soapenv:Header/><soapenv:Body>"
-            + "<hel:SayHelloRequest><from>Test3</from><to>Simulator</to><inner><greeting>Hello</greeting><code>10</code></inner>"
+            + "<hel:SayHelloRequest><from>Test10</from><to>Simulator</to><inner><greeting>Hello</greeting><code>10</code></inner>"
             + "</hel:SayHelloRequest></soapenv:Body></soapenv:Envelope>";
 
     @Test

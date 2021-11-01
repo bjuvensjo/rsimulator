@@ -14,11 +14,6 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-/**
- * Test1.
- *
- * @author Magnus Bjuvensjö
- */
 public class Test1 {
     private Simulator simulator;
 

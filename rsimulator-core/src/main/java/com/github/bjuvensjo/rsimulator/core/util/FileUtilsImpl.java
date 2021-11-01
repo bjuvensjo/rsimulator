@@ -17,10 +17,7 @@ import static com.github.bjuvensjo.rsimulator.core.config.Constants.REQUEST;
 
 /**
  * FileUtilsImpl implements {@link FileUtils}.
- *
- * @author Magnus Bjuvensjö
  */
-@Singleton
 public class FileUtilsImpl implements FileUtils {
     private static final String ENCODING = "UTF-8";
     private static final String SUFFIX_PREFIX = REQUEST.concat(".");

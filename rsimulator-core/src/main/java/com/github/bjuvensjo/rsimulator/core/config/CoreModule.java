@@ -4,7 +4,6 @@ import com.github.bjuvensjo.rsimulator.core.*;
 import com.github.bjuvensjo.rsimulator.core.handler.parser.xml.XmlParseHandler;
 import com.github.bjuvensjo.rsimulator.core.handler.regexp.JsonHandler;
 import com.github.bjuvensjo.rsimulator.core.handler.regexp.TxtHandler;
-import com.github.bjuvensjo.rsimulator.core.handler.regexp.XmlHandler;
 import com.github.bjuvensjo.rsimulator.core.util.FileUtils;
 import com.github.bjuvensjo.rsimulator.core.util.FileUtilsCacheInterceptor;
 import com.github.bjuvensjo.rsimulator.core.util.Props;
@@ -24,8 +23,6 @@ import java.util.Map;
 
 /**
  * CoreModule holds Guice configurations.
- *
- * @author Magnus Bjuvensjö
  */
 public class CoreModule extends AbstractModule {
     private Logger log = LoggerFactory.getLogger(CoreModule.class);
@@ -51,23 +48,11 @@ public class CoreModule extends AbstractModule {
         }
         bind(java.util.Properties.class).annotatedWith(Names.named("rsimulator-core-properties")).toInstance(properties);
 
-        // ***** Handlers *****
-        Map<String, Handler> map = new HashMap<String, Handler>();
-        JsonHandler jsonHandler = new JsonHandler();
-        requestInjection(jsonHandler);
-        TxtHandler txtHandler = new TxtHandler();
-        requestInjection(txtHandler);
-        XmlParseHandler xmlParseHandler = new XmlParseHandler();
-        requestInjection(xmlParseHandler);
-//        XmlHandler xmlHandler = new XmlHandler();
-//        requestInjection(xmlHandler);
-        map.put("json", jsonHandler);
-        map.put("txt", txtHandler);
-        map.put("xml", xmlParseHandler);
-//        map.put("xml", xmlHandler);
+        Map<String, Handler> handlerMap = getHandlerMap();
+        handlerMap.values().forEach(this::requestInjection);
 
         bind(new TypeLiteral<Map<String, Handler>>() {
-        }).annotatedWith(Names.named("handlers")).toInstance(map);
+        }).annotatedWith(Names.named("handlers")).toInstance(handlerMap);
 
         // ***** Interceptors for cache and script *****
         CacheManager.create();
@@ -102,5 +87,14 @@ public class CoreModule extends AbstractModule {
                 fileUtilsCacheInterceptor);
         bindInterceptor(Matchers.subclassesOf(Props.class), Matchers.annotatedWith(Cache.class),
                 propsCacheInterceptor);
+    }
+
+    protected Map<String, Handler> getHandlerMap() {
+        Map<String, Handler> map = new HashMap<>();
+        map.put("json", new JsonHandler());
+        map.put("txt", new TxtHandler());
+        map.put("xml", new XmlParseHandler());
+//        map.put("xml", new XmlHandler());
+        return map;
     }
 }

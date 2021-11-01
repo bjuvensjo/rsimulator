@@ -5,7 +5,6 @@ import com.google.inject.Singleton;
 /**
  * TxtHandler is a regular expression handler for text (.txt).
  *
- * @author Magnus Bjuvensjö
  * @see AbstractHandler
  */
 public class TxtHandler extends AbstractHandler {

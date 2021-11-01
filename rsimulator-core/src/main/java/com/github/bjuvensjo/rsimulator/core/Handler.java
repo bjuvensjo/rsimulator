@@ -4,8 +4,6 @@ import java.util.Optional;
 
 /**
  * Handler.
- *
- * @author Magnus Bjuvensjö
  */
 public interface Handler {
 

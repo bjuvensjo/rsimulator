@@ -1,0 +1,5 @@
+GET /service/rest/v1/assets?repository=PESCPOC HTTP/1.1
+Host: 10.252.224.240:8081
+Authorization: Basic abc
+Accept: application/json
+User-Agent: curl

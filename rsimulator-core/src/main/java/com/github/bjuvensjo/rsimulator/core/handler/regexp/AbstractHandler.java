@@ -25,7 +25,6 @@ import static com.github.bjuvensjo.rsimulator.core.config.Constants.RESPONSE;
 /**
  * AbstractHandler implements what is common for regular expression handlers.
  *
- * @author Magnus Bjuvensjö
  * @see Handler
  */
 public abstract class AbstractHandler implements Handler {

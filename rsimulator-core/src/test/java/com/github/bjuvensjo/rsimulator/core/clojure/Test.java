@@ -24,6 +24,5 @@ public class Test {
         Assert.assertEquals(0, (long) result.get(Keyword.intern("fail")));
         Assert.assertTrue((long) result.get(Keyword.intern("pass")) > 0);
         Assert.assertTrue((long) result.get(Keyword.intern("test")) > 0);
-
     }
 }

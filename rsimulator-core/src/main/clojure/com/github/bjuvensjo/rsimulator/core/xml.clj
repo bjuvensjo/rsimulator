@@ -88,7 +88,6 @@
                   :else
                   (let [result (matches-clj-xml? a m)]
                     (if (string? result)
-
                       (str (when-let [tag (:tag a)]
                              (str (name tag) " | "))
                            result)
