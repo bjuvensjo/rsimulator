@@ -24,8 +24,6 @@ import java.util.Map;
 
 /**
  * CoreModule holds Guice configurations.
- *
- * @author Magnus Bjuvensjö
  */
 public class CoreModule extends AbstractModule {
     private Logger log = LoggerFactory.getLogger(CoreModule.class);

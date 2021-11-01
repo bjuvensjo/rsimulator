@@ -14,8 +14,6 @@ import java.util.Optional;
 
 /**
  * SimulatorImpl implements {@link Simulator}.
- *
- * @author Magnus Bjuvensjö
  */
 @Singleton
 public class SimulatorImpl implements Simulator {

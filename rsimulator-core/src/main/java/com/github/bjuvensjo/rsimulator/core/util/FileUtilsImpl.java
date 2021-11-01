@@ -17,8 +17,6 @@ import static com.github.bjuvensjo.rsimulator.core.config.Constants.REQUEST;
 
 /**
  * FileUtilsImpl implements {@link FileUtils}.
- *
- * @author Magnus Bjuvensjö
  */
 @Singleton
 public class FileUtilsImpl implements FileUtils {

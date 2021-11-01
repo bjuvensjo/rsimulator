@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 /**
  * JsonHandler is a regular expression handler for json (.json).
  *
- * @author Magnus Bjuvensjö
  * @see AbstractHandler
  */
 public class JsonHandler extends AbstractHandler {

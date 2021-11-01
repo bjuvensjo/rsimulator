@@ -16,8 +16,6 @@ import static org.junit.Assert.assertFalse;
 
 /**
  * Test1.
- *
- * @author Magnus Bjuvensjö
  */
 public class Test1 {
     private Simulator simulator;

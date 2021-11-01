@@ -19,8 +19,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * PropsCacheInterceptor is an interceptor that caches {@link Props#getProperties(Path)} so that the Path is read from
  * disk only if modified..
- *
- * @author Magnus Bjuvensjö
  */
 @Singleton
 public class PropsCacheInterceptor implements MethodInterceptor {

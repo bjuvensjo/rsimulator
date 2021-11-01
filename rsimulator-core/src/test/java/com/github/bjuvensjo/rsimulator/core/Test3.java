@@ -10,12 +10,11 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
  * Test3.
- *
- * @author Magnus Bjuvensjö
  */
 public class Test3 {
     private Simulator simulator;
@@ -39,5 +38,4 @@ public class Test3 {
         assertNotNull(simulatorResponse);
         assertNotNull(simulatorResponse.getResponse());
     }
-
 }

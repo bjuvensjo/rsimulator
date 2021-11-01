@@ -6,7 +6,6 @@ import clojure.lang.IFn;
 import java.util.List;
 
 public class Matcher {
-
     private static final IFn matchesXMLAsStrings;
     private static final IFn cljCreateResponse;
 

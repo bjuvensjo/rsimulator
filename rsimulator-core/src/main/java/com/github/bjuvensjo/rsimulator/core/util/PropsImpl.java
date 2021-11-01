@@ -15,8 +15,6 @@ import java.util.Properties;
 
 /**
  * PropsImpl implements {@link Props}.
- *
- * @author Magnus Bjuvensjö
  */
 @Singleton
 public class PropsImpl implements Props {

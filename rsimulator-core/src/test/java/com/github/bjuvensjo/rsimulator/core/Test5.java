@@ -14,8 +14,6 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Test5.
- *
- * @author Magnus Bjuvensjö
  */
 public class Test5 {
     private Simulator simulator;

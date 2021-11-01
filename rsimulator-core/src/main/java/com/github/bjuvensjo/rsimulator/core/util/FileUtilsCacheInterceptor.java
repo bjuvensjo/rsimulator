@@ -19,8 +19,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * FileUtilsCacheInterceptor is an interceptor that caches {@link FileUtils#read(Path)} so that the File is read from
  * disk only if modified.
- *
- * @author Magnus Bjuvensjö
  */
 @Singleton
 public class FileUtilsCacheInterceptor implements MethodInterceptor {

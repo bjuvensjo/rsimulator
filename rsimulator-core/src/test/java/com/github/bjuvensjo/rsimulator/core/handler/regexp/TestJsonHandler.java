@@ -8,11 +8,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Test7.
- *
- * @author Magnus Bjuvensjö
- */
 public class TestJsonHandler {
     private JsonHandler jsonHandler;
 

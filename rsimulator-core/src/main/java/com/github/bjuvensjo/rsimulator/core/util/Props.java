@@ -8,8 +8,6 @@ import java.util.Properties;
 
 /**
  * Props is a utility that reloads properties from disk when changed.
- *
- * @author Magnus Bjuvensjö
  */
 @ImplementedBy(PropsImpl.class)
 public interface Props {
