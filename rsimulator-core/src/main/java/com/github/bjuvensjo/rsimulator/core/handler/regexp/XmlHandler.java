@@ -17,7 +17,6 @@ import java.io.ByteArrayOutputStream;
  * @author Magnus Bjuvensjö
  * @see AbstractHandler
  */
-@Singleton
 public class XmlHandler extends AbstractHandler {
     private static final String EXTENSION = "xml";
     private Logger log = LoggerFactory.getLogger(XmlHandler.class);

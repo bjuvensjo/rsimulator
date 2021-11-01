@@ -67,9 +67,17 @@
                 <directory>src/main/clojure</directory>
             </resource>
             <resource>
-                <directory>src/test/clojure</directory>
+                <directory>src/main/resources</directory>
             </resource>
         </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/clojure</directory>
+            </testResource>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
     </build>
     <developers>
         <developer>

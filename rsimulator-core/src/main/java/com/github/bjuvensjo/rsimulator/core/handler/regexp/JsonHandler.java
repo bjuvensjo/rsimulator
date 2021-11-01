@@ -15,7 +15,6 @@ import java.util.Map.Entry;
  * @author Magnus Bjuvensjö
  * @see AbstractHandler
  */
-@Singleton
 public class JsonHandler extends AbstractHandler {
     private static final String EXTENSION = "json";
     private Logger log = LoggerFactory.getLogger(JsonHandler.class);

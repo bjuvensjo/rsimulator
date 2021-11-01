@@ -8,7 +8,6 @@ import com.google.inject.Singleton;
  * @author Magnus Bjuvensjö
  * @see AbstractHandler
  */
-@Singleton
 public class TxtHandler extends AbstractHandler {
     private static final String EXTENSION = "txt";
 
