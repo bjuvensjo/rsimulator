@@ -26,14 +26,14 @@ class XmlTest extends Specification {
         String rootPath = resourcePath + 'test3'
         String rootRelativePath = File.separator
         String request = '''
-            <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hel="http://www.github.com/bjuvensjo/rsimulator/SayHello/">
+            <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:h="http://www.github.com/bjuvensjo/rsimulator/SayHello/">
                <soapenv:Header/>
                <soapenv:Body>
-                  <hel:SayHelloRequest>
+                  <h:SayHelloRequest>
                      <from>Test3</from>
                      <to>Simulator</to>
                      <greeting>hey</greeting>
-                  </hel:SayHelloRequest>
+                  </h:SayHelloRequest>
                </soapenv:Body>
             </soapenv:Envelope>
             '''
