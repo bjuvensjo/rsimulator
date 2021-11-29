@@ -10,4 +10,4 @@ With SNAPSHOT versions:
 
 With fixed versions:
 
-    mvn clean install deploy
+    mvn -Dmaven.javadoc.skip=false -Dmaven.javadoc.failOnError=false clean install deploy
