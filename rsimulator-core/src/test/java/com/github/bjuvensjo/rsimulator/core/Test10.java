@@ -22,11 +22,21 @@ public class Test10 {
         simulator = injector.getInstance(Simulator.class);
     }
 
-    private String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" "
-            + "xmlns:hel=\"http://www.github.com/bjuvensjo/rsimulator/SayHello/\"><soapenv:Header/><soapenv:Body>"
-            + "<hel:SayHelloRequest><from>Test10</from><to>Simulator</to><inner><greeting>Hello</greeting><code>10</code></inner>"
-            + "<hel:SayHelloRequest xmlns=\"a-namespace\"><from>Test10</from><to>Simulator</to><inner><greeting>Hello</greeting><code>10</code></inner>"
-            + "</hel:SayHelloRequest></soapenv:Body></soapenv:Envelope>";
+    private String request = ""
+            + "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\""
+            + "                  xmlns:hel=\"http://www.github.com/bjuvensjo/rsimulator/SayHello/\">"
+            + "  <soapenv:Header/>"
+            + "  <soapenv:Body>"
+            + "    <hel:SayHelloRequest xmlns=\"a-namespace\">"
+            + "      <from>Test10</from>"
+            + "      <to>Simulator</to>"
+            + "      <inner>"
+            + "        <greeting>Hello</greeting>"
+            + "        <code>10</code>"
+            + "      </inner>"
+            + "    </hel:SayHelloRequest>"
+            + "  </soapenv:Body>"
+            + "</soapenv:Envelope>";
 
     @Test
     public void groupTest() throws URISyntaxException {
