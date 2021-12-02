@@ -12,6 +12,9 @@ import java.nio.file.Paths;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Test5.
+ */
 public class Test5 {
     private Simulator simulator;
 
