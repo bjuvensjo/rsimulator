@@ -27,7 +27,7 @@ public class Test10 {
 
     private String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" "
             + "xmlns:hel=\"http://www.github.com/bjuvensjo/rsimulator/SayHello/\"><soapenv:Header/><soapenv:Body>"
-            + "<hel:SayHelloRequest><from>Test10</from><to>Simulator</to><inner><greeting>Hello</greeting><code>10</code></inner>"
+            + "<hel:SayHelloRequest xmlns=\"a-namespace\"><from>Test10</from><to>Simulator</to><inner><greeting>Hello</greeting><code>10</code></inner>"
             + "</hel:SayHelloRequest></soapenv:Body></soapenv:Envelope>";
 
     @Test
@@ -48,4 +48,15 @@ public class Test10 {
         Optional<SimulatorResponse> simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType);
         assertFalse(simulatorResponse.isPresent());
     }
+
+    @Test
+    public void ignoreNamespacesTest() throws URISyntaxException {
+        String rootPath = Paths.get(getClass().getResource("/test10/ignorens").toURI()).toString();
+        String rootRelativePath = File.separator;
+        String contentType = "xml";
+        SimulatorResponse simulatorResponse = simulator.service(rootPath, rootRelativePath, request, contentType).get();
+        assertNotNull(simulatorResponse);
+        assertNotNull(simulatorResponse.getResponse());
+    }
+
 }

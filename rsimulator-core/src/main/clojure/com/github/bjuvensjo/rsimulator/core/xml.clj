@@ -69,7 +69,7 @@
                     :else
                     (str "Values mismatch | actual: " actual " | mock: " mock))))
 
-          (not= actual-tag mock-tag)
+          (not= (name actual-tag) (name mock-tag))
           (str "Tag mismatch | actual: " (name actual-tag) " | mock: " (name mock-tag))
 
           (= mock-content [".*"])
