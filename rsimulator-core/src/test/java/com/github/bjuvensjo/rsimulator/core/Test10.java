@@ -27,7 +27,7 @@ public class Test10 {
             + "                  xmlns:hel=\"http://www.github.com/bjuvensjo/rsimulator/SayHello/\">"
             + "  <soapenv:Header/>"
             + "  <soapenv:Body>"
-            + "    <hel:SayHelloRequest xmlns=\"a-namespace\">"
+            + "    <hel:SayHelloRequest>"
             + "      <from>Test10</from>"
             + "      <to>Simulator</to>"
             + "      <inner>"
