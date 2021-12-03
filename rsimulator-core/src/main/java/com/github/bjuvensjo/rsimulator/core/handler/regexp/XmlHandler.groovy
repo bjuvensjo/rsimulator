@@ -39,7 +39,7 @@ class XmlHandler implements Handler {
         List<Path> candidatePaths = fileUtils.findRequests(Paths.get(path), 'xml')
         Tuple2<Path, List<String>> result = candidatePaths.findResult { candidatePath ->
             String candidateRequest = fileUtils.read(candidatePath)
-            XmlMatcher.Result result = xmlMatcher.match(request, candidateRequest, true, true)
+            XmlMatcher.Result result = xmlMatcher.match(request, candidateRequest, true, !props.ignoreXmlNamespaces())
             log.debug('result: {}', result)
             result.errorMessage ? null : new Tuple2<Path, List<String>>(candidatePath, result.groups)
         }

@@ -28,7 +28,7 @@ class XmlMatcherTest extends Specification {
 
         // Regexp of element structure
         '<x><y><z>z</z></y></x>'                                | '<x>(.*)</x>'                                                              | ['<y><z>z</z></y>']
-        '<x>\n<y><z>z</z></y></x>'                                | '(.*)'                                                                     | ['<x><y><z>z</z></y></x>']
+        '<x>\n<y><z>z</z></y></x>'                              | '(.*)'                                                                     | ['<x><y><z>z</z></y></x>']
     }
 
     @Unroll
@@ -41,9 +41,12 @@ class XmlMatcherTest extends Specification {
         !result.errorMessage
         result.groups == groups
         where:
-        xml                                                       | otherXml                                                  | groups
+        xml                                                       | otherXml                                                                  | groups
         // Different namespace order and prefixes
-        '<x xmlns="x" targetNamespace="y" xmlns:z="z"><z:a/></x>' | '<x xmlns:a="z" targetNamespace="y" xmlns="x"><a:a/></x>' | []
+        '<x xmlns="x" targetNamespace="y" xmlns:z="z"><z:a/></x>' | '<x xmlns:a="z" targetNamespace="y" xmlns="x"><a:a/></x>'                 | []
+
+        // Regexp namespaces and different order and prefixes
+        '<x xmlns="x" targetNamespace="y" xmlns:z="z"><z:a/></x>' | '<x xmlns:a=".*" targetNamespace="[\\w]+" xmlns="[a-z0-9]{1}"><a:a/></x>' | []
     }
 
     @Unroll

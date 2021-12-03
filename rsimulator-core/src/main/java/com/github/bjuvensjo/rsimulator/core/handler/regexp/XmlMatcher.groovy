@@ -105,7 +105,7 @@ class XmlMatcher {
         // If namespaceAware and namespaces element
         QName qName = node.name() as QName
         QName otherQName = otherNode.name() as QName
-        if (qName.localPart == otherQName.localPart && qName.namespaceURI == otherQName.namespaceURI) {
+        if (qName.localPart == otherQName.localPart && qName.namespaceURI ==~ otherQName.namespaceURI) {
             return new Result()
         }
         new Result(errorNode: getPath(node), errorOtherNode: getPath(otherNode), errorMessage: 'Names not matching')
