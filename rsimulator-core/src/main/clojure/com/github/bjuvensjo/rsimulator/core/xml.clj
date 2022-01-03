@@ -92,6 +92,11 @@
                                                :content ["baz"]}]}]
                                   [".*"])
                   []))
+           (is (= (match-content? [{:tag     :bar
+                                    :content ["cpu1992"]}]
+                                  [{:tag     :bar
+                                    :content ["cpu.*"]}])
+                  []))
            ; Should match single value
            (is (= (match-content? ["foo-value"]
                                   ["foo-value"])
@@ -141,9 +146,14 @@
                   []
                   (let [pattern (re-pattern m)
                         groups (re-matches pattern a)]
-                    (if groups
-                      (drop 1 groups)
-                      (str "Values mismatch | actual: " a " | mock: " m))))
+                    (cond (string? groups)
+                          []
+
+                          (coll? groups)
+                          (drop 1 groups)
+
+                          :else
+                          (str "Values mismatch | actual: " a " | mock: " m))))
 
                 :else
                 (let [result (matches-clj-xml? a m)]
@@ -302,7 +312,7 @@
                          "        <GetDocumentById xmlns=\".*\">"
                          "            <Request abc=\"123\">"
                          "                <RequestContext>"
-                         "                    <Environment>LOCAL</Environment>"
+                         "                    <Environment>.*</Environment>"
                          "                    <SecurityToken>(.*)</SecurityToken>"
                          "                    <SubSysCode></SubSysCode>"
                          "                    <SysCode>CSP</SysCode>"
@@ -314,7 +324,10 @@
                          "        </GetDocumentById>"
                          "    </soap:Body>"
                          "</soap:Envelope>"))
-                  ["a-token-123" "trans-id-123-abc"])))}
+                  ["a-token-123" "trans-id-123-abc"]))
+           (is (= (matches-xml-as-strings? "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GetCompanyList xmlns=\"http://gemi.lansforsakringar.se/EnhancedObjectHandling/AdminServices\" xmlns:ns2=\"http://schemas.datacontract.org/2004/07/EnhancedObjectHandlingService.AuthServiceParameters\" xmlns:ns3=\"http://schemas.microsoft.com/2003/10/Serialization/\"><Ticket>a-ticket</Ticket><CallInfo>csltest122019aa</CallInfo><Guid>corr-id</Guid><IdNr>cpu199201010011</IdNr></GetCompanyList></soap:Body></soap:Envelope>"
+                                           "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <soap:Body>\n        <GetCompanyList xmlns=\".*\"\n                        xmlns:ns2=\".*\"\n                        xmlns:ns3=\".*\">\n            <Ticket>.*</Ticket>\n            <CallInfo>.*</CallInfo>\n            <Guid>.*</Guid>\n            <IdNr>cpu.*</IdNr>\n        </GetCompanyList>\n    </soap:Body>\n</soap:Envelope>")
+                  [])))}
   [actual mock]
   (let [actual-as-clj-xml (xml/parse (java.io.StringReader. actual) :skip-whitespace true)
         mock-as-clj-xml (xml/parse (java.io.StringReader. mock) :skip-whitespace true)]
