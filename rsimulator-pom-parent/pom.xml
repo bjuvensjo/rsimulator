@@ -18,7 +18,7 @@
         <gpg.passphrase>rsimulator</gpg.passphrase>
 
         <camel.version>3.9.0</camel.version>
-        <spring.version>5.3.6</spring.version>
+        <spring.version>5.3.18</spring.version>
     </properties>
     <build>
         <plugins>
