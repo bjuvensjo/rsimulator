@@ -23,7 +23,7 @@ jobs:
     uses: bjuvensjo/.github/.github/workflows/maven-ci.yml@main
     with:
       command: cd rsimulator-pom-parent && mvn -Dgpg.skip -B package --file pom.xml && cd ../rsimulator-pom-modules && mvn -Dmaven.javadoc.skip=true -Dgpg.skip -fae -B package --file pom.xml
-      version: '["11", "17"]'
+      version: '["11"]'
       
       
       
