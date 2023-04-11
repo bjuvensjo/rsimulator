@@ -1,7 +1,7 @@
 # This workflow will build a Java project with Maven
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: Java CI with Maven
+name: ci
 
 on:
   push:
@@ -9,17 +9,21 @@ on:
   pull_request:
     branches: [ develop ]
 
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      branch:
+        required: true
+        type: string
+        default: develop
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 11
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11'
-        distribution: 'adopt'
-    - name: Build with Maven
-      run: cd rsimulator-pom-parent && mvn -Dgpg.skip -B package --file pom.xml && cd ../rsimulator-pom-modules && mvn -Dmaven.javadoc.skip=true -Dgpg.skip -fae -B package --file pom.xml
+    uses: bjuvensjo/.github/.github/workflows/maven-ci.yml@main
+    with:
+      command: cd rsimulator-pom-parent && mvn -Dgpg.skip -B package --file pom.xml && cd ../rsimulator-pom-modules && mvn -Dmaven.javadoc.skip=true -Dgpg.skip -fae -B package --file pom.xml
+      version: '["11", "17"]'
+      
+      
+      
