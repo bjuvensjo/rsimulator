@@ -24,7 +24,7 @@ class FileUtilsTest extends Specification {
     @Unroll
     def 'find #ending requests'(String ending, boolean expected) {
         when:
-        String rootPath = resourcePath + 'test1' + File.separator + '..'
+        String rootPath = resourcePath + 'test1' + '/..'
         List<Path> xmlRequests = fileUtils.findRequests(new File(rootPath).toPath(), ending)
         def correctEndings = xmlRequests.size() > 0 && xmlRequests.inject(true) { mem, p -> mem && p.toString().endsWith('Request.' + ending) }
         then:
