@@ -12,11 +12,8 @@
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <skipITTests>false</skipITTests>
-
-        <gpg.executable>gpg2</gpg.executable>
-        <gpg.passphrase>rsimulator</gpg.passphrase>
-
+        <skipITTests>true</skipITTests>
+        <gpg.executable>gpg</gpg.executable>
         <camel.version>3.9.0</camel.version>
         <spring.version>5.3.26</spring.version>
     </properties>

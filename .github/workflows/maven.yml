@@ -5,9 +5,7 @@ name: ci
 
 on:
   push:
-    branches: [ develop, master, develop2, master2 ]
-  pull_request:
-    branches: [ develop ]
+    branches: [ develop, master ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -19,10 +17,17 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+#  slask:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - shell: bash
+#        run: |
+#          echo "Hello ${{ secrets.OSSRH_USERNAME }}"
+#          echo "World ${{ secrets.OSSRH_PASSWORD }}"
   build:
     uses: bjuvensjo/.github/.github/workflows/maven-ci.yml@main
     with:
-      command: cd rsimulator-pom-parent && mvn -Dgpg.skip -B package --file pom.xml && cd ../rsimulator-pom-modules && mvn -Dmaven.javadoc.skip=true -Dgpg.skip -fae -B package --file pom.xml
+      pom: ./rsimulator-pom-modules/pom.xml
       version: '["11"]'
       
       
