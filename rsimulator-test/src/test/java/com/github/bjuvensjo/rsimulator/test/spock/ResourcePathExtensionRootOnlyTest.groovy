@@ -8,11 +8,11 @@ class ResourcePathExtensionRootOnlyTest extends Specification {
 
     def '10 # resource path should be simple and delimited by -'() {
         expect:
-        resourcePath ==~ '.*/rsimulator/rsimulator-test/target/test-classes/'.replaceAll(/\//, File.separator)
+        resourcePath ==~ '.*/rsimulator/rsimulator-test/target/test-classes/'
     }
 
     def '20 # resource path should be simple and delimited by -'() {
         expect:
-        resourcePath ==~ '.*/rsimulator/rsimulator-test/target/test-classes/'.replaceAll(/\//, File.separator)
+        resourcePath ==~ '.*/rsimulator/rsimulator-test/target/test-classes/'
     }
 }

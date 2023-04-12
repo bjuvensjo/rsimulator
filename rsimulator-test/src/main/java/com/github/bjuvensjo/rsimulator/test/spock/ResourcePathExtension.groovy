@@ -11,6 +11,7 @@ import org.spockframework.runtime.model.SpecInfo
 @CompileStatic
 class ResourcePathExtension implements IAnnotationDrivenExtension<ResourcePath> {
     private ResourcePathInterceptor resourcePathInterceptor
+    private static final String SEPARATOR = '/'
 
     @Override
     void visitFieldAnnotation(ResourcePath annotation, FieldInfo fieldInfo) {
@@ -36,9 +37,9 @@ class ResourcePathExtension implements IAnnotationDrivenExtension<ResourcePath> 
             if (rootOnly) {
                 return root
             }
-            String classNamePart = simple ? specClass.simpleName : specClass.name.replaceAll(/\./, File.separator)
+            String classNamePart = simple ? specClass.simpleName : specClass.name.replaceAll(/\./, SEPARATOR)
             String methodNamePart = featureName.split(regex)[0].trim()
-            root + classNamePart + File.separator + methodNamePart + File.separator
+            root + classNamePart + SEPARATOR + methodNamePart + SEPARATOR
         }
 
         @Override
