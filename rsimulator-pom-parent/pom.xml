@@ -15,7 +15,7 @@
         <skipITTests>true</skipITTests>
         <gpg.executable>gpg</gpg.executable>
         <camel.version>3.9.0</camel.version>
-        <spring.version>6.0.15</spring.version>
+        <spring.version>6.0.16</spring.version>
     </properties>
     <build>
         <plugins>
